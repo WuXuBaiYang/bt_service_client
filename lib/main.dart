@@ -1,3 +1,4 @@
+import 'package:bt_service_manager/clients/qbittorrent/apis/auth_api.dart';
 import 'package:flutter/material.dart';
 
 void main() {
