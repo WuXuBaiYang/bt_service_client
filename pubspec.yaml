@@ -33,6 +33,12 @@ dependencies:
   #dio cookie管理
   dio_cookie_manager: ^2.0.0
 
+  #路径管理
+  path_provider: ^2.0.1
+
+  #权限管理
+  permission_handler: ^7.1.0
+
   #数据库
   hive: ^2.0.4
 

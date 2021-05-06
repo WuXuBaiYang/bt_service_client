@@ -1,3 +1,4 @@
+import 'package:bt_service_manager/model/response.dart';
 import 'package:dio/dio.dart';
 
 /*
@@ -7,42 +8,30 @@ import 'package:dio/dio.dart';
 */
 class BaseAPI {
   //dio对象
-  final Dio _dio = Dio();
+  final _dio = Dio();
 
   //记录基础地址
   final String baseUrl;
 
   //主构造初始化
-  BaseAPI(
-    this.baseUrl, {
-    List<InterceptorsWrapper> interceptors = const [],
-  }) {
+  BaseAPI(this.baseUrl) {
+    //设置参数
     _dio.options = BaseOptions(
       baseUrl: baseUrl,
     );
     //添加拦截器
     _dio.interceptors
       ..add(InterceptorsWrapper(
-        //请求拦截
-        onRequest: (op, han) {
-          ///实现请求拦截方法
-          return op;
-        },
-        //响应拦截
-        onResponse: (op, han) {
-          //实现响应拦截方法
-          return op;
-        },
-        //错误拦截
-        onError: (e, han) {
-          Response response = e.response;
-          if (null != response) {
-            ///拦截请求失败
-          }
-          return e;
-        },
-      ))
-      ..addAll(interceptors);
+        onRequest: (op, handle) => handle.next(op),
+        onResponse: (re, handle) => handle.next(re),
+        onError: (e, handle) => handle.next(e),
+      ));
+  }
+
+  //添加拦截起
+  void addInterceptors(List<Interceptor> interceptors) {
+    if (null == interceptors || interceptors.isEmpty) return;
+    _dio.interceptors.addAll(interceptors);
   }
 
   //基础请求，需设定响应值类型
@@ -129,5 +118,17 @@ class BaseAPI {
           method: "DELETE",
           headers: headers ?? {},
         ));
+  }
+
+  //处理请求结果，异常拦截等
+  Future<ResponseModel> handleResponse(Function fun) async {
+    try {
+      var result = await fun?.call();
+      return ResponseModel.success(result);
+    } on DioError catch (e) {
+      return ResponseModel.failure(-1, e.message);
+    } catch (e) {
+      return ResponseModel.failure(-2, "系统异常，请重试");
+    }
   }
 }

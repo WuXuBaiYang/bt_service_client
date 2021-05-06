@@ -1,4 +1,4 @@
-import 'package:bt_service_manager/clients/qbittorrent/apis/auth_api.dart';
+import 'package:bt_service_manager/net/api.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -27,12 +27,37 @@ class MyApp extends StatelessWidget {
 class SplashPage extends StatelessWidget {
   SplashPage() {
     //执行初始化方法
+    api
+        .getQB("https://www.jtechnas.club:8090/api/v2");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(),
+      body: Container(
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextButton(
+                child: Text("登录"),
+                onPressed: () {
+                  api
+                      .getQB("https://www.jtechnas.club:8090/api/v2")
+                      .auth
+                      .login("wuxubaiyang", "JTechJh31858530_");
+                },
+              ),
+              TextButton(
+                child: Text("注销"),
+                onPressed: () {
+                  api.getQB("https://www.jtechnas.club:8090/api/v2").auth.logout();
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
