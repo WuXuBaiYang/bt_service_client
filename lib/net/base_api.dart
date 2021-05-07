@@ -1,4 +1,3 @@
-import 'package:bt_service_manager/model/response.dart';
 import 'package:dio/dio.dart';
 
 /*
@@ -118,17 +117,5 @@ class BaseAPI {
           method: "DELETE",
           headers: headers ?? {},
         ));
-  }
-
-  //处理请求结果，异常拦截等
-  Future<ResponseModel> handleResponse(Function fun) async {
-    try {
-      var result = await fun?.call();
-      return ResponseModel.success(result);
-    } on DioError catch (e) {
-      return ResponseModel.failure(-1, e.message);
-    } catch (e) {
-      return ResponseModel.failure(-2, "系统异常，请重试");
-    }
   }
 }

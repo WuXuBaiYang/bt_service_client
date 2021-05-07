@@ -20,12 +20,12 @@ class API {
   };
 
   //aria2分流
-  Aria2API getAria2(String baseUrl) {
-    if (null == baseUrl || baseUrl.isEmpty) return null;
-    if (!_apis["aria2"].containsKey(baseUrl)) {
-      _apis["aria2"][baseUrl] = Aria2API(baseUrl);
+  Aria2API getAria2(String url, String method) {
+    if (null == url || url.isEmpty) return null;
+    if (!_apis["aria2"].containsKey(url)) {
+      _apis["aria2"][url] = Aria2API(url, method);
     }
-    return _apis["aria2"][baseUrl];
+    return _apis["aria2"][url];
   }
 
   //qb分流
@@ -35,6 +35,12 @@ class API {
       _apis["qb"][baseUrl] = QBAPI(baseUrl);
     }
     return _apis["qb"][baseUrl];
+  }
+
+  //初始化接口
+  Future init() async {
+    ///遍历数据库，查出需要遍历的服务器实例
+    ///qbapi需要初始化cookie  await qbapi.initCookieManager();
   }
 }
 

@@ -1,11 +1,9 @@
 /*
-* 请求响应对象
+* qb请求响应对象
 * @author jtechjh
 * @Time 2021/5/6 10:12 AM
 */
-import 'package:flutter/cupertino.dart';
-
-class ResponseModel {
+class QBResponseModel {
   int _code;
   String _message;
   dynamic _data;
@@ -16,14 +14,14 @@ class ResponseModel {
 
   dynamic get data => _data;
 
-  ResponseModel(this._code, this._message, this._data);
+  QBResponseModel(this._code, this._message, this._data);
 
   /*
   * 成功对象构造
   * @author jtechjh
   * @Time 2021/5/6 10:15 AM
   */
-  ResponseModel.success(this._data, {int code = 0, String message = ""}) {
+  QBResponseModel.success(this._data, {int code = 0, String message = ""}) {
     this._message = message;
     this._code = code;
   }
@@ -33,8 +31,8 @@ class ResponseModel {
   * @author jtechjh
   * @Time 2021/5/6 10:16 AM
   */
-  ResponseModel.failure(this._code, this._message, {String message = ""}) {
-    this._message = message;
+  QBResponseModel.failure(this._code, this._message, {dynamic data}) {
+    this._data = data;
   }
 
   //判断是否成功

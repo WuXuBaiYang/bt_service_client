@@ -6,7 +6,7 @@ import 'package:bt_service_manager/clients/qbittorrent/apis/search_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/apis/sync_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/apis/torrent_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/apis/transfer_api.dart';
-import 'package:bt_service_manager/model/response.dart';
+import 'package:bt_service_manager/clients/qbittorrent/model/response.dart';
 import 'package:bt_service_manager/net/base_api.dart';
 import 'package:bt_service_manager/tools/tools.dart';
 import 'package:dio/dio.dart';
@@ -45,8 +45,6 @@ class QBAPI extends BaseAPI {
   SearchAPI search;
 
   QBAPI(String baseUrl) : super(baseUrl) {
-    //初始化cookie管理
-    _initCookieManager();
     //添加拦截器
     addInterceptors([_qbInterceptor]);
     //实例化接口分类
@@ -74,7 +72,7 @@ class QBAPI extends BaseAPI {
       );
 
   //初始化cookie管理
-  _initCookieManager() async {
+  Future initCookieManager() async {
     var docDir = await getApplicationDocumentsDirectory();
     var path = Tools.toMD5(baseUrl);
     var s = FileStorage("${docDir.path}/.cookies/$path/");
@@ -83,9 +81,9 @@ class QBAPI extends BaseAPI {
   }
 
   //qb接口通用post方法
-  Future<ResponseModel> requestPost(String path,
+  Future<QBResponseModel> requestPost(String path,
       {Map<String, dynamic> form = const {}}) async {
-    return handleResponse(() async {
+    return _handleResponse(() async {
       var response = await httpPost(
         path,
         data: FormData.fromMap(form),
@@ -95,14 +93,26 @@ class QBAPI extends BaseAPI {
   }
 
   //qb接口通用get方法
-  Future<ResponseModel> requestGet(String path,
+  Future<QBResponseModel> requestGet(String path,
       {Map<String, dynamic> query = const {}}) async {
-    return handleResponse(() async {
+    return _handleResponse(() async {
       var response = await httpGet(
         path,
         query: query,
       );
       return response.data;
     });
+  }
+
+  //处理请求结果，异常拦截等
+  Future<QBResponseModel> _handleResponse(Function fun) async {
+    try {
+      var result = await fun?.call();
+      return QBResponseModel.success(result);
+    } on DioError catch (e) {
+      return QBResponseModel.failure(-1, e.message);
+    } catch (e) {
+      return QBResponseModel.failure(-2, "系统异常，请重试");
+    }
   }
 }

@@ -30,6 +30,9 @@ dependencies:
   #dio网络请求框架
   dio: ^4.0.0
 
+  #ws框架 貌似不支持wss
+#  web_socket_channel: ^2.1.0
+
   #dio cookie管理
   dio_cookie_manager: ^2.0.0
 
