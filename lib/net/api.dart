@@ -20,10 +20,10 @@ class API {
   };
 
   //aria2分流
-  Aria2API getAria2(String url, String method) {
+  Aria2API getAria2(String url, String method, String token) {
     if (null == url || url.isEmpty) return null;
     if (!_apis["aria2"].containsKey(url)) {
-      _apis["aria2"][url] = Aria2API(url, method);
+      _apis["aria2"][url] = Aria2API(url, method, token);
     }
     return _apis["aria2"][url];
   }

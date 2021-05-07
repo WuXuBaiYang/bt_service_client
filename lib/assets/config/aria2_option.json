@@ -1,0 +1,202 @@
+{
+  "base": {
+    "name": {
+      "cn": "基本设置",
+      "en": ""
+    },
+    "options": [
+      {
+        "name": {
+          "cn": "下载路径",
+          "en": ""
+        },
+        "commend": "dir",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "日志文件",
+          "en": ""
+        },
+        "commend": "log",
+        "type": "txt",
+        "alert": {
+          "cn": "日志文件的路径. 如果设置为 \"-\", 日志则写入到 stdout. 如果设置为空字符串(\"\"), 日志将不会记录到磁盘上.",
+          "en": ""
+        }
+      },
+      {
+        "name": {
+          "cn": "最大同时下载数",
+          "en": ""
+        },
+        "commend": "max-concurrent-downloads",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "检查完整性",
+          "en": ""
+        },
+        "commend": "check-integrity",
+        "type": "bool",
+        "alert": {
+          "cn": "通过对文件的每个分块或整个文件进行哈希验证来检查文件的完整性. 此选项仅对BT、Metalink及设置了 --checksum 选项的 HTTP(S)/FTP 链接生效.",
+          "en": ""
+        }
+      },
+      {
+        "name": {
+          "cn": "断点续传",
+          "en": ""
+        },
+        "commend": "continue",
+        "type": "bool",
+        "alert": {
+          "cn": "继续下载部分完成的文件. 启用此选项可以继续下载从浏览器或其他程序按顺序下载的文件. 此选项目前只支持 HTTP(S)/FTP 下载的文件.",
+          "en": ""
+        }
+      }
+    ]
+  },
+  "http_ftp_sftp": {
+    "name": {
+      "cn": "HTTP/FTP/SFTP设置",
+      "en": ""
+    },
+    "options": [
+      {
+        "name": {
+          "cn": "xx",
+          "en": ""
+        },
+        "commend": "xx",
+        "type": "xx",
+        "alert": {
+          "cn": "",
+          "en": ""
+        }
+      }
+    ]
+  },
+  "http": {
+    "name": {
+      "cn": "HTTP设置",
+      "en": ""
+    },
+    "options": [
+      {
+        "name": {
+          "cn": "xx",
+          "en": ""
+        },
+        "commend": "xx",
+        "type": "xx",
+        "alert": {
+          "cn": "",
+          "en": ""
+        }
+      }
+    ]
+  },
+  "ftp_sftp": {
+    "name": {
+      "cn": "FTP/SFTP设置",
+      "en": ""
+    },
+    "options": [
+      {
+        "name": {
+          "cn": "xx",
+          "en": ""
+        },
+        "commend": "xx",
+        "type": "xx",
+        "alert": {
+          "cn": "",
+          "en": ""
+        }
+      }
+    ]
+  },
+  "bitTorrent": {
+    "name": {
+      "cn": "BitTorrent设置",
+      "en": ""
+    },
+    "options": [
+      {
+        "name": {
+          "cn": "xx",
+          "en": ""
+        },
+        "commend": "xx",
+        "type": "xx",
+        "alert": {
+          "cn": "",
+          "en": ""
+        }
+      }
+    ]
+  },
+  "metaLink": {
+    "name": {
+      "cn": "MetaLink设置",
+      "en": ""
+    },
+    "options": [
+      {
+        "name": {
+          "cn": "xx",
+          "en": ""
+        },
+        "commend": "xx",
+        "type": "xx",
+        "alert": {
+          "cn": "",
+          "en": ""
+        }
+      }
+    ]
+  },
+  "rpc": {
+    "name": {
+      "cn": "RPC设置",
+      "en": ""
+    },
+    "options": [
+      {
+        "name": {
+          "cn": "xx",
+          "en": ""
+        },
+        "commend": "xx",
+        "type": "xx",
+        "alert": {
+          "cn": "",
+          "en": ""
+        }
+      }
+    ]
+  },
+  "advanced": {
+    "name": {
+      "cn": "高级设置",
+      "en": ""
+    },
+    "options": [
+      {
+        "name": {
+          "cn": "xx",
+          "en": ""
+        },
+        "commend": "xx",
+        "type": "xx",
+        "alert": {
+          "cn": "",
+          "en": ""
+        }
+      }
+    ]
+  }
+}

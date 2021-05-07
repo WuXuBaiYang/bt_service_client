@@ -34,7 +34,8 @@ class SplashPage extends StatelessWidget {
   SplashPage() {
     //执行初始化方法
     qbAPI = api.getQB("https://www.jtechnas.club:8090/api/v2");
-    aria2API = api.getAria2("https://www.jtechnas.club:6811/jsonrpc", "POST");
+    aria2API = api.getAria2(
+        "https://www.jtechnas.club:6811/jsonrpc", "POST", "18600574971");
   }
 
   @override
@@ -50,6 +51,9 @@ class SplashPage extends StatelessWidget {
                 onPressed: () {
                   // qbAPI.auth.login("wuxubaiyang", "JTechJh31858530_");
                   // aria2API.rpcRequest("aria2.getGlobalStat", paramsJson: ["token:18600574971"]);
+                  aria2API.download.addUri([
+                    "https://th.bing.com/th/id/OIP.UeHraOSVVtS0mwZD6te8DgHaEK?pid=ImgDet&rs=1"
+                  ]);
                 },
               ),
               TextButton(

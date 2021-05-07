@@ -7,6 +7,8 @@ import 'package:bt_service_manager/net/base_api.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 
+import 'download_api.dart';
+
 /*
 * aria2总分流渠道
 * @author jtechjh
@@ -22,10 +24,16 @@ class Aria2API {
   //json-rpc请求方法
   final String _method;
 
+  //json-rpc授权信息
+  final String _secretToken;
+
   //记录当前请求状态，是否为http请求
   RequestType type;
 
-  Aria2API(this._url, this._method) {
+  //下载相关接口
+  DownloadAPI download;
+
+  Aria2API(this._url, this._method, this._secretToken) {
     //判断请求类型
     type = _handleRequestType(_url);
     if (type == RequestType.HTTP) {
@@ -37,6 +45,7 @@ class Aria2API {
       ///待完成
     }
     //实例化接口分类
+    download = DownloadAPI(this);
   }
 
   //aria2接口请求拦截
@@ -54,11 +63,16 @@ class Aria2API {
 
   //aria2只使用post方法
   Future<Aria2ResponseModel> rpcRequest(String method,
-      {@required List<dynamic> paramsJson}) async {
+      {@required List<dynamic> paramsJson,
+      Map<String, dynamic> options = const {}}) async {
     return _handleResponse(() async {
       var requestData = Aria2RequestModel.build(
         method: method,
-        params: paramsJson,
+        params: [
+          "token:$_secretToken",
+          paramsJson,
+          options,
+        ],
       ).toJson();
       if (type == RequestType.HTTP) {
         var response;
