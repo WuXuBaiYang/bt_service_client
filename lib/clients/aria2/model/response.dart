@@ -1,10 +1,10 @@
+import 'package:bt_service_manager/tools/tools.dart';
+
 /*
 * aria2请求响应对象
 * @author jtechjh
 * @Time 2021/5/7 10:14 AM
 */
-import 'package:bt_service_manager/tools/tools.dart';
-
 class Aria2ResponseModel {
   String _id;
   String _jsonRPC;

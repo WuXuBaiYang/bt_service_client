@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:bt_service_manager/clients/aria2/apis/setting_api.dart';
 import 'package:bt_service_manager/clients/aria2/model/request.dart';
 import 'package:bt_service_manager/clients/aria2/model/response.dart';
 import 'package:bt_service_manager/net/base_api.dart';
@@ -33,6 +34,9 @@ class Aria2API {
   //下载相关接口
   DownloadAPI download;
 
+  //设置相关接口
+  SettingAPI setting;
+
   Aria2API(this._url, this._method, this._secretToken) {
     //判断请求类型
     type = _handleRequestType(_url);
@@ -46,6 +50,7 @@ class Aria2API {
     }
     //实例化接口分类
     download = DownloadAPI(this);
+    setting = SettingAPI(this);
   }
 
   //aria2接口请求拦截
@@ -63,7 +68,7 @@ class Aria2API {
 
   //aria2只使用post方法
   Future<Aria2ResponseModel> rpcRequest(String method,
-      {@required List<dynamic> paramsJson,
+      {List<dynamic> paramsJson = const [],
       Map<String, dynamic> options = const {}}) async {
     return _handleResponse(() async {
       var requestData = Aria2RequestModel.build(
