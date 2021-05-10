@@ -205,7 +205,7 @@ class _SettingsViewState extends State<SettingsView> {
           direction: Axis.vertical,
           isEdited: f.value != value,
           child: TextField(
-            controller: TextEditingController(text: value),
+            controller: TextEditingController(text: f.value),
             obscureText: type == "pwd",
             keyboardType: _inputType[type],
             decoration: InputDecoration(
@@ -233,54 +233,57 @@ class _SettingsViewState extends State<SettingsView> {
       context: context,
       builder: (c) => StatefulBuilder(
           builder: (_, state) => Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  CloseButton(),
+                  Row(
+                    children: [
+                      CloseButton(),
+                      Expanded(
+                        child: Text(
+                          title,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.add_box_outlined),
+                        onPressed: () => state(() => temp.add("")),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.done),
+                        onPressed: () {
+                          _formKey.currentState
+                            ..validate()
+                            ..save();
+                          editCount = 0;
+                          Navigator.pop(c, temp);
+                        },
+                      ),
+                    ],
+                  ),
+                  Divider(),
                   Expanded(
-                    child: Text(
-                      title,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.add_box_outlined),
-                    onPressed: () => state(() => temp.add("")),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.done),
-                    onPressed: () {
-                      _formKey.currentState
-                        ..validate()
-                        ..save();
-                      editCount = 0;
-                      Navigator.pop(c, temp);
-                    },
-                  ),
-                ],
-              ),
-              Divider(),
-              Expanded(
-                  child: Form(
+                      child: Form(
                     key: _formKey,
                     child: ListView.builder(
                       itemCount: temp.length,
-                      itemBuilder: (_, i) => TextFormField(
-                        controller: TextEditingController(text: temp[i]),
-                        decoration: InputDecoration(
-                          suffixIcon: IconButton(
-                            icon: Icon(Icons.clear),
-                            onPressed: () => state(() => temp.removeAt(i)),
+                      itemBuilder: (_, i) {
+                        var controller = TextEditingController(text: temp[i]);
+                        return TextFormField(
+                          controller: controller,
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.clear),
+                              onPressed: () => state(() => temp.removeAt(i)),
+                            ),
                           ),
-                        ),
-                        onSaved: (v) {
-                          temp[i] = v;
-                          if (i >= values.length || v != values[i]) {
-                            editCount++;
-                          }
-                        },
-                      ),
+                          onSaved: (v) {
+                            temp[i] = v;
+                            if (i >= values.length || v != values[i]) {
+                              editCount++;
+                            }
+                          },
+                        );
+                      },
                     ),
                     onWillPop: () async {
                       editCount = 0;
@@ -308,8 +311,8 @@ class _SettingsViewState extends State<SettingsView> {
                       return true;
                     },
                   )),
-            ],
-          )),
+                ],
+              )),
     );
   }
 
