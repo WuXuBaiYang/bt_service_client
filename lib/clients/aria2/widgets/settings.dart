@@ -163,69 +163,50 @@ class _SettingsViewState extends State<SettingsView> {
     var unit = item["unit"];
     var value = widget.globalSetting[cmd] ?? "";
     var type = item["txtTp"];
-    if (type == "li") {
-      var split = item["txtSp"];
-      List<String> values = [];
-      if (split == "li") {
-        values.addAll(value.split("\n"));
-      } else {
-        values.addAll(value.split(split));
-      }
-      values.removeWhere((it) => it.isEmpty);
-      return FormField<List<String>>(
-        initialValue: values,
-        builder: (f) => _buildSettingItemDefault(item,
-            isDark: index.isOdd,
-            isEdited: false,
-            child: Expanded(
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () async {
-                    FocusScope.of(context).unfocus();
-                    List<String> result = await _showMultiTextSheet(
-                        "${_getTextByLang(item["name"])}(${f.value.length})",
-                        f.value);
-                    if (null != result) {
-                      result.removeWhere((it) => it.isEmpty);
-                      f.didChange(result);
-                    }
-                  },
-                ),
-              ),
-            )),
-      );
-    } else {
-      return FormField<String>(
-        initialValue: value,
-        builder: (f) => _buildSettingItemDefault(
-          item,
-          isDark: index.isOdd,
-          direction: Axis.vertical,
-          isEdited: f.value != value,
-          child: TextField(
-            controller: TextEditingController(text: f.value),
-            obscureText: type == "pwd",
-            keyboardType: _inputType[type],
-            decoration: InputDecoration(
-              suffixText: _getTextByLang(unit),
-              suffixStyle: TextStyle(color: Colors.blueAccent),
-            ),
-            onChanged: (v) => f.didChange(v),
+    return FormField<String>(
+      initialValue: value,
+      builder: (f) => _buildSettingItemDefault(
+        item,
+        isDark: index.isOdd,
+        direction: Axis.vertical,
+        isEdited: f.value != value,
+        child: TextField(
+          readOnly: true,
+          obscureText: type == "pwd",
+          controller: TextEditingController(text: f.value),
+          keyboardType: _inputType[type],
+          decoration: InputDecoration(
+            suffixText: _getTextByLang(unit),
+            suffixStyle: TextStyle(color: Colors.blueAccent),
+            suffixIcon: Icon(Icons.edit),
           ),
+          onTap: () {
+            if (type == "li") {
+              _showMultiTextSheet("",[]);
+            }else{
+              _showTextEditSheet();
+            }
+          },
         ),
-        onSaved: (v) {
-          if (v != value) {
-            widget.controller.saveFormField(cmd, v);
-          }
-        },
-      );
-    }
+      ),
+      onSaved: (v) {
+        if (v != value) {
+          widget.controller.saveFormField(cmd, v);
+        }
+      },
+    );
   }
 
   //展示多行文本弹出窗口
   _showMultiTextSheet(String title, List<String> values) {
+    // var split = item["txtSp"];
+    // List<String> values = [];
+    // if (split == "li") {
+    //   values.addAll(value.split("\n"));
+    // } else {
+    //   values.addAll(value.split(split));
+    // }
+    // values.removeWhere((it) => it.isEmpty);
     List<String> temp = []..addAll(values);
     int editCount = 0;
     GlobalKey<FormState> _formKey = GlobalKey();
@@ -315,7 +296,10 @@ class _SettingsViewState extends State<SettingsView> {
               )),
     );
   }
+  //显示文本编辑弹窗
+  _showTextEditSheet(){
 
+  }
   //构建配置子项-bool
   _buildSettingBoolItem(Map item, int index) {
     var cmd = item["cmd"];
