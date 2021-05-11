@@ -554,7 +554,7 @@
       "cmd": "header",
       "type": "txt",
       "txtTp": "li",
-      "txtSp": "li",
+      "txtSp": "\n",
       "alert": {
         "cn": "增加 HTTP 请求头内容. 每行放置一项, 每项包含 \"请求头名: 请求头值\".",
         "en": ""
