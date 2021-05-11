@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:bt_service_manager/tools/alert.dart';
+import 'package:bt_service_manager/tools/route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -53,36 +55,277 @@ class _SettingsViewState extends State<SettingsView> {
           return Center(child: CircularProgressIndicator());
         }
         return Form(
-          key: widget.controller.formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              children: List.generate(
-                snap.data.length,
-                (i) => _buildSettingItem(i, snap.data[i]),
-              ),
-            ),
-          ),
+          key: widget.controller?.formKey,
+          child: ListView.builder(
+              itemCount: snap.data.length,
+              itemBuilder: (_, i) {
+                var item = snap.data[i];
+                var type = item["type"];
+                if ("txt" == type) return _buildTextItem(item, i);
+                if ("sel" == type) return _buildSelectItem(item, i);
+                if ("bol" == type) return _buildBoolItem(item, i);
+                return Container();
+              }),
         );
       },
     );
   }
 
-  //构建配置子项
-  _buildSettingItem(int index, Map item) {
-    switch (item["type"]) {
-      case "txt":
-        return _buildSettingTextItem(item, index);
-      case "sel":
-        return _buildSettingSelectItem(item, index);
-      case "bol":
-        return _buildSettingBoolItem(item, index);
-      default:
-        return Container();
-    }
+  //输入框输入类型表
+  final Map<String, TextInputType> _inputType = {
+    "num": TextInputType.number,
+    "pwd": TextInputType.visiblePassword,
+  };
+
+  //构建配置子项-文本
+  _buildTextItem(Map item, int index) {
+    var cmd = item["cmd"];
+    var type = item["txtTp"];
+    return FormField<String>(
+      initialValue: _getItemValue(cmd, def: ""),
+      builder: (f) => _buildDefaultItem(
+        item,
+        isDark: index.isOdd,
+        direction: Axis.vertical,
+        isEdited: _hasEdited(cmd, f.value, def: ""),
+        child: TextField(
+          readOnly: true,
+          obscureText: type == "pwd",
+          controller: TextEditingController(text: f.value),
+          keyboardType: _inputType[type],
+          decoration: InputDecoration(
+            suffixText: _getTextByLang(item["unit"]),
+            suffixStyle: TextStyle(color: Colors.blueAccent),
+          ),
+          onTap: () async {
+            var result = f.value;
+            if (type == "li") {
+              result = _showMultiTextSheet("", []);
+            } else {
+              result = await _showTextEditSheet(item, f.value);
+            }
+            widget.controller?.saveFormField(cmd, result);
+            f.didChange(result);
+          },
+        ),
+      ),
+      onSaved: (v) {
+        if (_hasEdited(cmd, v)) {
+          widget.controller?.saveFormField(cmd, v);
+        }
+      },
+    );
   }
 
+  //展示多行文本弹出窗口
+  _showMultiTextSheet(String title, List<String> values) {
+    // var split = item["txtSp"];
+    // List<String> values = [];
+    // if (split == "li") {
+    //   values.addAll(value.split("\n"));
+    // } else {
+    //   values.addAll(value.split(split));
+    // }
+    // values.removeWhere((it) => it.isEmpty);
+    List<String> temp = []..addAll(values);
+    int editCount = 0;
+    GlobalKey<FormState> _formKey = GlobalKey();
+    return showModalBottomSheet<List<String>>(
+      context: context,
+      builder: (c) => StatefulBuilder(
+          builder: (_, state) => Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Row(
+                    children: [
+                      CloseButton(),
+                      Expanded(
+                        child: Text(
+                          title,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.add_box_outlined),
+                        onPressed: () => state(() => temp.add("")),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.done),
+                        onPressed: () {
+                          _formKey.currentState
+                            ..validate()
+                            ..save();
+                          editCount = 0;
+                          RouteTools.pop(temp);
+                        },
+                      ),
+                    ],
+                  ),
+                  Divider(),
+                  Expanded(
+                      child: Form(
+                    key: _formKey,
+                    child: ListView.builder(
+                      itemCount: temp.length,
+                      itemBuilder: (_, i) {
+                        var controller = TextEditingController(text: temp[i]);
+                        return TextFormField(
+                          controller: controller,
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.clear),
+                              onPressed: () => state(() => temp.removeAt(i)),
+                            ),
+                          ),
+                          onSaved: (v) {
+                            temp[i] = v;
+                            if (i >= values.length || v != values[i]) {
+                              editCount++;
+                            }
+                          },
+                        );
+                      },
+                    ),
+                    onWillPop: () async {
+                      editCount = 0;
+                      _formKey.currentState
+                        ..validate()
+                        ..save();
+                      if (editCount > 0) {
+                        return AlertTools.alertDialog(
+                          "共产生 $editCount 处编辑，继续退出将丢失未保存的数据",
+                          cancel: "取消",
+                          onCancel: () => RouteTools.pop(false),
+                          confirm: "继续",
+                          onConfirm: () => RouteTools.pop(true),
+                        );
+                      }
+                      return true;
+                    },
+                  )),
+                ],
+              )),
+    );
+  }
+
+  //显示文本编辑弹窗
+  _showTextEditSheet(Map item, String value) {
+    return AlertTools.bottomSheet<String>(
+      content: StatefulBuilder(
+        builder: (_, state) {
+          var controller = TextEditingController(text: value);
+          return WillPopScope(
+            child: SingleChildScrollView(
+              child: Card(
+                child: _buildDefaultItem(
+                  item,
+                  direction: Axis.vertical,
+                  child: TextField(
+                    autofocus: true,
+                    controller: controller,
+                    textInputAction: TextInputAction.done,
+                    keyboardType: _inputType[item["type"]],
+                    decoration: InputDecoration(
+                      suffixText: _getTextByLang(item["unit"]),
+                      suffixStyle: TextStyle(color: Colors.blueAccent),
+                      suffixIcon: IconButton(
+                        color: Colors.blueAccent,
+                        icon: Icon(Icons.done),
+                        onPressed: () => RouteTools.pop(controller.text),
+                      ),
+                    ),
+                    onSubmitted: (v) => RouteTools.pop(v),
+                  ),
+                ),
+              ),
+            ),
+            onWillPop: () async {
+              RouteTools.pop(controller.text);
+              return true;
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  //构建配置子项-bool
+  _buildBoolItem(Map item, int index) {
+    var cmd = item["cmd"];
+    return FormField<bool>(
+      initialValue: "true" == _getItemValue(cmd, def: "false"),
+      builder: (f) => _buildDefaultItem(
+        item,
+        isDark: index.isOdd,
+        isEdited: _hasEdited(cmd, "${f.value}"),
+        child: Expanded(
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Switch(
+              value: f.value,
+              onChanged: (v) {
+                widget.controller?.saveFormField(cmd, "$v");
+                f.didChange(v);
+              },
+            ),
+          ),
+        ),
+      ),
+      onSaved: (v) {
+        if (_hasEdited(cmd, "$v")) {
+          widget.controller?.saveFormField(cmd, "$v");
+        }
+      },
+    );
+  }
+
+  //构建配置子项-选择
+  _buildSelectItem(Map item, int index) {
+    var cmd = item["cmd"];
+    var items = item["select"];
+    return FormField<String>(
+      initialValue: _getItemValue(cmd),
+      builder: (f) => _buildDefaultItem(
+        item,
+        isDark: index.isOdd,
+        isEdited: _hasEdited(cmd, f.value),
+        child: Expanded(
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: DropdownButton<String>(
+              value: f.value,
+              items: items.map<DropdownMenuItem<String>>((it) {
+                return DropdownMenuItem<String>(
+                  value: it["value"],
+                  child: Text(_getTextByLang(it["name"])),
+                );
+              }).toList(),
+              onChanged: (v) {
+                widget.controller?.saveFormField(cmd, v);
+                f.didChange(v);
+              },
+            ),
+          ),
+        ),
+      ),
+      onSaved: (v) {
+        if (_hasEdited(cmd, v)) {
+          widget.controller?.saveFormField(cmd, v);
+        }
+      },
+    );
+  }
+
+  //根据key获取对应的值
+  _getItemValue(String key, {def}) =>
+      widget.controller?.getFormField(key) ?? widget.globalSetting[key] ?? def;
+
+  //根据当前值与原值进行比较，得出是否已计算的结果
+  bool _hasEdited(String key, value, {def}) =>
+      (widget.globalSetting[key] ?? def) != value;
+
   //构建默认子项结构
-  _buildSettingItemDefault(
+  _buildDefaultItem(
     Map item, {
     @required Widget child,
     Axis direction = Axis.horizontal,
@@ -141,229 +384,11 @@ class _SettingsViewState extends State<SettingsView> {
           color: Colors.blueAccent,
         ),
       ),
-      onTap: () => ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(_getTextByLang(item)),
-        action: SnackBarAction(
-          label: "确定",
-          onPressed: () {},
-        ),
-      )),
-    );
-  }
-
-  //输入框输入类型表
-  final Map<String, TextInputType> _inputType = {
-    "num": TextInputType.number,
-    "pwd": TextInputType.visiblePassword,
-  };
-
-  //构建配置子项-文本
-  _buildSettingTextItem(Map item, int index) {
-    var cmd = item["cmd"];
-    var unit = item["unit"];
-    var value = widget.globalSetting[cmd] ?? "";
-    var type = item["txtTp"];
-    return FormField<String>(
-      initialValue: value,
-      builder: (f) => _buildSettingItemDefault(
-        item,
-        isDark: index.isOdd,
-        direction: Axis.vertical,
-        isEdited: f.value != value,
-        child: TextField(
-          readOnly: true,
-          obscureText: type == "pwd",
-          controller: TextEditingController(text: f.value),
-          keyboardType: _inputType[type],
-          decoration: InputDecoration(
-            suffixText: _getTextByLang(unit),
-            suffixStyle: TextStyle(color: Colors.blueAccent),
-            suffixIcon: Icon(Icons.edit),
-          ),
-          onTap: () {
-            if (type == "li") {
-              _showMultiTextSheet("",[]);
-            }else{
-              _showTextEditSheet();
-            }
-          },
-        ),
-      ),
-      onSaved: (v) {
-        if (v != value) {
-          widget.controller.saveFormField(cmd, v);
-        }
-      },
-    );
-  }
-
-  //展示多行文本弹出窗口
-  _showMultiTextSheet(String title, List<String> values) {
-    // var split = item["txtSp"];
-    // List<String> values = [];
-    // if (split == "li") {
-    //   values.addAll(value.split("\n"));
-    // } else {
-    //   values.addAll(value.split(split));
-    // }
-    // values.removeWhere((it) => it.isEmpty);
-    List<String> temp = []..addAll(values);
-    int editCount = 0;
-    GlobalKey<FormState> _formKey = GlobalKey();
-    return showModalBottomSheet<List<String>>(
-      context: context,
-      builder: (c) => StatefulBuilder(
-          builder: (_, state) => Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Row(
-                    children: [
-                      CloseButton(),
-                      Expanded(
-                        child: Text(
-                          title,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.add_box_outlined),
-                        onPressed: () => state(() => temp.add("")),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.done),
-                        onPressed: () {
-                          _formKey.currentState
-                            ..validate()
-                            ..save();
-                          editCount = 0;
-                          Navigator.pop(c, temp);
-                        },
-                      ),
-                    ],
-                  ),
-                  Divider(),
-                  Expanded(
-                      child: Form(
-                    key: _formKey,
-                    child: ListView.builder(
-                      itemCount: temp.length,
-                      itemBuilder: (_, i) {
-                        var controller = TextEditingController(text: temp[i]);
-                        return TextFormField(
-                          controller: controller,
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                              icon: Icon(Icons.clear),
-                              onPressed: () => state(() => temp.removeAt(i)),
-                            ),
-                          ),
-                          onSaved: (v) {
-                            temp[i] = v;
-                            if (i >= values.length || v != values[i]) {
-                              editCount++;
-                            }
-                          },
-                        );
-                      },
-                    ),
-                    onWillPop: () async {
-                      editCount = 0;
-                      _formKey.currentState
-                        ..validate()
-                        ..save();
-                      if (editCount > 0) {
-                        return await showDialog(
-                          context: c,
-                          builder: (_) => AlertDialog(
-                            content: Text("共产生 $editCount 处编辑，继续退出将丢失未保存的数据"),
-                            actions: [
-                              TextButton(
-                                child: Text("取消"),
-                                onPressed: () => Navigator.pop(c, false),
-                              ),
-                              TextButton(
-                                child: Text("继续"),
-                                onPressed: () => Navigator.pop(c, true),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                      return true;
-                    },
-                  )),
-                ],
-              )),
-    );
-  }
-  //显示文本编辑弹窗
-  _showTextEditSheet(){
-
-  }
-  //构建配置子项-bool
-  _buildSettingBoolItem(Map item, int index) {
-    var cmd = item["cmd"];
-    var value = widget.globalSetting[cmd] ?? "false";
-    return FormField<bool>(
-      initialValue: "true" == value,
-      builder: (f) => _buildSettingItemDefault(
-        item,
-        isDark: index.isOdd,
-        isEdited: "${f.value}" != value,
-        child: Expanded(
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Switch(
-              value: f.value,
-              onChanged: (v) {
-                FocusScope.of(context).unfocus();
-                f.didChange(v);
-              },
-            ),
-          ),
-        ),
-      ),
-      onSaved: (v) {
-        if ("$v" != value) {
-          widget.controller.saveFormField(cmd, "$v");
-        }
-      },
-    );
-  }
-
-  //构建配置子项-选择
-  _buildSettingSelectItem(Map item, int index) {
-    var cmd = item["cmd"];
-    var value = widget.globalSetting[cmd];
-    var items = item["select"];
-    return FormField<String>(
-      initialValue: value,
-      builder: (f) => _buildSettingItemDefault(
-        item,
-        isDark: index.isOdd,
-        isEdited: f.value != value,
-        child: Expanded(
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: DropdownButton<String>(
-              value: f.value,
-              items: items.map<DropdownMenuItem<String>>((it) {
-                return DropdownMenuItem<String>(
-                  value: it["value"],
-                  child: Text(_getTextByLang(it["name"])),
-                );
-              }).toList(),
-              onChanged: (v) => f.didChange(v),
-              onTap: () => FocusScope.of(context).unfocus(),
-            ),
-          ),
-        ),
-      ),
-      onSaved: (v) {
-        if (v != value) {
-          widget.controller.saveFormField(cmd, v);
-        }
-      },
+      onTap: () => AlertTools.snack(_getTextByLang(item),
+          button: TextButton(
+            child: Text("确定"),
+            onPressed: () {},
+          )),
     );
   }
 
@@ -428,9 +453,11 @@ class SettingsViewController {
 
   //保存表单元素内容
   @protected
-  saveFormField(String key, dynamic value) {
-    _optionsMap[key] = value;
-  }
+  saveFormField(String key, dynamic value) => _optionsMap[key] = value;
+
+  //获取已编辑的元素内容
+  @protected
+  getFormField(String key) => _optionsMap[key];
 
   //提交已修改的配置并返回表
   commitOption() {
