@@ -8,13 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 /*
-* aria2参数设置组件
+* RPC协议
 * @author jtechjh
 * @Time 2021/5/8 12:31 PM
 */
-class SettingsView extends StatefulWidget {
+class RPCSettingsView extends StatefulWidget {
   //设置的配置文件地址
-  final String settingsConfig = "lib/assets/config/aria2_option.json";
+  final String settingsConfig = "lib/assets/config/aria2_settings.json";
 
   //记录设置类型，可以是一个集合
   final List<String> types;
