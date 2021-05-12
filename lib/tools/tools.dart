@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:bt_service_manager/tools/alert.dart';
 import 'package:crypto/crypto.dart';
+import 'package:flutter/services.dart';
 
 /*
 * 工具包
@@ -32,4 +34,11 @@ class Tools {
   //生成唯一id
   static String get generationID => base64En(
       "JTech_BT_Service_Client_${DateTime.now().millisecondsSinceEpoch}_${Random(99999).nextDouble()}");
+
+  //复制到剪切板
+  static Future<void> clipboard(String text, {String message = ""}) async {
+    if (null == text || text.isEmpty) return;
+    await Clipboard.setData(ClipboardData(text: text));
+    if (message.isNotEmpty) AlertTools.snack(message);
+  }
 }

@@ -2,6 +2,8 @@ import 'package:bt_service_manager/clients/aria2/apis/aria2_api.dart';
 import 'package:bt_service_manager/clients/aria2/model/response.dart';
 import 'package:bt_service_manager/clients/aria2/widgets/settings.dart';
 import 'package:bt_service_manager/net/api.dart';
+import 'package:bt_service_manager/tools/alert.dart';
+import 'package:bt_service_manager/tools/route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +32,21 @@ class HomePage extends StatelessWidget {
               print("");
             },
           ),
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              AlertTools.bottomSheet(
+                content: Card(
+                  child: TextField(
+                    onSubmitted: (v){
+                      controller.filterSettingList(v);
+                      RouteTools.pop();
+                    },
+                  ),
+                ),
+              );
+            },
+          ),
         ],
       ),
       body: Container(
@@ -39,7 +56,7 @@ class HomePage extends StatelessWidget {
             if (!snap.hasData) return Container();
             return SettingsView(
               types: [
-                SettingType.all,
+                SettingType.http,
                 // SettingType.base,
                 // SettingType.bitTorrent,
               ],

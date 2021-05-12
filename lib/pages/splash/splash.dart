@@ -39,6 +39,13 @@ class SplashPage extends StatelessWidget {
   //构建启动页内容样式
   _buildSplashContent() {
     ///待完成
-    return Container();
+    return Container(
+      child: Center(
+        child: TextButton(
+          child: Text("跳转首页"),
+          onPressed: () => PageMG.goHomePage(),
+        ),
+      ),
+    );
   }
 }
