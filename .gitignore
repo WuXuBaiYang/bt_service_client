@@ -36,6 +36,7 @@ build/
 **/gradle-wrapper.jar
 .gradle
 captures/
+gradle/
 gradlew
 gradlew.bat
 local.properties
