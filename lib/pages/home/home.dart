@@ -1,9 +1,12 @@
 import 'package:bt_service_manager/clients/aria2/apis/aria2_api.dart';
 import 'package:bt_service_manager/clients/aria2/model/response.dart';
-import 'package:bt_service_manager/clients/aria2/widgets/rpc_settings.dart';
+import 'package:bt_service_manager/clients/aria2/widgets/aria2_settings.dart';
+import 'package:bt_service_manager/clients/qbittorrent/apis/qb_api.dart';
+import 'package:bt_service_manager/model/settings_model.dart';
 import 'package:bt_service_manager/net/api.dart';
 import 'package:bt_service_manager/tools/alert.dart';
 import 'package:bt_service_manager/tools/route.dart';
+import 'package:bt_service_manager/widgets/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +16,7 @@ import 'package:flutter/material.dart';
 * @Time 2021/4/29 4:22 PM
 */
 class HomePage extends StatelessWidget {
-  // QBAPI qbAPI = api.getQB("https://www.jtechnas.club:8090/api/v2");
+  QBAPI qbAPI = api.getQB("https://www.jtechnas.club:8090/api/v2");
   Aria2API aria2API = api.getAria2(
       "https://www.jtechnas.club:6811/jsonrpc", "POST", "18600574971");
 
@@ -28,7 +31,7 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.done),
             onPressed: () {
-              var m = controller.commitOption();
+              // var m = controller.commitOption();
               print("");
             },
           ),
@@ -38,8 +41,8 @@ class HomePage extends StatelessWidget {
               AlertTools.bottomSheet(
                 content: Card(
                   child: TextField(
-                    onSubmitted: (v){
-                      controller.filterSettingList(v);
+                    onSubmitted: (v) {
+                      // controller.filterSettingList(v);
                       RouteTools.pop();
                     },
                   ),
@@ -53,15 +56,15 @@ class HomePage extends StatelessWidget {
         child: FutureBuilder<Aria2ResponseModel>(
           future: aria2API.setting.getGlobalOption(),
           builder: (_, snap) {
-            if (!snap.hasData) return Container();
-            return SettingsView(
-              types: [
-                SettingType.http,
-                // SettingType.base,
-                // SettingType.bitTorrent,
-              ],
-              globalSetting: snap.data.result,
+            return Aria2SettingsView(
               controller: controller,
+              groups: [
+                Aria2Group.ALL,
+              ],
+              loadSettingValues: () async{
+                var response = await aria2API.setting.getGlobalOption();
+                return response.result;
+              },
             );
           },
         ),

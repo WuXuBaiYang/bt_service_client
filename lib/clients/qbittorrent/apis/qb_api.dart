@@ -7,6 +7,7 @@ import 'package:bt_service_manager/clients/qbittorrent/apis/sync_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/apis/torrent_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/apis/transfer_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/model/response.dart';
+import 'package:bt_service_manager/model/server_config/qb_config_model.dart';
 import 'package:bt_service_manager/net/base_api.dart';
 import 'package:bt_service_manager/tools/tools.dart';
 import 'package:dio/dio.dart';
@@ -19,7 +20,13 @@ import 'package:path_provider/path_provider.dart';
 * @author jtechjh
 * @Time 2021/5/6 11:02 AM
 */
-class QBAPI extends BaseAPI {
+class QBAPI {
+  //基础请求方法
+  BaseAPI _baseAPI;
+
+  //配置对象
+  QBConfigModel _config;
+
   //授权相关接口
   AuthAPI auth;
 
@@ -44,9 +51,10 @@ class QBAPI extends BaseAPI {
   //搜索相关接口
   SearchAPI search;
 
-  QBAPI(String baseUrl) : super(baseUrl) {
-    //添加拦截器
-    addInterceptors([_qbInterceptor]);
+  QBAPI(this._config) {
+    //初始化请求方法
+    _baseAPI = BaseAPI(_config.baseUrl);
+    _baseAPI.addInterceptors([_qbInterceptor]);
     //实例化接口分类
     auth = AuthAPI(this);
     app = APPAPI(this);
@@ -71,20 +79,27 @@ class QBAPI extends BaseAPI {
         },
       );
 
+  //维护cookie管理
+  CookieManager _cookieManager;
+
   //初始化cookie管理
   Future initCookieManager() async {
-    var docDir = await getApplicationDocumentsDirectory();
-    var path = Tools.toMD5(baseUrl);
-    var s = FileStorage("${docDir.path}/.cookies/$path/");
-    var cookieJar = PersistCookieJar(storage: s);
-    addInterceptors([CookieManager(cookieJar)]);
+    if (null == _cookieManager) {
+      var docDir = await getApplicationDocumentsDirectory();
+      var path = Tools.toMD5(baseUrl);
+      var cookieJar = PersistCookieJar(
+          storage: FileStorage("${docDir.path}/.cookies/$path/"));
+      _cookieManager = CookieManager(cookieJar);
+      _baseAPI.addInterceptors([_cookieManager]);
+    }
   }
 
   //qb接口通用post方法
   Future<QBResponseModel> requestPost(String path,
       {Map<String, dynamic> form = const {}}) async {
+    await initCookieManager();
     return _handleResponse(() async {
-      var response = await httpPost(
+      var response = await _baseAPI.httpPost(
         path,
         data: FormData.fromMap(form),
       );
@@ -95,8 +110,9 @@ class QBAPI extends BaseAPI {
   //qb接口通用get方法
   Future<QBResponseModel> requestGet(String path,
       {Map<String, dynamic> query = const {}}) async {
+    await initCookieManager();
     return _handleResponse(() async {
-      var response = await httpGet(
+      var response = await _baseAPI.httpGet(
         path,
         query: query,
       );

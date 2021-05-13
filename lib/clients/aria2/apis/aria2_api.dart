@@ -4,9 +4,10 @@ import 'dart:convert';
 import 'package:bt_service_manager/clients/aria2/apis/setting_api.dart';
 import 'package:bt_service_manager/clients/aria2/model/request.dart';
 import 'package:bt_service_manager/clients/aria2/model/response.dart';
+import 'package:bt_service_manager/model/base_model.dart';
+import 'package:bt_service_manager/model/server_config/aria2_config_model.dart';
 import 'package:bt_service_manager/net/base_api.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/widgets.dart';
 
 import 'download_api.dart';
 
@@ -17,19 +18,10 @@ import 'download_api.dart';
 */
 class Aria2API {
   //http请求方法
-  BaseAPI _http;
+  BaseAPI _baseAPI;
 
-  //json-rpc请求地址
-  final String _url;
-
-  //json-rpc请求方法
-  final String _method;
-
-  //json-rpc授权信息
-  final String _secretToken;
-
-  //记录当前请求状态，是否为http请求
-  RequestType type;
+  //配置信息对象
+  Aria2ConfigModel _config;
 
   //下载相关接口
   DownloadAPI download;
@@ -37,17 +29,10 @@ class Aria2API {
   //设置相关接口
   SettingAPI setting;
 
-  Aria2API(this._url, this._method, this._secretToken) {
-    //判断请求类型
-    type = _handleRequestType(_url);
-    if (type == RequestType.HTTP) {
-      //初始化http请求
-      _http = BaseAPI(_url);
-      //添加拦截器
-      _http.addInterceptors([_aria2Interceptor]);
-    } else {
-      ///待完成
-    }
+  Aria2API(this._config) {
+    //初始化http请求
+    _baseAPI = BaseAPI(_config.baseUrl);
+    _baseAPI.addInterceptors([_aria2Interceptor]);
     //实例化接口分类
     download = DownloadAPI(this);
     setting = SettingAPI(this);
@@ -74,24 +59,24 @@ class Aria2API {
       var requestData = Aria2RequestModel.build(
         method: method,
         params: [
-          "token:$_secretToken",
+          "token:${_config.secretToken}",
           paramsJson,
           options,
         ],
       ).toJson();
-      if (type == RequestType.HTTP) {
-        var response;
-        if (_method == "POST") {
-          response = await _http.httpPost("", data: requestData);
-        } else if (_method == "GET") {
-          response = await _http.httpGet("", query: requestData);
-        }
-        return response.data;
-      } else if (type == RequestType.WS) {
-        ///待完成
-        return;
+      var response;
+      if (_config.method == HTTPMethod.POST) {
+        response = await _baseAPI.httpPost(
+          _config.path,
+          data: requestData,
+        );
+      } else if (_config.method == HTTPMethod.GET) {
+        response = await _baseAPI.httpGet(
+          _config.path,
+          query: requestData,
+        );
       }
-      return;
+      return Aria2ResponseModel.fromJson(response.data);
     });
   }
 
@@ -112,28 +97,4 @@ class Aria2API {
       return Aria2ResponseModel.failure(-2, "系统异常，请重试");
     }
   }
-
-  //处理请求类型
-  RequestType _handleRequestType(String url) {
-    if (url.startsWith(RegExp("http://|https://"))) {
-      return RequestType.HTTP;
-    } else if (url.startsWith(RegExp("ws://|wss://"))) {
-      return RequestType.WS;
-    }
-    return RequestType.NONE;
-  }
-}
-
-/*
-* 请求类型
-* @author jtechjh
-* @Time 2021/5/7 11:05 AM
-*/
-enum RequestType {
-  //http请求（post）
-  HTTP,
-  //webSocket请求
-  WS,
-  //未知类型
-  NONE,
 }

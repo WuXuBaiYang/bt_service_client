@@ -1,7 +1,7 @@
 import 'package:bt_service_manager/manager/page_manager.dart';
+import 'package:bt_service_manager/net/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
 
 /*
 * 启动页
@@ -24,6 +24,8 @@ class SplashPage extends StatelessWidget {
   //初始化app
   _initAPP() async {
     await Future.delayed(Duration(seconds: 1));
+    //初始化接口
+    await api.init();
     //跳转到首页/首次启动页
     return _goNextPage();
   }

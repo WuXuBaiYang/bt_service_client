@@ -1,5 +1,7 @@
 import 'package:bt_service_manager/clients/aria2/apis/aria2_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/apis/qb_api.dart';
+import 'package:bt_service_manager/model/server_config/aria2_config_model.dart';
+import 'package:bt_service_manager/model/server_config/qb_config_model.dart';
 
 /*
 * 网络请求入口
@@ -20,21 +22,19 @@ class API {
   };
 
   //aria2分流
-  Aria2API getAria2(String url, String method, String token) {
-    if (null == url || url.isEmpty) return null;
-    if (!_apis["aria2"].containsKey(url)) {
-      _apis["aria2"][url] = Aria2API(url, method, token);
+  Aria2API getAria2(Aria2ConfigModel config) {
+    if (!_apis["aria2"].containsKey(config.id)) {
+      _apis["aria2"][config.id] = Aria2API(config);
     }
-    return _apis["aria2"][url];
+    return _apis["aria2"][config.id];
   }
 
   //qb分流
-  QBAPI getQB(String baseUrl) {
-    if (null == baseUrl || baseUrl.isEmpty) return null;
-    if (!_apis["qb"].containsKey(baseUrl)) {
-      _apis["qb"][baseUrl] = QBAPI(baseUrl);
+  QBAPI getQB(QBConfigModel config) {
+    if (!_apis["qb"].containsKey(config.id)) {
+      _apis["qb"][config.id] = QBAPI(config);
     }
-    return _apis["qb"][baseUrl];
+    return _apis["qb"][config.id];
   }
 
   //初始化接口
