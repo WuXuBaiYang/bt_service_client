@@ -1,36 +1,27 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:bt_service_manager/clients/aria2/apis/setting_api.dart';
-import 'package:bt_service_manager/clients/aria2/model/request.dart';
-import 'package:bt_service_manager/clients/aria2/model/response.dart';
+import 'package:bt_service_manager/clients/transmission/model/request.dart';
+import 'package:bt_service_manager/clients/transmission/model/response.dart';
 import 'package:bt_service_manager/manage/database/database_manage.dart';
 import 'package:bt_service_manager/model/base_model.dart';
-import 'package:bt_service_manager/model/server_config/aria2_config_model.dart';
+import 'package:bt_service_manager/model/server_config/tm_config_model.dart';
 import 'package:bt_service_manager/net/base_api.dart';
 import 'package:dio/dio.dart';
 
-import 'download_api.dart';
-
 /*
-* aria2总分流渠道
+* transmission服务器接口
 * @author jtechjh
-* @Time 2021/5/6 11:02 AM
+* @Time 2021/5/14 2:54 下午
 */
-class Aria2API {
+class TMAPI {
   //http请求方法
   BaseAPI _baseAPI;
 
   //配置信息对象
-  Aria2ConfigModel _config;
+  TMConfigModel _config;
 
-  //下载相关接口
-  DownloadAPI download;
-
-  //设置相关接口
-  SettingAPI setting;
-
-  Aria2API(this._config) {
+  TMAPI(this._config) {
     //监听配置变化
     _watchOnConfig();
     //初始化接口配置等
@@ -41,10 +32,8 @@ class Aria2API {
   _initAPI() {
     //初始化http请求
     _baseAPI = BaseAPI(_config.baseUrl);
-    _baseAPI.addInterceptors([_aria2Interceptor]);
+    _baseAPI.addInterceptors([_tmInterceptor]);
     //实例化接口分类
-    download = DownloadAPI(this);
-    setting = SettingAPI(this);
   }
 
   //监听配置变化
@@ -55,22 +44,18 @@ class Aria2API {
     });
   }
 
-  //aria2接口请求拦截
-  get _aria2Interceptor => InterceptorsWrapper(
+  //transmission接口请求拦截
+  get _tmInterceptor => InterceptorsWrapper(
         onError: (e, handle) {},
       );
 
   //rpc请求
-  Future<Aria2ResponseModel> rpcRequest(String method,
+  Future<TMResponseModel> rpcRequest(String method,
       {dynamic params, Map<String, dynamic> options = const {}}) async {
     return _handleResponse(() async {
-      var requestData = Aria2RequestModel.build(
+      var requestData = TMRequestModel.build(
         method: method,
-        params: [
-          "token:${_config.secretToken}",
-          params,
-          options,
-        ],
+        arguments: params,
       ).toJson();
       var response;
       if (_config.method == HTTPMethod.POST) {
@@ -89,20 +74,20 @@ class Aria2API {
   }
 
   //处理请求结果，异常拦截等
-  Future<Aria2ResponseModel> _handleResponse(Function fun) async {
+  Future<TMResponseModel> _handleResponse(Function fun) async {
     try {
       var result = await fun?.call();
       if (result is String) {
         result = jsonDecode(result);
       }
-      return Aria2ResponseModel.fromJson(result);
+      return TMResponseModel.fromJson(result);
     } on DioError catch (e) {
       if (null != e.response.data) {
-        return Aria2ResponseModel.fromJson(e.response.data);
+        return TMResponseModel.fromJson(e.response.data);
       }
-      return Aria2ResponseModel.failure(-1, e.toString());
+      return TMResponseModel.failure(e.toString());
     } catch (e) {
-      return Aria2ResponseModel.failure(-2, "系统异常，请重试");
+      return TMResponseModel.failure("系统异常，请重试");
     }
   }
 }

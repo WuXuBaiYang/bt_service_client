@@ -7,9 +7,9 @@ import 'package:bt_service_manager/clients/qbittorrent/apis/sync_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/apis/torrent_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/apis/transfer_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/model/response.dart';
+import 'package:bt_service_manager/manage/database/database_manage.dart';
 import 'package:bt_service_manager/model/server_config/qb_config_model.dart';
 import 'package:bt_service_manager/net/base_api.dart';
-import 'package:bt_service_manager/tools/tools.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
@@ -52,6 +52,14 @@ class QBAPI {
   SearchAPI search;
 
   QBAPI(this._config) {
+    //监听配置变化
+    _watchOnConfig();
+    //初始化接口
+    _initAPI();
+  }
+
+  //初始化接口
+  _initAPI() {
     //初始化请求方法
     _baseAPI = BaseAPI(_config.baseUrl);
     _baseAPI.addInterceptors([_qbInterceptor]);
@@ -64,6 +72,14 @@ class QBAPI {
     rss = RSSAPI(this);
     torrent = TorrentAPI(this);
     search = SearchAPI(this);
+  }
+
+  //监听配置变化
+  _watchOnConfig() async {
+    (await dbManage.server.watchOn(_config.id)).listen((event) {
+      //重新初始化接口
+      _initAPI();
+    });
   }
 
   //qb接口请求拦截

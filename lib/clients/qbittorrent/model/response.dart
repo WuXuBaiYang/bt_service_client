@@ -1,7 +1,7 @@
 /*
-* qb请求响应对象
+* QBittorrent请求响应
 * @author jtechjh
-* @Time 2021/5/6 10:12 AM
+* @Time 2021/5/6 10:15 AM
 */
 class QBResponseModel {
   int _code;

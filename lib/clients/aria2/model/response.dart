@@ -41,17 +41,6 @@ class Aria2ResponseModel {
     _error =
         json["error"] != null ? Aria2ErrorModel.fromJson(json["error"]) : null;
   }
-
-  Map<String, dynamic> toJson() {
-    var map = <String, dynamic>{};
-    map["id"] = _id;
-    map["jsonrpc"] = _jsonRPC;
-    map["result"] = _result;
-    if (_error != null) {
-      map["error"] = _error.toJson();
-    }
-    return map;
-  }
 }
 
 /*

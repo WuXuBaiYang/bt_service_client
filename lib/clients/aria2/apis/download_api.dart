@@ -12,5 +12,5 @@ class DownloadAPI {
 
   //添加下载地址
   addUri(List<String> uris, {Map<String, dynamic> options}) =>
-      _api.rpcRequest("aria2.addUri", paramsJson: uris, options: options);
+      _api.rpcRequest("aria2.addUri", params: uris, options: options);
 }

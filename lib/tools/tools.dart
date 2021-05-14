@@ -32,8 +32,8 @@ class Tools {
   }
 
   //生成唯一id
-  static String get generationID => base64En(
-      "JTech_BT_Service_Client_${DateTime.now().millisecondsSinceEpoch}_${Random(99999).nextDouble()}");
+  static String get generationID => toMD5(base64En(
+      "JTech_BT_Service_Client_${DateTime.now().millisecondsSinceEpoch}_${Random(99999).nextDouble()}"));
 
   //复制到剪切板
   static Future<void> clipboard(String text, {String message = ""}) async {

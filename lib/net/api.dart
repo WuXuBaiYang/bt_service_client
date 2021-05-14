@@ -40,7 +40,6 @@ class API {
   //初始化接口
   Future init() async {
     ///遍历数据库，查出需要遍历的服务器实例
-    ///qbapi需要初始化cookie  await qbapi.initCookieManager();
   }
 }
 

@@ -1,27 +1,29 @@
 import 'package:bt_service_manager/tools/tools.dart';
 import 'package:hive/hive.dart';
 
+part 'base_model.g.dart';
+
 /*
 * 基类
 * @author jtechjh
 * @Time 2021/5/12 5:44 下午
 */
-abstract class BaseModel extends HiveObject {
+abstract class BaseModel{
   //id
   @HiveField(0, defaultValue: "")
   String id;
 
   //创建时间
   @HiveField(1, defaultValue: 0)
-  num createTime;
+  DateTime createTime;
 
   //更新时间
   @HiveField(2, defaultValue: 0)
-  num updateTime;
+  DateTime updateTime;
 
   BaseModel() {
     id = Tools.generationID;
-    createTime = DateTime.now().millisecondsSinceEpoch;
+    createTime = DateTime.now();
     updateTime = createTime;
   }
 }
@@ -31,8 +33,8 @@ abstract class BaseModel extends HiveObject {
 * @author jtechjh
 * @Time 2021/5/13 5:17 下午
 */
-@HiveType(typeId: 1)
-enum HTTPMethod {
+@HiveType(typeId: 100)
+enum HTTPMethod{
   @HiveField(0, defaultValue: true)
   POST,
   @HiveField(1)
@@ -70,7 +72,7 @@ extension HTTPMethodExtension on HTTPMethod {
 * @author jtechjh
 * @Time 2021/5/14 8:52 上午
 */
-@HiveType(typeId: 1)
+@HiveType(typeId: 101)
 enum Protocol {
   @HiveField(0, defaultValue: true)
   HTTP,

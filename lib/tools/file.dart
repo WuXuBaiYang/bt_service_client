@@ -23,11 +23,11 @@ class FileTools {
   //处理/拼接路径
   static Future<String> _getPath(Directory dir, String path) async {
     if (null != path) {
-      var file = File("${dir.path}${path.startsWith("/") ? path : "/$path"}");
-      if (!await file.exists()) {
-        await file.create(recursive: true);
+      path = "${dir.path}${path.startsWith("/") ? path : "/$path"}";
+      dir = Directory(path);
+      if (!await dir.exists()) {
+        await dir.create(recursive: true);
       }
-      return file.path;
     }
     return dir?.path ?? "";
   }
