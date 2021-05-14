@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bt_service_manager/clients/aria2/apis/aria2_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/apis/qb_api.dart';
 import 'package:bt_service_manager/manage/database/database_manage.dart';
@@ -8,6 +10,7 @@ import 'package:bt_service_manager/net/api.dart';
 import 'package:bt_service_manager/widgets/settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 
 /*
@@ -40,26 +43,20 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () async {
-          try{
-            var config = Aria2ConfigModel.create(
-              Protocol.HTTPS,
-              "www.jtechnas.club",
-              6811,
-              "/jsonrpc",
-              HTTPMethod.POST,
-              "18600574971",
-            );
-            await dbManage.server.addServerConfig(config);
-            var a = api.getAria2(config);
-           var b=await  a.setting.getGlobalOption();
-           print("");
-            // Future.delayed(Duration(milliseconds: 1000)).then((value)async{
-            //   config.port = 100;
-            //   await config.save();
-            // });
-          }catch(e){
-            print("");
+          int end = 64;
+          int curr = 0;
+          List list = [];
+          while (curr++ < 10) {
+            list.add({
+              "name": {
+                "cn": "",
+                "en": "",
+              },
+              "value": curr,
+            });
           }
+          var a = jsonEncode(list);
+          print("");
         },
       ),
       // body: Container(
