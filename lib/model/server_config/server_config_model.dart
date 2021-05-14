@@ -9,7 +9,7 @@ import 'package:hive/hive.dart';
 abstract class ServerConfigModel extends BaseModel{
   //协议
   @HiveField(50, defaultValue: "")
-  final String protocol;
+  final Protocol protocol;
 
   //域名/IP
   @HiveField(51, defaultValue: "")
@@ -20,7 +20,7 @@ abstract class ServerConfigModel extends BaseModel{
   final num port;
 
   //拼接基础地址
-  String get baseUrl => "$protocol://$hostname:$port";
+  String get baseUrl => "${protocol.text}$hostname:$port";
 
   ServerConfigModel.create(this.protocol, this.hostname, this.port);
 }

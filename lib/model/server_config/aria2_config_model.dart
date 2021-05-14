@@ -22,7 +22,7 @@ class Aria2ConfigModel extends ServerConfigModel {
   final String secretToken;
 
   Aria2ConfigModel.create(
-    String protocol,
+    Protocol protocol,
     String hostname,
     num port,
     this.path,

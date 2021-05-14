@@ -31,7 +31,17 @@ abstract class BaseModel extends HiveObject {
 * @author jtechjh
 * @Time 2021/5/13 5:17 下午
 */
-enum HTTPMethod { POST, GET, PUT, DELETE }
+@HiveType(typeId: 1)
+enum HTTPMethod {
+  @HiveField(0, defaultValue: true)
+  POST,
+  @HiveField(1)
+  GET,
+  @HiveField(2)
+  PUT,
+  @HiveField(3)
+  DELETE,
+}
 
 /*
 * 扩展http协议枚举方法
@@ -50,6 +60,40 @@ extension HTTPMethodExtension on HTTPMethod {
         return "PUT";
       case HTTPMethod.DELETE:
         return "DELETE";
+    }
+    return "";
+  }
+}
+
+/*
+* 请求协议
+* @author jtechjh
+* @Time 2021/5/14 8:52 上午
+*/
+@HiveType(typeId: 1)
+enum Protocol {
+  @HiveField(0, defaultValue: true)
+  HTTP,
+  @HiveField(1)
+  HTTPS,
+  @HiveField(2)
+  WS,
+  @HiveField(3)
+  WSS,
+}
+
+extension ProtocolExtension on Protocol {
+  //获取枚举对应文本
+  String get text {
+    switch (this) {
+      case Protocol.HTTP:
+        return "http://";
+      case Protocol.HTTPS:
+        return "https://";
+      case Protocol.WS:
+        return "ws://";
+      case Protocol.WSS:
+        return "wss://";
     }
     return "";
   }

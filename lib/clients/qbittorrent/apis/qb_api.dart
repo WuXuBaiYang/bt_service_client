@@ -86,9 +86,8 @@ class QBAPI {
   Future initCookieManager() async {
     if (null == _cookieManager) {
       var docDir = await getApplicationDocumentsDirectory();
-      var path = Tools.toMD5(baseUrl);
       var cookieJar = PersistCookieJar(
-          storage: FileStorage("${docDir.path}/.cookies/$path/"));
+          storage: FileStorage("${docDir.path}/.cookies/${_config.id}/"));
       _cookieManager = CookieManager(cookieJar);
       _baseAPI.addInterceptors([_cookieManager]);
     }

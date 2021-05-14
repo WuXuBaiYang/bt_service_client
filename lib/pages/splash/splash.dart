@@ -1,5 +1,11 @@
-import 'package:bt_service_manager/manager/page_manager.dart';
+import 'dart:io';
+
+import 'package:bt_service_manager/manage/database/database_manage.dart';
+import 'package:bt_service_manager/manage/page_manage.dart';
+import 'package:bt_service_manager/manage/permission_manage.dart';
 import 'package:bt_service_manager/net/api.dart';
+import 'package:bt_service_manager/tools/alert.dart';
+import 'package:bt_service_manager/tools/route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -23,7 +29,16 @@ class SplashPage extends StatelessWidget {
 
   //初始化app
   _initAPP() async {
-    await Future.delayed(Duration(seconds: 1));
+    //申请必备权限
+    if (!await PermissionManage.required()) {
+      return await AlertTools.alertDialog<bool>(
+        "必备权限获取失败",
+        confirm: "关闭应用",
+        onConfirm: () => exit(0),
+      );
+    }
+    //初始化数据库
+    await dbManage.init();
     //初始化接口
     await api.init();
     //跳转到首页/首次启动页
@@ -35,7 +50,7 @@ class SplashPage extends StatelessWidget {
     //跳转到初次配置页
     ///待完成
     //跳转到首页
-    PageMG.goHomePage();
+    PageManage.goHomePage();
   }
 
   //构建启动页内容样式
@@ -45,7 +60,7 @@ class SplashPage extends StatelessWidget {
       child: Center(
         child: TextButton(
           child: Text("跳转首页"),
-          onPressed: () => PageMG.goHomePage(),
+          onPressed: () => PageManage.goHomePage(),
         ),
       ),
     );

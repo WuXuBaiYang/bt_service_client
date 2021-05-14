@@ -6,7 +6,7 @@ import 'package:bt_service_manager/tools/route.dart';
 * @author jtechjh
 * @Time 2021/5/11 4:33 下午
 */
-class PageMG {
+class PageManage {
   //跳转到首页
   static goHomePage() => RouteTools.go(HomePage());
 }
