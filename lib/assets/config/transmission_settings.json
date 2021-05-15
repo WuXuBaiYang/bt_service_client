@@ -1555,74 +1555,74 @@
         "param": {
           "items": [
             {
-              "name":{
-                "cn":"周日",
-                "en":"Sunday"
+              "name": {
+                "cn": "周日",
+                "en": "Sunday"
               },
-              "value":1
+              "value": 1
             },
             {
-              "name":{
-                "cn":"周一",
-                "en":"Monday"
+              "name": {
+                "cn": "周一",
+                "en": "Monday"
               },
-              "value":2
+              "value": 2
             },
             {
-              "name":{
-                "cn":"周二",
-                "en":"Tuesday"
+              "name": {
+                "cn": "周二",
+                "en": "Tuesday"
               },
-              "value":4
+              "value": 4
             },
             {
-              "name":{
-                "cn":"周三",
-                "en":"Wednesday"
+              "name": {
+                "cn": "周三",
+                "en": "Wednesday"
               },
-              "value":8
+              "value": 8
             },
             {
-              "name":{
-                "cn":"周四",
-                "en":"Thursday"
+              "name": {
+                "cn": "周四",
+                "en": "Thursday"
               },
-              "value":16
+              "value": 16
             },
             {
-              "name":{
-                "cn":"周五",
-                "en":"Friday"
+              "name": {
+                "cn": "周五",
+                "en": "Friday"
               },
-              "value":32
+              "value": 32
             },
             {
-              "name":{
-                "cn":"周六",
-                "en":"Staturday"
+              "name": {
+                "cn": "周六",
+                "en": "Staturday"
               },
-              "value":64
+              "value": 64
             },
             {
-              "name":{
-                "cn":"工作日",
-                "en":"Weekdays"
+              "name": {
+                "cn": "工作日",
+                "en": "Weekdays"
               },
-              "value":62
+              "value": 62
             },
             {
-              "name":{
-                "cn":"周末",
-                "en":"Weekends"
+              "name": {
+                "cn": "周末",
+                "en": "Weekends"
               },
-              "value":65
+              "value": 65
             },
             {
-              "name":{
-                "cn":"每天",
-                "en":"Evenyday"
+              "name": {
+                "cn": "每天",
+                "en": "Evenyday"
               },
-              "value":127
+              "value": 127
             }
           ]
         }
@@ -1668,71 +1668,71 @@
         "param": {
           "items": [
             {
-              "name":{
-                "cn":"Allow",
-                "en":"Allow"
+              "name": {
+                "cn": "Allow",
+                "en": "Allow"
               },
-              "value":"tolerated"
+              "value": "tolerated"
             },
             {
-              "name":{
-                "cn":"Prefer",
-                "en":"Prefer"
+              "name": {
+                "cn": "Prefer",
+                "en": "Prefer"
               },
-              "value":"preferred"
+              "value": "preferred"
             },
             {
-              "name":{
-                "cn":"Require",
-                "en":"Require"
+              "name": {
+                "cn": "Require",
+                "en": "Require"
               },
-              "value":"required"
+              "value": "required"
             }
           ]
         }
       },
-      ///
       {
         "name": {
-          "cn": "",
-          "en": "pex-enabled"
+          "cn": "启用PEX发现更多资源",
+          "en": ""
         },
         "key": "pex-enabled",
         "type": "swt"
       },
       {
         "name": {
-          "cn": "",
-          "en": "dht-enabled"
+          "cn": "启用DHT发现更多资源",
+          "en": ""
         },
         "key": "dht-enabled",
         "type": "swt"
       },
       {
         "name": {
-          "cn": "",
-          "en": "lpd-enabled"
+          "cn": "启用LPD发现更多资源",
+          "en": ""
         },
         "key": "lpd-enabled",
         "type": "swt"
       },
       {
         "name": {
-          "cn": "",
-          "en": "blocklist-enabled"
+          "cn": "启用黑名单列表",
+          "en": ""
         },
         "key": "blocklist-enabled",
         "type": "swt"
       },
       {
         "name": {
-          "cn": "",
-          "en": "blocklist-url"
+          "cn": "黑名单列表",
+          "en": ""
         },
         "key": "blocklist-url",
         "type": "txt",
         "param": {
-          "type": "num"
+          "type": "li",
+          "split": ","
         }
       }
     ],
@@ -1746,8 +1746,8 @@
     "settings": [
       {
         "name": {
-          "cn": "",
-          "en": "peer-port"
+          "cn": "peer监听端口号",
+          "en": ""
         },
         "key": "peer-port",
         "type": "txt",
@@ -1757,24 +1757,24 @@
       },
       {
         "name": {
-          "cn": "",
-          "en": "peer-port-random-on-start"
+          "cn": "启动时设置随机端口号",
+          "en": ""
         },
         "key": "peer-port-random-on-start",
         "type": "swt"
       },
       {
         "name": {
-          "cn": "",
-          "en": "port-forwarding-enabled"
+          "cn": "端口号由路由器转发",
+          "en": ""
         },
         "key": "port-forwarding-enabled",
         "type": "swt"
       },
       {
         "name": {
-          "cn": "",
-          "en": "utp-enabled"
+          "cn": "启用uTP",
+          "en": ""
         },
         "key": "utp-enabled",
         "type": "swt"
@@ -1790,16 +1790,16 @@
     "settings": [
       {
         "name": {
-          "cn": "",
-          "en": "download-queue-enabled"
+          "cn": "启用下载队列",
+          "en": ""
         },
         "key": "download-queue-enabled",
         "type": "swt"
       },
       {
         "name": {
-          "cn": "",
-          "en": "download-queue-size"
+          "cn": "下载队列数量",
+          "en": ""
         },
         "key": "download-queue-size",
         "type": "txt",
@@ -1809,21 +1809,25 @@
       },
       {
         "name": {
-          "cn": "",
-          "en": "queue-stalled-enabled"
+          "cn": "启用种子自动停止",
+          "en": ""
         },
         "key": "queue-stalled-enabled",
         "type": "swt"
       },
       {
         "name": {
-          "cn": "",
-          "en": "queue-stalled-minutes"
+          "cn": "种子停止工作时间",
+          "en": ""
         },
         "key": "queue-stalled-minutes",
         "type": "txt",
         "param": {
           "type": "num"
+        },
+        "unit": {
+          "cn": "分钟",
+          "en": "min"
         }
       }
     ],
