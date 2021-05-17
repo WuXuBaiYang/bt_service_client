@@ -223,16 +223,22 @@ class SettingTextModel extends BaseModel {
   //英文
   String _en;
 
+  //默认值
+  String _def;
+
   //获取文本
   ///待完善国际化部分
-  String get text => _cn;
+  String get text => _cn ?? _def;
 
   String get cn => _cn;
 
   String get en => _en;
 
+  String get def => _def;
+
   SettingTextModel.fromJson(data) {
     _cn = data["cn"];
     _en = data["en"];
+    _def = data["def"];
   }
 }

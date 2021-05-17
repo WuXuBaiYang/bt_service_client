@@ -1,34 +1,10 @@
 [
   {
-    "group": "xx",
+    "group": "download",
     "settings": [
       {
         "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "locale",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "create_subfolder_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "start_paused_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
+          "cn": "自动删除模式",
           "en": ""
         },
         "key": "auto_delete_mode",
@@ -36,7 +12,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "预分配磁盘空间",
           "en": ""
         },
         "key": "preallocate_all",
@@ -44,7 +20,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "未完成文件添加 .!qB 后缀",
           "en": ""
         },
         "key": "incomplete_files_ext",
@@ -52,7 +28,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "种子自动管理",
           "en": ""
         },
         "key": "auto_tmm_enabled",
@@ -60,7 +36,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "分类变化种子重新分配",
           "en": ""
         },
         "key": "torrent_changed_tmm_enabled",
@@ -68,7 +44,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "存储路径变化种子重新分配",
           "en": ""
         },
         "key": "save_path_changed_tmm_enabled",
@@ -76,7 +52,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "分类路径变化种子重新分配",
           "en": ""
         },
         "key": "category_changed_tmm_enabled",
@@ -84,7 +60,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "默认存储路径",
           "en": ""
         },
         "key": "save_path",
@@ -92,21 +68,20 @@
       },
       {
         "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "temp_path_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
+          "cn": "临时存储路径",
           "en": ""
         },
         "key": "temp_path",
-        "type": "txt"
+        "type": "txt",
+        "param": {
+          "enableKey": "temp_path_enabled"
+        }
       },
       {
+        "name": {
+          "cn": "自动从此处添加种子",
+          "en": ""
+        },
         "key": "scan_dirs",
         "type": "ctm"
       },
@@ -1345,31 +1320,31 @@
         },
         "key": "upload_choking_algorithm",
         "type": "sel",
-      "param": {
-        "items": [
-          {
-            "name": {
-              "cn": "Round-robin",
-              "en": "Round-robin"
+        "param": {
+          "items": [
+            {
+              "name": {
+                "cn": "Round-robin",
+                "en": "Round-robin"
+              },
+              "value": 0
             },
-            "value": 0
-          },
-          {
-            "name": {
-              "cn": "Fastest upload",
-              "en": "Fastest upload"
+            {
+              "name": {
+                "cn": "Fastest upload",
+                "en": "Fastest upload"
+              },
+              "value": 1
             },
-            "value": 1
-          },
-          {
-            "name": {
-              "cn": "Anti-leech",
-              "en": "Anti-leech"
-            },
-            "value": 2
-          }
-        ]
-      }
+            {
+              "name": {
+                "cn": "Anti-leech",
+                "en": "Anti-leech"
+              },
+              "value": 2
+            }
+          ]
+        }
       },
       {
         "name": {
@@ -1433,8 +1408,404 @@
       }
     ],
     "groupName": {
-      "cn": "xx",
-      "en": "xx"
+      "cn": "下载",
+      "en": "Download"
+    }
+  },
+  {
+    "group": "connect",
+    "settings": [],
+    "groupName": {
+      "cn": "连接",
+      "en": "Connect"
+    }
+  },
+  {
+    "group": "speed",
+    "settings": [],
+    "groupName": {
+      "cn": "速度",
+      "en": "Speed"
+    }
+  },
+  {
+    "group": "bitTorrent",
+    "settings": [
+      {
+        "name": {
+          "cn": "创建子目录",
+          "en": ""
+        },
+        "key": "create_subfolder_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "添加后暂停",
+          "en": ""
+        },
+        "key": "start_paused_enabled",
+        "type": "swt"
+      }
+    ],
+    "groupName": {
+      "cn": "BitTorrent",
+      "en": "BitTorrent"
+    }
+  },
+  {
+    "group": "rss",
+    "settings": [],
+    "groupName": {
+      "cn": "RSS",
+      "en": "RSS"
+    }
+  },
+  {
+    "group": "webui",
+    "settings": [
+      {
+        "name": {
+          "cn": "界面语言",
+          "en": ""
+        },
+        "key": "locale",
+        "type": "sel",
+        "param": {
+          "items": [
+            {
+              "value": "az@latin",
+              "name": {
+                "def": "Azərbaycan dili"
+              }
+            },
+            {
+              "value": "en",
+              "name": {
+                "def": "English"
+              }
+            },
+            {
+              "value": "en_AU",
+              "name": {
+                "def": "English (Australia)"
+              }
+            },
+            {
+              "value": "en_GB",
+              "name": {
+                "def": "English (United Kingdom)"
+              }
+            },
+            {
+              "value": "eo_EO",
+              "name": {
+                "def": "Esperanto"
+              }
+            },
+            {
+              "value": "et",
+              "name": {
+                "def": "Eesti, eesti keel"
+              }
+            },
+            {
+              "value": "fr_FR",
+              "name": {
+                "def": "Français"
+              }
+            },
+            {
+              "value": "de_DE",
+              "name": {
+                "def": "Deutsch"
+              }
+            },
+            {
+              "value": "hu_HU",
+              "name": {
+                "def": "Magyar"
+              }
+            },
+            {
+              "value": "is",
+              "name": {
+                "def": "Íslenska"
+              }
+            },
+            {
+              "value": "id",
+              "name": {
+                "def": "Bahasa Indonesia"
+              }
+            },
+            {
+              "value": "it_IT",
+              "name": {
+                "def": "Italiano"
+              }
+            },
+            {
+              "value": "nl_NL",
+              "name": {
+                "def": "Nederlands"
+              }
+            },
+            {
+              "value": "es_ES",
+              "name": {
+                "def": "Español"
+              }
+            },
+            {
+              "value": "ca_ES",
+              "name": {
+                "def": "Català"
+              }
+            },
+            {
+              "value": "gl_ES",
+              "name": {
+                "def": "Galego"
+              }
+            },
+            {
+              "value": "oc",
+              "name": {
+                "def": "lenga d'òc"
+              }
+            },
+            {
+              "value": "pt_BR",
+              "name": {
+                "def": "Português brasileiro"
+              }
+            },
+            {
+              "value": "pt_PT",
+              "name": {
+                "def": "Português"
+              }
+            },
+            {
+              "value": "pl_PL",
+              "name": {
+                "def": "Polski"
+              }
+            },
+            {
+              "value": "lv_LV",
+              "name": {
+                "def": "Latviešu valoda"
+              }
+            },
+            {
+              "value": "lt_LT",
+              "name": {
+                "def": "Lietuvių"
+              }
+            },
+            {
+              "value": "ltg",
+              "name": {
+                "def": "Latgalīšu volūda"
+              }
+            },
+            {
+              "value": "ms_MY",
+              "name": {
+                "def": "بهاس ملايو"
+              }
+            },
+            {
+              "value": "cs_CZ",
+              "name": {
+                "def": "Čeština"
+              }
+            },
+            {
+              "value": "sk_SK",
+              "name": {
+                "def": "Slovenčina"
+              }
+            },
+            {
+              "value": "sl_SI",
+              "name": {
+                "def": "Slovenščina"
+              }
+            },
+            {
+              "value": "sr_CS",
+              "name": {
+                "def": "Српски"
+              }
+            },
+            {
+              "value": "hi_IN",
+              "name": {
+                "def": "हिन्दी, हिंदी"
+              }
+            },
+            {
+              "value": "hr_HR",
+              "name": {
+                "def": "Hrvatski"
+              }
+            },
+            {
+              "value": "hy_AM",
+              "name": {
+                "def": "Հայերեն"
+              }
+            },
+            {
+              "value": "ro_RO",
+              "name": {
+                "def": "Română"
+              }
+            },
+            {
+              "value": "tr_TR",
+              "name": {
+                "def": "Türkçe"
+              }
+            },
+            {
+              "value": "el_GR",
+              "name": {
+                "def": "Ελληνικά"
+              }
+            },
+            {
+              "value": "sv_SE",
+              "name": {
+                "def": "Svenska"
+              }
+            },
+            {
+              "value": "fi_FI",
+              "name": {
+                "def": "Suomi"
+              }
+            },
+            {
+              "value": "nb_NO",
+              "name": {
+                "def": "Norsk"
+              }
+            },
+            {
+              "value": "da_DK",
+              "name": {
+                "def": "Dansk"
+              }
+            },
+            {
+              "value": "bg_BG",
+              "name": {
+                "def": "Български"
+              }
+            },
+            {
+              "value": "uk_UA",
+              "name": {
+                "def": "Українська"
+              }
+            },
+            {
+              "value": "uz@Latn",
+              "name": {
+                "def": "أۇزبېك"
+              }
+            },
+            {
+              "value": "ru_RU",
+              "name": {
+                "def": "Русский"
+              }
+            },
+            {
+              "value": "ja_JP",
+              "name": {
+                "def": "日本語"
+              }
+            },
+            {
+              "value": "he_IL",
+              "name": {
+                "def": "עברית"
+              }
+            },
+            {
+              "value": "ar_AE",
+              "name": {
+                "def": "عربي"
+              }
+            },
+            {
+              "value": "ka_GE",
+              "name": {
+                "def": "ქართული"
+              }
+            },
+            {
+              "value": "be_BY",
+              "name": {
+                "def": "Беларуская"
+              }
+            },
+            {
+              "value": "eu_ES",
+              "name": {
+                "def": "Euskara"
+              }
+            },
+            {
+              "value": "vi_VN",
+              "name": {
+                "def": "Tiếng Việt"
+              }
+            },
+            {
+              "value": "zh",
+              "name": {
+                "def": "简体中文"
+              }
+            },
+            {
+              "value": "zh_TW",
+              "name": {
+                "def": "正體中文"
+              }
+            },
+            {
+              "value": "zh_HK",
+              "name": {
+                "def": "香港正體字"
+              }
+            },
+            {
+              "value": "ko_KR",
+              "name": {
+                "def": "한글"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "groupName": {
+      "cn": "Web UI",
+      "en": "Web UI"
+    }
+  },
+  {
+    "group": "advance",
+    "settings": [],
+    "groupName": {
+      "cn": "高级",
+      "en": "Advance"
     }
   }
 ]
