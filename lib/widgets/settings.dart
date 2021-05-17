@@ -296,7 +296,7 @@ class _SettingsViewState extends State<SettingsView> {
   //构建配置子项-选择
   _buildSelectItem(SettingItemModel item, int index) {
     SelectSettingParam selectParam = item.param;
-    return FormField<String>(
+    return FormField<dynamic>(
       initialValue: _getItemValue(item.key),
       builder: (f) => _buildDefaultItem(
         item,
@@ -308,7 +308,7 @@ class _SettingsViewState extends State<SettingsView> {
             child: DropdownButton(
               value: f.value,
               items: selectParam.items.map<DropdownMenuItem>((it) {
-                return DropdownMenuItem<String>(
+                return DropdownMenuItem<dynamic>(
                   value: it.value,
                   child: Text(it.name?.text ?? it.value),
                 );

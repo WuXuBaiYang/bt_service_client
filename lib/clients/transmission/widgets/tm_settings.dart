@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:bt_service_manager/clients/aria2/widgets/aria2_settings.dart';
 import 'package:bt_service_manager/model/settings_model.dart';
 import 'package:bt_service_manager/widgets/settings.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,21 +11,21 @@ import 'package:flutter/services.dart';
 typedef LoadSettingValues = Future<Map> Function();
 
 /*
-* aria2设置列表视图
+* transmission设置列表视图
 * @author jtechjh
 * @Time 2021/5/13 1:04 下午
 */
-class Aria2SettingsView extends StatelessWidget {
+class TMSettingsView extends StatelessWidget {
   //控制器
   final SettingsViewController controller;
 
   //要展示的设置项组名集合
-  final List<Aria2Group> groups;
+  final List<TMGroup> groups;
 
   //加载设置项的值
   final LoadSettingValues loadSettingValues;
 
-  Aria2SettingsView({
+  TMSettingsView({
     Key key,
     @required this.controller,
     @required this.groups,
@@ -62,15 +63,58 @@ class Aria2SettingsView extends StatelessWidget {
     _settingValues.addAll(await loadSettingValues());
     //加载配置项
     if (_settings.isEmpty) {
-      var json = jsonDecode(await rootBundle
-          .loadString("lib/assets/config/aria2_settings.json", cache: true));
+      var json = jsonDecode(await rootBundle.loadString(
+          "lib/assets/config/transmission_settings.json",
+          cache: true));
+      var groupStr = groups.map<String>((it) => it.text).join(",");
       (json ?? []).forEach((it) {
         var item = SettingGroupModel.fromJson(it);
-        if (groups.contains(Aria2Group.ALL) || groups.contains(item.group)) {
+        if (groupStr.contains(Aria2Group.ALL.text) ||
+            groupStr.contains(item.group)) {
           _settings.addAll(item.settings);
         }
       });
     }
     return _settings;
+  }
+}
+
+/*
+* transmission设置项分组
+* @author jtechjh
+* @Time 2021/5/13 1:35 下午
+*/
+enum TMGroup {
+  Torrents,
+  Speed,
+  Peers,
+  Network,
+  Queue,
+  ALL,
+}
+
+/*
+* 扩展transmission设置项分组
+* @author jtechjh
+* @Time 2021/5/13 1:39 下午
+*/
+extension TMGroupExtension on TMGroup {
+  //获取枚举对应的文本
+  String get text {
+    switch (this) {
+      case TMGroup.Torrents:
+        return "torrents";
+      case TMGroup.Speed:
+        return "speed";
+      case TMGroup.Peers:
+        return "peers";
+      case TMGroup.Network:
+        return "network";
+      case TMGroup.Queue:
+        return "queue";
+      case TMGroup.ALL:
+        return "all";
+    }
+    return "";
   }
 }

@@ -64,13 +64,64 @@ class Aria2SettingsView extends StatelessWidget {
     if (_settings.isEmpty) {
       var json = jsonDecode(await rootBundle
           .loadString("lib/assets/config/aria2_settings.json", cache: true));
+      var groupStr = groups.map<String>((it) => it.text).join(",");
       (json ?? []).forEach((it) {
         var item = SettingGroupModel.fromJson(it);
-        if (groups.contains(Aria2Group.ALL) || groups.contains(item.group)) {
+        if (groupStr.contains(Aria2Group.ALL.text) ||
+            groupStr.contains(item.group)) {
           _settings.addAll(item.settings);
         }
       });
     }
     return _settings;
+  }
+}
+
+/*
+* aria2设置项分组
+* @author jtechjh
+* @Time 2021/5/13 1:35 下午
+*/
+enum Aria2Group {
+  Base,
+  HttpFtpSFtp,
+  Http,
+  FtpSFtp,
+  BitTorrent,
+  MetaLink,
+  RPC,
+  Advanced,
+  ALL,
+}
+
+/*
+* 扩展aria2设置项分组
+* @author jtechjh
+* @Time 2021/5/13 1:39 下午
+*/
+extension Aria2GroupExtension on Aria2Group {
+  //获取枚举对应的文本
+  String get text {
+    switch (this) {
+      case Aria2Group.Base:
+        return "base";
+      case Aria2Group.HttpFtpSFtp:
+        return "httpFtpSFtp";
+      case Aria2Group.Http:
+        return "http";
+      case Aria2Group.FtpSFtp:
+        return "ftpSFtp";
+      case Aria2Group.BitTorrent:
+        return "bitTorrent";
+      case Aria2Group.MetaLink:
+        return "metaLink";
+      case Aria2Group.RPC:
+        return "rpc";
+      case Aria2Group.Advanced:
+        return "advanced";
+      case Aria2Group.ALL:
+        return "all";
+    }
+    return "";
   }
 }

@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:bt_service_manager/clients/aria2/apis/aria2_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/apis/qb_api.dart';
+import 'package:bt_service_manager/clients/transmission/model/response.dart';
+import 'package:bt_service_manager/clients/transmission/widgets/tm_settings.dart';
 import 'package:bt_service_manager/manage/database/database_manage.dart';
 import 'package:bt_service_manager/model/base_model.dart';
 import 'package:bt_service_manager/model/server_config/aria2_config_model.dart';
@@ -43,39 +45,40 @@ class HomePage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () async {
-          int end = 64;
-          int curr = 0;
-          List list = [];
-          while (curr++ < 10) {
-            list.add({
-              "name": {
-                "cn": "",
-                "en": "",
-              },
-              "value": curr,
-            });
-          }
-          var a = jsonEncode(list);
-          print("");
+          // int end = 64;
+          // int curr = 0;
+          // List list = [];
+          // while (curr++ < 10) {
+          //   list.add({
+          //     "name": {
+          //       "cn": "",
+          //       "en": "",
+          //     },
+          //     "value": curr,
+          //   });
+          // }
+          // var a = jsonEncode(list);
+          // print("");
         },
       ),
-      // body: Container(
-      //   child: FutureBuilder<Aria2ResponseModel>(
-      //     future: aria2API.setting.getGlobalOption(),
-      //     builder: (_, snap) {
-      //       return Aria2SettingsView(
-      //         controller: controller,
-      //         groups: [
-      //           Aria2Group.ALL,
-      //         ],
-      //         loadSettingValues: () async{
-      //           var response = await aria2API.setting.getGlobalOption();
-      //           return response.result;
-      //         },
-      //       );
-      //     },
-      //   ),
-      // ),
+      body: Container(
+        child: FutureBuilder<TMResponseModel>(
+          // future: aria2API.setting.getGlobalOption(),
+          builder: (_, snap) {
+            return TMSettingsView(
+              controller: controller,
+              groups: [
+                TMGroup.Network,
+              ],
+              loadSettingValues: () async{
+                // var response = await aria2API.setting.getGlobalOption();
+                // return response.result;
+                return {};
+              },
+            );
+          },
+        ),
+      ),
     );
   }
 }

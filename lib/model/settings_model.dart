@@ -7,7 +7,7 @@ import 'package:bt_service_manager/model/base_model.dart';
 */
 class SettingGroupModel {
   //组名-索引标记
-  Aria2Group _group;
+  String _group;
 
   //组名
   SettingTextModel _groupName;
@@ -15,14 +15,14 @@ class SettingGroupModel {
   //组内设置列表
   List<SettingItemModel> _settings;
 
-  Aria2Group get group => _group;
+  String get group => _group;
 
   SettingTextModel get groupName => _groupName;
 
   List<SettingItemModel> get settings => _settings;
 
   SettingGroupModel.fromJson(data) {
-    _group = _getGroupEnum(data["group"]);
+    _group = data["group"];
     if (null != data["groupName"]) {
       _groupName = SettingTextModel.fromJson(data["groupName"]);
     }
@@ -30,30 +30,6 @@ class SettingGroupModel {
     (data["settings"] ?? []).forEach((it) {
       _settings.add(SettingItemModel.fromJson(it));
     });
-  }
-
-  //转换组类别的枚举类型
-  _getGroupEnum(String text) {
-    switch (text) {
-      case "base":
-        return Aria2Group.Base;
-      case "httpFtpSFtp":
-        return Aria2Group.HttpFtpSFtp;
-      case "http":
-        return Aria2Group.Http;
-      case "ftpSFtp":
-        return Aria2Group.FtpSFtp;
-      case "bitTorrent":
-        return Aria2Group.BitTorrent;
-      case "metaLink":
-        return Aria2Group.MetaLink;
-      case "rpc":
-        return Aria2Group.RPC;
-      case "advanced":
-        return Aria2Group.Advanced;
-      case "all":
-        return Aria2Group.ALL;
-    }
   }
 }
 
@@ -129,10 +105,8 @@ class SettingItemModel extends BaseModel {
     if (null != data["unit"]) {
       _unit = SettingTextModel.fromJson(data["unit"]);
     }
-    try {
+    if (null != data["param"]) {
       _param = _itemParams[_type](data["param"] ?? {});
-    } catch (e) {
-      print("");
     }
   }
 }
@@ -247,54 +221,5 @@ class SettingTextModel extends BaseModel {
   SettingTextModel.fromJson(data) {
     _cn = data["cn"];
     _en = data["en"];
-  }
-}
-
-/*
-* aria2设置项分组
-* @author jtechjh
-* @Time 2021/5/13 1:35 下午
-*/
-enum Aria2Group {
-  Base,
-  HttpFtpSFtp,
-  Http,
-  FtpSFtp,
-  BitTorrent,
-  MetaLink,
-  RPC,
-  Advanced,
-  ALL,
-}
-
-/*
-* 扩展aria2设置项分组
-* @author jtechjh
-* @Time 2021/5/13 1:39 下午
-*/
-extension Aria2GroupExtension on Aria2Group {
-  //获取枚举对应的文本
-  String get text {
-    switch (this) {
-      case Aria2Group.Base:
-        return "base";
-      case Aria2Group.HttpFtpSFtp:
-        return "httpFtpSFtp";
-      case Aria2Group.Http:
-        return "http";
-      case Aria2Group.FtpSFtp:
-        return "ftpSFtp";
-      case Aria2Group.BitTorrent:
-        return "bitTorrent";
-      case Aria2Group.MetaLink:
-        return "metaLink";
-      case Aria2Group.RPC:
-        return "rpc";
-      case Aria2Group.Advanced:
-        return "advanced";
-      case Aria2Group.ALL:
-        return "all";
-    }
-    return "";
   }
 }
