@@ -1713,7 +1713,7 @@
       },
       {
         "name": {
-          "cn": "启用黑名单列表",
+          "cn": "启用屏蔽名单",
           "en": ""
         },
         "key": "blocklist-enabled",
@@ -1721,15 +1721,11 @@
       },
       {
         "name": {
-          "cn": "黑名单列表",
+          "cn": "屏蔽列表地址",
           "en": ""
         },
         "key": "blocklist-url",
-        "type": "txt",
-        "param": {
-          "type": "li",
-          "split": ","
-        }
+        "type": "txt"
       }
     ],
     "groupName": {
