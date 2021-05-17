@@ -20,19 +20,14 @@
       },
       {
         "name": {
-          "cn": "启用未完成文件存储",
-          "en": ""
-        },
-        "key": "incomplete-dir-enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "未完成文件存储路径",
+          "cn": "未完成文件路径",
           "en": ""
         },
         "key": "incomplete-dir",
-        "type": "txt"
+        "type": "txt",
+        "param": {
+          "enableKey": "incomplete-dir-enabled"
+        }
       },
       {
         "name": {
@@ -67,21 +62,14 @@
       },
       {
         "name": {
-          "cn": "启用闲置停止做种",
-          "en": ""
-        },
-        "key": "idle-seeding-limit-enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
           "cn": "闲置停止做种",
           "en": "idle-seeding-limit"
         },
         "key": "idle-seeding-limit",
         "type": "txt",
         "param": {
-          "type": "num"
+          "type": "num",
+          "enableKey": "idle-seeding-limit-enabled"
         },
         "unit": {
           "cn": "分钟",
@@ -99,34 +87,19 @@
     "settings": [
       {
         "name": {
-          "cn": "启用上传速度限制",
-          "en": ""
-        },
-        "key": "speed-limit-up-enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
           "cn": "上传速度限制",
           "en": ""
         },
         "key": "speed-limit-up",
         "type": "txt",
         "param": {
-          "type": "num"
+          "type": "num",
+          "enableKey": "speed-limit-up-enabled"
         },
         "unit": {
           "cn": "kBs/s",
           "en": "kB/s"
         }
-      },
-      {
-        "name": {
-          "cn": "启用下载速度限制",
-          "en": ""
-        },
-        "key": "speed-limit-down-enabled",
-        "type": "swt"
       },
       {
         "name": {
@@ -136,7 +109,8 @@
         "key": "speed-limit-down",
         "type": "txt",
         "param": {
-          "type": "num"
+          "type": "num",
+          "enableKey": "speed-limit-down-enabled"
         },
         "unit": {
           "cn": "kBs/s",
@@ -1616,7 +1590,7 @@
             {
               "name": {
                 "cn": "每天",
-                "en": "Evenyday"
+                "en": "Everyday"
               },
               "value": 127
             }
@@ -1713,19 +1687,14 @@
       },
       {
         "name": {
-          "cn": "启用屏蔽名单",
-          "en": ""
-        },
-        "key": "blocklist-enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
           "cn": "屏蔽列表地址",
           "en": ""
         },
         "key": "blocklist-url",
-        "type": "txt"
+        "type": "txt",
+        "param": {
+          "enableKey": "blocklist-enabled"
+        }
       }
     ],
     "groupName": {
@@ -1782,30 +1751,15 @@
     "settings": [
       {
         "name": {
-          "cn": "启用下载队列",
-          "en": ""
-        },
-        "key": "download-queue-enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
           "cn": "下载队列数量",
           "en": ""
         },
         "key": "download-queue-size",
         "type": "txt",
         "param": {
-          "type": "num"
+          "type": "num",
+          "enableKey": "download-queue-enabled"
         }
-      },
-      {
-        "name": {
-          "cn": "启用种子自动停止",
-          "en": ""
-        },
-        "key": "queue-stalled-enabled",
-        "type": "swt"
       },
       {
         "name": {
@@ -1815,7 +1769,8 @@
         "key": "queue-stalled-minutes",
         "type": "txt",
         "param": {
-          "type": "num"
+          "type": "num",
+          "enableKey": "queue-stalled-enabled"
         },
         "unit": {
           "cn": "分钟",

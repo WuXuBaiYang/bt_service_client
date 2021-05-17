@@ -43,8 +43,8 @@ class TMSettingsView extends StatelessWidget {
         return SettingsView(
           controller: controller,
           settings: snap.data,
-          getSettingValue: (key) {
-            return _settingValues[key];
+          getSettingValue: (k) {
+            return _settingValues[k];
           },
         );
       },

@@ -4,11 +4,1432 @@
     "settings": [
       {
         "name": {
-          "cn": "xx",
+          "cn": "",
           "en": ""
         },
-        "key": "xx",
-        "type": "xx"
+        "key": "locale",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "create_subfolder_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "start_paused_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "auto_delete_mode",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "preallocate_all",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "incomplete_files_ext",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "auto_tmm_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "torrent_changed_tmm_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "save_path_changed_tmm_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "category_changed_tmm_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "save_path",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "temp_path_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "temp_path",
+        "type": "txt"
+      },
+      {
+        "key": "scan_dirs",
+        "type": "ctm"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "export_dir",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "export_dir_fin",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "mail_notification_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "mail_notification_sender",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "mail_notification_email",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "mail_notification_smtp",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "mail_notification_ssl_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "mail_notification_auth_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "mail_notification_username",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "mail_notification_password",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "autorun_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "autorun_program",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "queueing_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "max_active_downloads",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "max_active_torrents",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "max_active_uploads",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "dont_count_slow_torrents",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "slow_torrent_dl_rate_threshold",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "slow_torrent_ul_rate_threshold",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "slow_torrent_inactive_timer",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "max_ratio_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "max_ratio",
+        "type": ""
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "max_ratio_act",
+        "type": "sel",
+        "param": {
+          "items": [
+            {
+              "name": {
+                "cn": "暂停种子",
+                "en": "Pause torrent"
+              },
+              "value": 0
+            },
+            {
+              "name": {
+                "cn": "移除种子",
+                "en": "Remove torrent"
+              },
+              "value": 0
+            }
+          ]
+        }
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "listen_port",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "upnp",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "random_port",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "dl_limit",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "up_limit",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "max_connec",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "max_connec_per_torrent",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "max_uploads",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "max_uploads_per_torrent",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "stop_tracker_timeout",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "enable_piece_extent_affinity",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "bittorrent_protocol",
+        "type": "sel",
+        "param": {
+          "items": [
+            {
+              "name": {
+                "cn": "TCP&μTP",
+                "en": "TCP&μTP"
+              },
+              "value": 0
+            },
+            {
+              "name": {
+                "cn": "TCP",
+                "en": "TCP"
+              },
+              "value": 1
+            },
+            {
+              "name": {
+                "cn": "μTP",
+                "en": "μTP"
+              },
+              "value": 2
+            }
+          ]
+        }
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "limit_utp_rate",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "limit_tcp_overhead",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "limit_lan_peers",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "alt_dl_limit",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "alt_up_limit",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "scheduler_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "schedule_from_hour",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "schedule_from_min",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "schedule_to_hour",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "schedule_to_min",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "scheduler_days",
+        "type": "sel",
+        "param": [
+          {
+            "name": {
+              "cn": "每天",
+              "en": "Every day"
+            },
+            "value": 0
+          },
+          {
+            "name": {
+              "cn": "工作日",
+              "en": "Every weekday"
+            },
+            "value": 1
+          },
+          {
+            "name": {
+              "cn": "周末",
+              "en": "Every weekend"
+            },
+            "value": 2
+          },
+          {
+            "name": {
+              "cn": "周一",
+              "en": "Every Monday"
+            },
+            "value": 3
+          },
+          {
+            "name": {
+              "cn": "周二",
+              "en": "Every Tuesday"
+            },
+            "value": 4
+          },
+          {
+            "name": {
+              "cn": "周三",
+              "en": "Every Wednesday"
+            },
+            "value": 5
+          },
+          {
+            "name": {
+              "cn": "周四",
+              "en": "Every Thursday"
+            },
+            "value": 6
+          },
+          {
+            "name": {
+              "cn": "周五",
+              "en": "Every Friday"
+            },
+            "value": 7
+          },
+          {
+            "name": {
+              "cn": "周六",
+              "en": "Every Saturday"
+            },
+            "value": 8
+          },
+          {
+            "name": {
+              "cn": "周日",
+              "en": "Every Sunday"
+            },
+            "value": 9
+          }
+        ]
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "dht",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "pex",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "lsd",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "encryption",
+        "type": "sel",
+        "param": {
+          "items": [
+            {
+              "name": {
+                "cn": "允许加密",
+                "en": "Prefer encryption"
+              },
+              "value": 0
+            },
+            {
+              "name": {
+                "cn": "强制加密",
+                "en": "Force encryption on"
+              },
+              "value": 1
+            },
+            {
+              "name": {
+                "cn": "禁止加密",
+                "en": "Force encryption off"
+              },
+              "value": 2
+            }
+          ]
+        }
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "anonymous_mode",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "proxy_type",
+        "type": "sel",
+        "param": {
+          "items": [
+            {
+              "name": {
+                "cn": "无",
+                "en": "Disabled"
+              },
+              "value": -1
+            },
+            {
+              "name": {
+                "cn": "http无授权",
+                "en": ""
+              },
+              "value": 1
+            },
+            {
+              "name": {
+                "cn": "socks5无授权",
+                "en": ""
+              },
+              "value": 2
+            },
+            {
+              "name": {
+                "cn": "http授权",
+                "en": ""
+              },
+              "value": 3
+            },
+            {
+              "name": {
+                "cn": "socks5授权",
+                "en": ""
+              },
+              "value": 4
+            },
+            {
+              "name": {
+                "cn": "socks4无授权",
+                "en": ""
+              },
+              "value": 5
+            }
+          ]
+        }
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "proxy_ip",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "proxy_port",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "proxy_peer_connections",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "proxy_auth_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "proxy_username",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "proxy_password",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "proxy_torrents_only",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "ip_filter_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "ip_filter_path",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "ip_filter_trackers",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "web_ui_domain_list",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "web_ui_address",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "web_ui_port",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "web_ui_upnp",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "web_ui_username",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "web_ui_password",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "web_ui_csrf_protection_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "web_ui_clickjacking_protection_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "web_ui_secure_cookie_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "web_ui_max_auth_fail_count",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "web_ui_ban_duration",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "web_ui_session_timeout",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "web_ui_host_header_validation_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "bypass_local_auth",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "bypass_auth_subnet_whitelist_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "bypass_auth_subnet_whitelist",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "alternative_webui_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "alternative_webui_path",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "use_https",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "ssl_key",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "ssl_cert",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "web_ui_https_key_path",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "web_ui_https_cert_path",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "dyndns_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "dyndns_service",
+        "type": "sel",
+        "param": {
+          "items": [
+            {
+              "name": {
+                "cn": "使用DyDNS",
+                "en": "Use DyDNS"
+              },
+              "value": 0
+            },
+            {
+              "name": {
+                "cn": "使用NOIP",
+                "en": "Use NOIP"
+              },
+              "value": 1
+            }
+          ]
+        }
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "dyndns_username",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "dyndns_password",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "dyndns_domain",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "rss_refresh_interval",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "rss_max_articles_per_feed",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "rss_processing_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "rss_auto_downloading_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "rss_download_repack_proper_episodes",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "rss_smart_episode_filters",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "add_trackers_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "add_trackers",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "web_ui_use_custom_http_headers_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "web_ui_custom_http_headers",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "max_seeding_time_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "max_seeding_time",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "announce_ip",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "announce_to_all_tiers",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "announce_to_all_trackers",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "async_io_threads",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "banned_IPs",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "checking_memory_use",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "current_interface_address",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "current_network_interface",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "disk_cache",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "disk_cache_ttl",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "embedded_tracker_port",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "enable_coalesce_read_write",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "enable_embedded_tracker",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "enable_multi_connections_from_same_ip",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "enable_os_cache",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "enable_upload_suggestions",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "file_pool_size",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "outgoing_ports_max",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "outgoing_ports_min",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "recheck_completed_torrents",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "resolve_peer_countries",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "save_resume_data_interval",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "send_buffer_low_watermark",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "send_buffer_watermark",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "send_buffer_watermark_factor",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "socket_backlog_size",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "upload_choking_algorithm",
+        "type": "sel",
+      "param": {
+        "items": [
+          {
+            "name": {
+              "cn": "Round-robin",
+              "en": "Round-robin"
+            },
+            "value": 0
+          },
+          {
+            "name": {
+              "cn": "Fastest upload",
+              "en": "Fastest upload"
+            },
+            "value": 1
+          },
+          {
+            "name": {
+              "cn": "Anti-leech",
+              "en": "Anti-leech"
+            },
+            "value": 2
+          }
+        ]
+      }
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "upload_slots_behavior",
+        "type": "sel",
+        "param": {
+          "items": [
+            {
+              "name": {
+                "cn": "Fixed slots",
+                "en": "Fixed slots"
+              },
+              "value": 0
+            },
+            {
+              "name": {
+                "cn": "Upload rate based",
+                "en": "Upload rate based"
+              },
+              "value": 1
+            }
+          ]
+        }
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "upnp_lease_duration",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "utp_tcp_mixed_mode",
+        "type": "sel",
+        "param": {
+          "items": [
+            {
+              "name": {
+                "cn": "Prefer TCP",
+                "en": "Prefer TCP"
+              },
+              "value": 0
+            },
+            {
+              "name": {
+                "cn": "Peer proportional",
+                "en": "Peer proportional"
+              },
+              "value": 1
+            }
+          ]
+        }
       }
     ],
     "groupName": {

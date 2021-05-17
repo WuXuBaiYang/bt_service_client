@@ -9,6 +9,9 @@ import 'package:flutter/services.dart';
 //获取设置项值
 typedef GetSettingValue = dynamic Function(String key);
 
+//自定义子项构建器
+typedef CustomItemBuilder = CustomBuilder Function(Map param);
+
 /*
 * 通用设置页面视图
 * @author jtechjh
@@ -24,11 +27,15 @@ class SettingsView extends StatefulWidget {
   //获取设置项值
   final GetSettingValue getSettingValue;
 
+  //自定义构建方法
+  final CustomItemBuilder customItemBuilder;
+
   const SettingsView({
     Key key,
     @required this.controller,
     @required this.settings,
     @required this.getSettingValue,
+    this.customItemBuilder,
   }) : super(key: key);
 
   @override
@@ -52,6 +59,7 @@ class _SettingsViewState extends State<SettingsView> {
             if (item.isText) return _buildTextItem(item, i);
             if (item.isSelect) return _buildSelectItem(item, i);
             if (item.isSwitch) return _buildSwitchItem(item, i);
+            if (item.isCustom) return _buildCustomItem(item, i);
             return Container();
           }),
     );
@@ -66,41 +74,74 @@ class _SettingsViewState extends State<SettingsView> {
   //构建配置子项-文本
   _buildTextItem(SettingItemModel item, int index) {
     TextSettingParam textParam = item.param;
-    return FormField<String>(
-      initialValue: _getItemValue(item.key, def: ""),
+    return FormField<_TextObject>(
+      initialValue: _TextObject(
+        _getItemValue(item.key, def: ""),
+        _getItemValue(textParam?.enableKey ?? "", def: "true"),
+      ),
       builder: (f) {
-        var text = textParam.isList
-            ? "#共有 ${f.value.split(textParam.split).length} 条数据"
-            : f.value;
+        var text = textParam?.isList ?? false
+            ? "#共有 ${f.value.text.split(textParam.split).length} 条数据"
+            : f.value.text;
         return _buildDefaultItem(
           item,
           isDark: index.isOdd,
-          direction: Axis.vertical,
-          isEdited: _hasEdited(item.key, f.value, def: ""),
-          child: TextField(
-            readOnly: true,
-            obscureText: textParam.isPassword,
-            controller: TextEditingController(text: text),
-            keyboardType: _inputType[textParam.type],
-            decoration: InputDecoration(
-              isDense: true,
-              suffixIcon: Text(
-                item.unit?.text ?? "",
-                style: TextStyle(color: Colors.blueAccent),
-              ),
-              suffixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
-            ),
-            onTap: () async {
-              var result = f.value;
-              if (textParam.isList) {
-                result = await _showMultiTextSheet(item, f.value);
-              } else {
-                result = await _showTextEditSheet(item, f.value);
-              }
-              widget.controller?.saveFormField(item.key, result);
-              f.didChange(result);
-            },
-          ),
+          isEdited: (_hasEdited(item.key, f.value.text, def: "") ||
+              _hasEdited(textParam?.enableKey ?? "", f.value.enable,
+                  def: true)),
+          endChildren: [
+            (textParam?.hasEnableKey ?? false)
+                ? Align(
+                    alignment: Alignment.centerRight,
+                    child: Switch(
+                      value: f.value.isEnable,
+                      onChanged: (v) {
+                        var obj = f.value;
+                        obj.enable = "$v";
+                        widget.controller
+                            ?.saveFormField(textParam.enableKey, obj.enable);
+                        f.didChange(obj);
+                      },
+                    ),
+                  )
+                : Container(),
+          ],
+          bottomChildren: [
+            f.value.isEnable
+                ? TextField(
+                    readOnly: true,
+                    enabled: f.value.isEnable,
+                    obscureText: textParam?.isPassword ?? false,
+                    controller: TextEditingController(text: text),
+                    keyboardType: _inputType[textParam?.type ?? ""],
+                    decoration: InputDecoration(
+                      isDense: true,
+                      suffixIcon: Text(
+                        item.unit?.text ?? "",
+                        style: TextStyle(color: Colors.blueAccent),
+                      ),
+                      suffixIconConstraints:
+                          BoxConstraints(minWidth: 0, minHeight: 0),
+                    ),
+                    onTap: () async {
+                      var result = f.value;
+                      if (textParam?.isList ?? false) {
+                        result.text =
+                            await _showMultiTextSheet(item, f.value.text);
+                      } else {
+                        result.text =
+                            await _showTextEditSheet(item, f.value.text);
+                      }
+                      widget.controller?.saveFormField(item.key, result.text);
+                      if (textParam?.hasEnableKey ?? false) {
+                        widget.controller
+                            ?.saveFormField(textParam.enableKey, result.enable);
+                      }
+                      f.didChange(result);
+                    },
+                  )
+                : Container(),
+          ],
         );
       },
       onSaved: (v) {
@@ -124,16 +165,13 @@ class _SettingsViewState extends State<SettingsView> {
             child: Card(
               child: _buildDefaultItem(
                 item,
-                direction: Axis.vertical,
-                children: [
-                  Expanded(
-                    child: FocusScope(
-                      child: ListView.builder(
-                        controller: controller,
-                        itemCount: values.length,
-                        itemBuilder: (_, i) => _buildMultiTextItem(
-                            c, item, values, nodes, i, state),
-                      ),
+                bottomChildren: [
+                  FocusScope(
+                    child: ListView.builder(
+                      controller: controller,
+                      itemCount: values.length,
+                      itemBuilder: (_, i) =>
+                          _buildMultiTextItem(c, item, values, nodes, i, state),
                     ),
                   ),
                   Row(
@@ -233,23 +271,24 @@ class _SettingsViewState extends State<SettingsView> {
               child: Card(
                 child: _buildDefaultItem(
                   item,
-                  direction: Axis.vertical,
-                  child: TextField(
-                    autofocus: true,
-                    controller: controller,
-                    textInputAction: TextInputAction.done,
-                    keyboardType: _inputType[textParam.type],
-                    decoration: InputDecoration(
-                      suffixText: item.unit?.text ?? "",
-                      suffixStyle: TextStyle(color: Colors.blueAccent),
-                      suffixIcon: IconButton(
-                        color: Colors.blueAccent,
-                        icon: Icon(Icons.done),
-                        onPressed: () => RouteTools.pop(controller.text),
+                  bottomChildren: [
+                    TextField(
+                      autofocus: true,
+                      controller: controller,
+                      textInputAction: TextInputAction.done,
+                      keyboardType: _inputType[textParam?.type ?? ""],
+                      decoration: InputDecoration(
+                        suffixText: item.unit?.text ?? "",
+                        suffixStyle: TextStyle(color: Colors.blueAccent),
+                        suffixIcon: IconButton(
+                          color: Colors.blueAccent,
+                          icon: Icon(Icons.done),
+                          onPressed: () => RouteTools.pop(controller.text),
+                        ),
                       ),
+                      onSubmitted: (v) => RouteTools.pop(v),
                     ),
-                    onSubmitted: (v) => RouteTools.pop(v),
-                  ),
+                  ],
                 ),
               ),
             ),
@@ -272,8 +311,8 @@ class _SettingsViewState extends State<SettingsView> {
         item,
         isDark: index.isOdd,
         isEdited: _hasEdited(item.key, "${f.value}"),
-        child: Expanded(
-          child: Align(
+        endChildren: [
+          Align(
             alignment: Alignment.centerRight,
             child: Switch(
               value: f.value,
@@ -283,7 +322,7 @@ class _SettingsViewState extends State<SettingsView> {
               },
             ),
           ),
-        ),
+        ],
       ),
       onSaved: (v) {
         if (_hasEdited(item.key, "$v")) {
@@ -302,8 +341,8 @@ class _SettingsViewState extends State<SettingsView> {
         item,
         isDark: index.isOdd,
         isEdited: _hasEdited(item.key, f.value),
-        child: Expanded(
-          child: Align(
+        endChildren: [
+          Align(
             alignment: Alignment.centerRight,
             child: DropdownButton(
               value: f.value,
@@ -319,11 +358,32 @@ class _SettingsViewState extends State<SettingsView> {
               },
             ),
           ),
-        ),
+        ],
       ),
       onSaved: (v) {
         if (_hasEdited(item.key, v)) {
           widget.controller?.saveFormField(item.key, v);
+        }
+      },
+    );
+  }
+
+  //构建配置子项-自定义
+  _buildCustomItem(SettingItemModel item, int index) {
+    if (null == widget.customItemBuilder) return Container();
+    var builder = widget.customItemBuilder(item.param);
+    return FormField<dynamic>(
+      initialValue: builder.initialValue,
+      builder: (f) => _buildDefaultItem(
+        item,
+        isDark: index.isOdd,
+        isEdited: builder.hasEdited(f.value),
+        endChildren: builder.buildEndChildren?.call(f.value) ?? [],
+        bottomChildren: builder.buildBottomChildren?.call(f.value) ?? [],
+      ),
+      onSaved: (v) {
+        if (builder.hasEdited(v)) {
+          builder.onSaved(widget.controller, v);
         }
       },
     );
@@ -342,45 +402,48 @@ class _SettingsViewState extends State<SettingsView> {
   //构建默认子项结构
   _buildDefaultItem(
     SettingItemModel item, {
-    Widget child,
-    List<Widget> children = const [],
-    Axis direction = Axis.horizontal,
+    List<Widget> endChildren = const [],
+    List<Widget> bottomChildren = const [],
     bool isEdited = false,
     bool isDark = false,
   }) {
     return Container(
       color: isDark ? Colors.grey[200] : Colors.transparent,
       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-      child: Flex(
-        direction: direction,
+      child: Column(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+          Row(
             children: [
-              Row(
-                children: [
-                  Text(
-                    "${isEdited ? "* " : ""}${item.name?.text ?? ""}",
-                    style:
-                        TextStyle(color: isEdited ? Colors.blueAccent : null),
-                  ),
-                  _buildSettingItemAction(Icons.message, item.alert),
-                  _buildSettingItemAction(Icons.info, item.info),
-                ],
-              ),
-              Text(
-                "(${item.key})",
-                style: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  color: Colors.grey,
-                  fontSize: 12,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          "${isEdited ? "* " : ""}${item.name?.text ?? ""}",
+                          style: TextStyle(
+                              color: isEdited ? Colors.blueAccent : null),
+                        ),
+                        _buildSettingItemAction(Icons.message, item.alert),
+                        _buildSettingItemAction(Icons.info, item.info),
+                      ],
+                    ),
+                    Text(
+                      "(${item.key})",
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        color: Colors.grey,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
-          child ?? Container(),
-        ]..addAll(children),
+              )
+            ]..addAll(endChildren),
+          )
+        ]..addAll(bottomChildren),
       ),
     );
   }
@@ -424,7 +487,6 @@ class SettingsViewController {
   GlobalKey<FormState> get formKey => _formKey;
 
   //保存表单元素内容
-  @protected
   saveFormField(String key, dynamic value) => _optionsMap[key] = value;
 
   //获取已编辑的元素内容
@@ -439,4 +501,45 @@ class SettingsViewController {
       ..save();
     return _optionsMap;
   }
+}
+
+//自定义视图构建工具
+class CustomBuilder {
+  //初始值
+  dynamic initialValue;
+
+  //是否编辑回调
+  bool Function(dynamic value) hasEdited;
+
+  //构建尾部子视图集合
+  List<Widget> Function(dynamic value) buildEndChildren;
+
+  //构建底部子视图集合
+  List<Widget> Function(dynamic value) buildBottomChildren;
+
+  //保存事件
+  void Function(SettingsViewController controller, dynamic value) onSaved;
+
+  CustomBuilder({
+    @required this.initialValue,
+    @required this.hasEdited,
+    @required this.onSaved,
+    this.buildEndChildren,
+    this.buildBottomChildren,
+  });
+}
+
+/*
+* 文本对象
+* @author jtechjh
+* @Time 2021/5/17 4:11 下午
+*/
+class _TextObject {
+  String text;
+  String enable;
+
+  //判断是否可用
+  bool get isEnable => enable == "true";
+
+  _TextObject(this.text, this.enable);
 }

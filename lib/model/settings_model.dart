@@ -38,6 +38,7 @@ final Map<String, Function> _itemParams = {
   "txt": (json) => TextSettingParam.fromJson(json),
   "sel": (json) => SelectSettingParam.fromJson(json),
   "swt": (json) => SwitchSettingParam.fromJson(json),
+  "ctm": (json) => json,
 };
 
 /*
@@ -90,6 +91,9 @@ class SettingItemModel extends BaseModel {
   //判断类型是否为开关
   bool get isSwitch => _type == "swt";
 
+  //判断类型是否为自定义
+  bool get isCustom => _type == "ctm";
+
   SettingItemModel.fromJson(data) {
     _key = data["key"];
     _type = data["type"];
@@ -123,9 +127,17 @@ class TextSettingParam extends _BaseItemParam {
   //文本分割方式
   String _split;
 
+  //可控开关key
+  String _enableKey;
+
   String get type => _type;
 
   String get split => _split;
+
+  String get enableKey => _enableKey;
+
+  //判断是否存在可控开关
+  bool get hasEnableKey => null != _enableKey;
 
   //判断是否为集合
   bool get isList => _type == "li";
@@ -136,6 +148,7 @@ class TextSettingParam extends _BaseItemParam {
   TextSettingParam.fromJson(data) {
     _type = data["type"];
     _split = data["split"];
+    _enableKey = data["enableKey"];
   }
 }
 

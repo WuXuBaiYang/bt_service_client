@@ -42,9 +42,7 @@ class Aria2SettingsView extends StatelessWidget {
         return SettingsView(
           controller: controller,
           settings: snap.data,
-          getSettingValue: (key) {
-            return _settingValues[key];
-          },
+          getSettingValue: (k) => _settingValues[k],
         );
       },
     );
