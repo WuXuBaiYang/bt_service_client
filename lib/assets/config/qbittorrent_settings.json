@@ -87,7 +87,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "导出路径",
           "en": ""
         },
         "key": "export_dir",
@@ -95,7 +95,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "最终导出路径",
           "en": ""
         },
         "key": "export_dir_fin",
@@ -103,7 +103,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "下载完成时发送邮件通知",
           "en": ""
         },
         "key": "mail_notification_enabled",
@@ -111,7 +111,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "邮件通知发送者",
           "en": ""
         },
         "key": "mail_notification_sender",
@@ -119,7 +119,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "邮件通知接收者",
           "en": ""
         },
         "key": "mail_notification_email",
@@ -127,7 +127,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "邮件通知smtp服务器",
           "en": ""
         },
         "key": "mail_notification_smtp",
@@ -135,7 +135,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "邮件通知使用ssl协议",
           "en": ""
         },
         "key": "mail_notification_ssl_enabled",
@@ -143,7 +143,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "邮件通知授权",
           "en": ""
         },
         "key": "mail_notification_auth_enabled",
@@ -151,7 +151,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "授权用户名",
           "en": ""
         },
         "key": "mail_notification_username",
@@ -159,7 +159,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "授权密码",
           "en": ""
         },
         "key": "mail_notification_password",
@@ -167,129 +167,31 @@
       },
       {
         "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "autorun_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
+          "cn": "完成时自动运行外部程序",
           "en": ""
         },
         "key": "autorun_program",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "queueing_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "max_active_downloads",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "max_active_torrents",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "max_active_uploads",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "dont_count_slow_torrents",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "slow_torrent_dl_rate_threshold",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "slow_torrent_ul_rate_threshold",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "slow_torrent_inactive_timer",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "max_ratio_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "max_ratio",
-        "type": ""
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "max_ratio_act",
-        "type": "sel",
+        "type": "txt",
         "param": {
-          "items": [
-            {
-              "name": {
-                "cn": "暂停种子",
-                "en": "Pause torrent"
-              },
-              "value": 0
-            },
-            {
-              "name": {
-                "cn": "移除种子",
-                "en": "Remove torrent"
-              },
-              "value": 0
-            }
-          ]
+          "enableKey": "autorun_enabled"
+        },
+        "alert": {
+          "cn": "支持的参数（区分大小写）：            \n    %N：Torrent 名称\n    %L：分类\n    %G：标签（以逗号分隔）\n    %F：内容路径（与多文件 torrent 的根目录相同）\n    %R：根目录（第一个 torrent 的子目录路径）\n    %D：保存路径\n    %C：文件数\n    %Z：Torrent 大小（字节）\n    %T：当前 tracker\n    %I：哈希值\n提示：使用引号将参数扩起以防止文本被空白符分割（例如：\"%N\"）",
+          "en": ""
         }
-      },
+      }
+    ],
+    "groupName": {
+      "cn": "下载",
+      "en": "Download"
+    }
+  },
+  {
+    "group": "connect",
+    "settings": [
       {
         "name": {
-          "cn": "",
+          "cn": "监听端口",
           "en": ""
         },
         "key": "listen_port",
@@ -297,7 +199,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "使用UPnP/NAT-PMP转发",
           "en": ""
         },
         "key": "upnp",
@@ -305,7 +207,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "启动时使用随机端口号",
           "en": ""
         },
         "key": "random_port",
@@ -313,23 +215,7 @@
       },
       {
         "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "dl_limit",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "up_limit",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
+          "cn": "全局最大连接数",
           "en": ""
         },
         "key": "max_connec",
@@ -337,7 +223,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "每个种子最大连接数",
           "en": ""
         },
         "key": "max_connec_per_torrent",
@@ -345,7 +231,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "全局最大上传数",
           "en": ""
         },
         "key": "max_uploads",
@@ -353,7 +239,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "每个种子最大上传数",
           "en": ""
         },
         "key": "max_uploads_per_torrent",
@@ -361,23 +247,7 @@
       },
       {
         "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "stop_tracker_timeout",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "enable_piece_extent_affinity",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
+          "cn": "下载协议",
           "en": ""
         },
         "key": "bittorrent_protocol",
@@ -410,7 +280,142 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "代理服务器类型",
+          "en": ""
+        },
+        "key": "proxy_type",
+        "type": "sel",
+        "param": {
+          "items": [
+            {
+              "name": {
+                "cn": "无",
+                "en": "Disabled"
+              },
+              "value": -1
+            },
+            {
+              "name": {
+                "cn": "http无授权",
+                "en": ""
+              },
+              "value": 1
+            },
+            {
+              "name": {
+                "cn": "socks5无授权",
+                "en": ""
+              },
+              "value": 2
+            },
+            {
+              "name": {
+                "cn": "http授权",
+                "en": ""
+              },
+              "value": 3
+            },
+            {
+              "name": {
+                "cn": "socks5授权",
+                "en": ""
+              },
+              "value": 4
+            },
+            {
+              "name": {
+                "cn": "socks4无授权",
+                "en": ""
+              },
+              "value": 5
+            }
+          ]
+        }
+      },
+      {
+        "name": {
+          "cn": "代理服务器ip",
+          "en": ""
+        },
+        "key": "proxy_ip",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "代理服务器端口",
+          "en": ""
+        },
+        "key": "proxy_port",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "使用代理服务器进行peer连接",
+          "en": ""
+        },
+        "key": "proxy_peer_connections",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "只对种子使用代理",
+          "en": ""
+        },
+        "key": "proxy_torrents_only",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "代理服务器授权",
+          "en": ""
+        },
+        "key": "proxy_auth_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "代理服务器用户名",
+          "en": ""
+        },
+        "key": "proxy_username",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "代理服务器密码",
+          "en": ""
+        },
+        "key": "proxy_password",
+        "type": "txt"
+      }
+    ],
+    "groupName": {
+      "cn": "连接",
+      "en": "Connect"
+    }
+  },
+  {
+    "group": "speed",
+    "settings": [
+      {
+        "name": {
+          "cn": "全局下载速度限制",
+          "en": ""
+        },
+        "key": "dl_limit",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "全局上传速度限制",
+          "en": ""
+        },
+        "key": "up_limit",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "对utp速度限制",
           "en": ""
         },
         "key": "limit_utp_rate",
@@ -418,7 +423,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "对tcp开销限制",
           "en": ""
         },
         "key": "limit_tcp_overhead",
@@ -426,7 +431,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "对peers限制",
           "en": ""
         },
         "key": "limit_lan_peers",
@@ -434,7 +439,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "备用下载速度",
           "en": ""
         },
         "key": "alt_dl_limit",
@@ -442,7 +447,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "备用上传速度",
           "en": ""
         },
         "key": "alt_up_limit",
@@ -450,7 +455,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "启用备用速度限制",
           "en": ""
         },
         "key": "scheduler_enabled",
@@ -458,7 +463,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "备用速度开始小时",
           "en": ""
         },
         "key": "schedule_from_hour",
@@ -466,7 +471,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "备用速度开始分钟",
           "en": ""
         },
         "key": "schedule_from_min",
@@ -474,7 +479,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "备用速度结束小时",
           "en": ""
         },
         "key": "schedule_to_hour",
@@ -482,7 +487,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "备用速度结束分钟",
           "en": ""
         },
         "key": "schedule_to_min",
@@ -490,7 +495,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "备用速度周期",
           "en": ""
         },
         "key": "scheduler_days",
@@ -570,7 +575,39 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "ip过滤规则路径",
+          "en": ""
+        },
+        "key": "ip_filter_path",
+        "type": "txt",
+        "param": {
+          "enableKey": "ip_filter_enabled"
+        },
+        "alert": {
+          "cn": "支持 .dat .p2p .p2b 文件",
+          "en": ""
+        }
+      },
+      {
+        "name": {
+          "cn": "匹配tracker",
+          "en": ""
+        },
+        "key": "ip_filter_trackers",
+        "type": "swt"
+      }
+    ],
+    "groupName": {
+      "cn": "速度",
+      "en": "Speed"
+    }
+  },
+  {
+    "group": "bitTorrent",
+    "settings": [
+      {
+        "name": {
+          "cn": "启用去中心化网络(DHT)",
           "en": ""
         },
         "key": "dht",
@@ -578,7 +615,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "启用用户交换(PeX)",
           "en": ""
         },
         "key": "pex",
@@ -586,7 +623,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "启用本地用户发现",
           "en": ""
         },
         "key": "lsd",
@@ -594,7 +631,7 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "加密模式",
           "en": ""
         },
         "key": "encryption",
@@ -627,810 +664,12 @@
       },
       {
         "name": {
-          "cn": "",
+          "cn": "启用匿名模式",
           "en": ""
         },
         "key": "anonymous_mode",
         "type": "swt"
       },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "proxy_type",
-        "type": "sel",
-        "param": {
-          "items": [
-            {
-              "name": {
-                "cn": "无",
-                "en": "Disabled"
-              },
-              "value": -1
-            },
-            {
-              "name": {
-                "cn": "http无授权",
-                "en": ""
-              },
-              "value": 1
-            },
-            {
-              "name": {
-                "cn": "socks5无授权",
-                "en": ""
-              },
-              "value": 2
-            },
-            {
-              "name": {
-                "cn": "http授权",
-                "en": ""
-              },
-              "value": 3
-            },
-            {
-              "name": {
-                "cn": "socks5授权",
-                "en": ""
-              },
-              "value": 4
-            },
-            {
-              "name": {
-                "cn": "socks4无授权",
-                "en": ""
-              },
-              "value": 5
-            }
-          ]
-        }
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "proxy_ip",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "proxy_port",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "proxy_peer_connections",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "proxy_auth_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "proxy_username",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "proxy_password",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "proxy_torrents_only",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "ip_filter_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "ip_filter_path",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "ip_filter_trackers",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "web_ui_domain_list",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "web_ui_address",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "web_ui_port",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "web_ui_upnp",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "web_ui_username",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "web_ui_password",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "web_ui_csrf_protection_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "web_ui_clickjacking_protection_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "web_ui_secure_cookie_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "web_ui_max_auth_fail_count",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "web_ui_ban_duration",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "web_ui_session_timeout",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "web_ui_host_header_validation_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "bypass_local_auth",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "bypass_auth_subnet_whitelist_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "bypass_auth_subnet_whitelist",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "alternative_webui_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "alternative_webui_path",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "use_https",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "ssl_key",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "ssl_cert",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "web_ui_https_key_path",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "web_ui_https_cert_path",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "dyndns_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "dyndns_service",
-        "type": "sel",
-        "param": {
-          "items": [
-            {
-              "name": {
-                "cn": "使用DyDNS",
-                "en": "Use DyDNS"
-              },
-              "value": 0
-            },
-            {
-              "name": {
-                "cn": "使用NOIP",
-                "en": "Use NOIP"
-              },
-              "value": 1
-            }
-          ]
-        }
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "dyndns_username",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "dyndns_password",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "dyndns_domain",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "rss_refresh_interval",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "rss_max_articles_per_feed",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "rss_processing_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "rss_auto_downloading_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "rss_download_repack_proper_episodes",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "rss_smart_episode_filters",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "add_trackers_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "add_trackers",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "web_ui_use_custom_http_headers_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "web_ui_custom_http_headers",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "max_seeding_time_enabled",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "max_seeding_time",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "announce_ip",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "announce_to_all_tiers",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "announce_to_all_trackers",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "async_io_threads",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "banned_IPs",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "checking_memory_use",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "current_interface_address",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "current_network_interface",
-        "type": "txt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "disk_cache",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "disk_cache_ttl",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "embedded_tracker_port",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "enable_coalesce_read_write",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "enable_embedded_tracker",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "enable_multi_connections_from_same_ip",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "enable_os_cache",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "enable_upload_suggestions",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "file_pool_size",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "outgoing_ports_max",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "outgoing_ports_min",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "recheck_completed_torrents",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "resolve_peer_countries",
-        "type": "swt"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "save_resume_data_interval",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "send_buffer_low_watermark",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "send_buffer_watermark",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "send_buffer_watermark_factor",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "socket_backlog_size",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "upload_choking_algorithm",
-        "type": "sel",
-        "param": {
-          "items": [
-            {
-              "name": {
-                "cn": "Round-robin",
-                "en": "Round-robin"
-              },
-              "value": 0
-            },
-            {
-              "name": {
-                "cn": "Fastest upload",
-                "en": "Fastest upload"
-              },
-              "value": 1
-            },
-            {
-              "name": {
-                "cn": "Anti-leech",
-                "en": "Anti-leech"
-              },
-              "value": 2
-            }
-          ]
-        }
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "upload_slots_behavior",
-        "type": "sel",
-        "param": {
-          "items": [
-            {
-              "name": {
-                "cn": "Fixed slots",
-                "en": "Fixed slots"
-              },
-              "value": 0
-            },
-            {
-              "name": {
-                "cn": "Upload rate based",
-                "en": "Upload rate based"
-              },
-              "value": 1
-            }
-          ]
-        }
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "upnp_lease_duration",
-        "type": "num"
-      },
-      {
-        "name": {
-          "cn": "",
-          "en": ""
-        },
-        "key": "utp_tcp_mixed_mode",
-        "type": "sel",
-        "param": {
-          "items": [
-            {
-              "name": {
-                "cn": "Prefer TCP",
-                "en": "Prefer TCP"
-              },
-              "value": 0
-            },
-            {
-              "name": {
-                "cn": "Peer proportional",
-                "en": "Peer proportional"
-              },
-              "value": 1
-            }
-          ]
-        }
-      }
-    ],
-    "groupName": {
-      "cn": "下载",
-      "en": "Download"
-    }
-  },
-  {
-    "group": "connect",
-    "settings": [],
-    "groupName": {
-      "cn": "连接",
-      "en": "Connect"
-    }
-  },
-  {
-    "group": "speed",
-    "settings": [],
-    "groupName": {
-      "cn": "速度",
-      "en": "Speed"
-    }
-  },
-  {
-    "group": "bitTorrent",
-    "settings": [
       {
         "name": {
           "cn": "创建子目录",
@@ -1446,6 +685,135 @@
         },
         "key": "start_paused_enabled",
         "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "下载队列",
+          "en": ""
+        },
+        "key": "queueing_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "最大活动下载数",
+          "en": ""
+        },
+        "key": "max_active_downloads",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "最大活动种子数",
+          "en": ""
+        },
+        "key": "max_active_torrents",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "最大活动上传数",
+          "en": ""
+        },
+        "key": "max_active_uploads",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "慢速种子不计入限制内",
+          "en": ""
+        },
+        "key": "dont_count_slow_torrents",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "慢速种子下载阈值",
+          "en": ""
+        },
+        "key": "slow_torrent_dl_rate_threshold",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "慢速种子上载阈值",
+          "en": ""
+        },
+        "key": "slow_torrent_ul_rate_threshold",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "慢速种子非活动计时",
+          "en": ""
+        },
+        "key": "slow_torrent_inactive_timer",
+        "type": "num",
+        "unit": {
+          "cn": "秒",
+          "en": "sec"
+        }
+      },
+      {
+        "name": {
+          "cn": "做种最大分享率",
+          "en": ""
+        },
+        "key": "max_ratio",
+        "type": "num",
+        "param": {
+          "enableKey": "max_ratio_enabled"
+        }
+      },
+      {
+        "name": {
+          "cn": "最大做种分享率达成后",
+          "en": ""
+        },
+        "key": "max_ratio_act",
+        "type": "sel",
+        "param": {
+          "items": [
+            {
+              "name": {
+                "cn": "暂停种子",
+                "en": "Pause torrent"
+              },
+              "value": 0
+            },
+            {
+              "name": {
+                "cn": "移除种子",
+                "en": "Remove torrent"
+              },
+              "value": 0
+            }
+          ]
+        }
+      },
+      {
+        "name": {
+          "cn": "",
+          "en": ""
+        },
+        "key": "max_seeding_time",
+        "type": "num",
+        "param": {
+          "enableKey": "max_seeding_time_enabled"
+        }
+      },
+      {
+        "name": {
+          "cn": "添加tracker到新的下载",
+          "en": ""
+        },
+        "key": "add_trackers",
+        "type": "txt",
+        "param": {
+          "enableKey": "add_trackers_enabled",
+          "type": "li",
+          "split": "\n"
+        }
       }
     ],
     "groupName": {
@@ -1455,7 +823,57 @@
   },
   {
     "group": "rss",
-    "settings": [],
+    "settings": [
+      {
+        "name": {
+          "cn": "启用RSS订阅",
+          "en": ""
+        },
+        "key": "rss_processing_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "RSS更新间隔",
+          "en": ""
+        },
+        "key": "rss_refresh_interval",
+        "type": "num",
+        "unit": {
+          "cn": "分钟",
+          "en": "min"
+        }
+      },
+      {
+        "name": {
+          "cn": "每个订阅源最大文章数",
+          "en": ""
+        },
+        "key": "rss_max_articles_per_feed",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "启用RSS自动下载",
+          "en": ""
+        },
+        "key": "rss_auto_downloading_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "下载REPACK/PROPER版剧集",
+          "en": ""
+        },
+        "key": "rss_smart_episode_filters",
+        "type": "txt",
+        "param": {
+          "enableKey": "rss_download_repack_proper_episodes",
+          "type": "li",
+          "split": "\n"
+        }
+      }
+    ],
     "groupName": {
       "cn": "RSS",
       "en": "RSS"
@@ -1793,6 +1211,232 @@
             }
           ]
         }
+      },
+      {
+        "name": {
+          "cn": "IP地址",
+          "en": ""
+        },
+        "key": "web_ui_address",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "端口",
+          "en": ""
+        },
+        "key": "web_ui_port",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "使用路由器UPnP/NAT-PMP转发",
+          "en": ""
+        },
+        "key": "web_ui_upnp",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "授权用户名",
+          "en": ""
+        },
+        "key": "web_ui_username",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "授权密码",
+          "en": ""
+        },
+        "key": "web_ui_password",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "启用跨站请求伪造(CSRF)保护",
+          "en": ""
+        },
+        "key": "web_ui_csrf_protection_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "启用点击劫持保护",
+          "en": ""
+        },
+        "key": "web_ui_clickjacking_protection_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "启用cookie安全标志(HTTPS)",
+          "en": ""
+        },
+        "key": "web_ui_secure_cookie_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "授权失败次数",
+          "en": ""
+        },
+        "key": "web_ui_max_auth_fail_count",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "连续授权失败等待时间",
+          "en": ""
+        },
+        "key": "web_ui_ban_duration",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "session超时时间",
+          "en": ""
+        },
+        "key": "web_ui_session_timeout",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "HostHeader属性验证域名列表",
+          "en": ""
+        },
+        "key": "web_ui_domain_list",
+        "type": "txt",
+        "param": {
+          "type": "li",
+          "split": ",",
+          "enableKey": "web_ui_host_header_validation_enabled"
+        }
+      },
+      {
+        "name": {
+          "cn": "对本地主机跳过授权验证",
+          "en": ""
+        },
+        "key": "bypass_local_auth",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "ip白名单跳过授权验证",
+          "en": ""
+        },
+        "key": "bypass_auth_subnet_whitelist",
+        "type": "txt",
+        "param": {
+          "enableKey": "bypass_auth_subnet_whitelist_enabled"
+        }
+      },
+      {
+        "name": {
+          "cn": "备用WebUI路径",
+          "en": ""
+        },
+        "key": "alternative_webui_path",
+        "type": "txt",
+        "param": {
+          "enableKey": "alternative_webui_enabled"
+        }
+      },
+      {
+        "name": {
+          "cn": "使用HTTPS",
+          "en": ""
+        },
+        "key": "use_https",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "HTTPS证书路径",
+          "en": ""
+        },
+        "key": "web_ui_https_key_path",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "HTTPS密钥路径",
+          "en": ""
+        },
+        "key": "web_ui_https_cert_path",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "自定义请求头",
+          "en": ""
+        },
+        "key": "web_ui_custom_http_headers",
+        "type": "txt",
+        "param": {
+          "type": "li",
+          "split": "\n",
+          "enableKey": "web_ui_use_custom_http_headers_enabled"
+        }
+      },
+      {
+        "name": {
+          "cn": "启用dyndns",
+          "en": ""
+        },
+        "key": "dyndns_enabled",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "dyndns服务",
+          "en": ""
+        },
+        "key": "dyndns_service",
+        "type": "sel",
+        "param": {
+          "items": [
+            {
+              "name": {
+                "cn": "使用DyDNS",
+                "en": "Use DyDNS"
+              },
+              "value": 0
+            },
+            {
+              "name": {
+                "cn": "使用NOIP",
+                "en": "Use NOIP"
+              },
+              "value": 1
+            }
+          ]
+        }
+      },
+      {
+        "name": {
+          "cn": "dyndns域名",
+          "en": ""
+        },
+        "key": "dyndns_domain",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "dyndns用户名",
+          "en": ""
+        },
+        "key": "dyndns_username",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "dyndns密码",
+          "en": ""
+        },
+        "key": "dyndns_password",
+        "type": "txt"
       }
     ],
     "groupName": {
@@ -1802,7 +1446,334 @@
   },
   {
     "group": "advance",
-    "settings": [],
+    "settings": [
+      {
+        "name": {
+          "cn": "tracker超时时间",
+          "en": ""
+        },
+        "key": "stop_tracker_timeout",
+        "type": "num",
+        "unit": {
+          "cn": "秒",
+          "en": "sec"
+        }
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "enable_piece_extent_affinity",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "announce_ip",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "announce_to_all_tiers",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "announce_to_all_trackers",
+        "type": "swt"
+      },
+
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "async_io_threads",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "banned_IPs",
+        "type": "txt",
+        "param": {
+          "type": "li",
+          "split": "\n"
+        }
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "checking_memory_use",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "current_interface_address",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "current_network_interface",
+        "type": "txt"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "disk_cache",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "disk_cache_ttl",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "embedded_tracker_port",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "enable_coalesce_read_write",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "enable_embedded_tracker",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "enable_multi_connections_from_same_ip",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "enable_os_cache",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "enable_upload_suggestions",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "file_pool_size",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "outgoing_ports_max",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "outgoing_ports_min",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "recheck_completed_torrents",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "resolve_peer_countries",
+        "type": "swt"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "save_resume_data_interval",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "send_buffer_low_watermark",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "send_buffer_watermark",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "send_buffer_watermark_factor",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "socket_backlog_size",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "upload_choking_algorithm",
+        "type": "sel",
+        "param": {
+          "items": [
+            {
+              "name": {
+                "cn": "Round-robin",
+                "en": "Round-robin"
+              },
+              "value": 0
+            },
+            {
+              "name": {
+                "cn": "Fastest upload",
+                "en": "Fastest upload"
+              },
+              "value": 1
+            },
+            {
+              "name": {
+                "cn": "Anti-leech",
+                "en": "Anti-leech"
+              },
+              "value": 2
+            }
+          ]
+        }
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "upload_slots_behavior",
+        "type": "sel",
+        "param": {
+          "items": [
+            {
+              "name": {
+                "cn": "Fixed slots",
+                "en": "Fixed slots"
+              },
+              "value": 0
+            },
+            {
+              "name": {
+                "cn": "Upload rate based",
+                "en": "Upload rate based"
+              },
+              "value": 1
+            }
+          ]
+        }
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "upnp_lease_duration",
+        "type": "num"
+      },
+      {
+        "name": {
+          "cn": "*",
+          "en": ""
+        },
+        "key": "utp_tcp_mixed_mode",
+        "type": "sel",
+        "param": {
+          "items": [
+            {
+              "name": {
+                "cn": "Prefer TCP",
+                "en": "Prefer TCP"
+              },
+              "value": 0
+            },
+            {
+              "name": {
+                "cn": "Peer proportional",
+                "en": "Peer proportional"
+              },
+              "value": 1
+            }
+          ]
+        }
+      }
+    ],
     "groupName": {
       "cn": "高级",
       "en": "Advance"
