@@ -24,14 +24,14 @@ dependencies:
   flutter:
     sdk: flutter
 
+  #图片框架
+  octo_image: ^1.0.0+1
+
   #状态，路由，工具等
   get: ^4.1.4
 
   #dio网络请求框架
   dio: ^4.0.0
-
-  #ws框架 貌似不支持wss
-#  web_socket_channel: ^2.1.0
 
   #dio cookie管理
   dio_cookie_manager: ^2.0.0
@@ -79,6 +79,8 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - lib/assets/config/
+    - lib/assets/icons/
+    - lib/assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

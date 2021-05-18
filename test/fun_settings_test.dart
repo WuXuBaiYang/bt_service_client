@@ -6,11 +6,13 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:bt_service_manager/pages/home/home.dart';
+import 'package:bt_service_manager/tools/tools.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-
 void main() {
-  test("description", (){
-
+  test("description", () {
+    int a = 213124124124124;
+    print(Tools.convertByte(a));
+    // print(Tools.convertByte(a, lower: true));
   });
 }
