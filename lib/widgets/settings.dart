@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 typedef GetSettingValue = dynamic Function(String key);
 
 //自定义子项构建器
-typedef CustomItemBuilder = CustomBuilder Function(Map param);
+typedef CustomItemBuilder = CustomBuilder Function(SettingItemModel item);
 
 /*
 * 通用设置页面视图
@@ -87,8 +87,10 @@ class _SettingsViewState extends State<SettingsView> {
           item,
           isDark: index.isOdd,
           isEdited: (_hasEdited(item.key, f.value.text, def: "") ||
-              _hasEdited(textParam?.enableKey ?? "", f.value.enable,
-                  def: true)),
+              ((textParam?.hasEnableKey ?? false)
+                  ? _hasEdited(textParam?.enableKey ?? "", f.value.enable,
+                      def: true)
+                  : false)),
           endChildren: [
             (textParam?.hasEnableKey ?? false)
                 ? Align(
@@ -133,10 +135,6 @@ class _SettingsViewState extends State<SettingsView> {
                             await _showTextEditSheet(item, f.value.text);
                       }
                       widget.controller?.saveFormField(item.key, result.text);
-                      if (textParam?.hasEnableKey ?? false) {
-                        widget.controller
-                            ?.saveFormField(textParam.enableKey, result.enable);
-                      }
                       f.didChange(result);
                     },
                   )
@@ -145,8 +143,14 @@ class _SettingsViewState extends State<SettingsView> {
         );
       },
       onSaved: (v) {
-        if (_hasEdited(item.key, v, def: "")) {
-          widget.controller?.saveFormField(item.key, v);
+        if ((_hasEdited(item.key, v.text, def: "") ||
+            ((textParam?.hasEnableKey ?? false)
+                ? _hasEdited(textParam?.enableKey ?? "", v.enable, def: true)
+                : false))) {
+          widget.controller?.saveFormField(item.key, v.text);
+          if (textParam?.hasEnableKey ?? false) {
+            widget.controller?.saveFormField(textParam.enableKey, v.enable);
+          }
         }
       },
     );
@@ -371,7 +375,8 @@ class _SettingsViewState extends State<SettingsView> {
   //构建配置子项-自定义
   _buildCustomItem(SettingItemModel item, int index) {
     if (null == widget.customItemBuilder) return Container();
-    var builder = widget.customItemBuilder(item.param);
+    var builder = widget.customItemBuilder(item);
+    if (null == builder) return Container();
     return FormField<dynamic>(
       initialValue: builder.initialValue,
       builder: (f) => _buildDefaultItem(

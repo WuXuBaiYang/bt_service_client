@@ -1,5 +1,6 @@
 import 'package:bt_service_manager/clients/aria2/model/response.dart';
 import 'package:bt_service_manager/clients/aria2/widgets/aria2_settings.dart';
+import 'package:bt_service_manager/clients/qbittorrent/widgets/qb_settings.dart';
 import 'package:bt_service_manager/clients/transmission/widgets/tm_settings.dart';
 import 'package:bt_service_manager/widgets/settings.dart';
 import 'package:flutter/cupertino.dart';
@@ -35,10 +36,10 @@ class HomePage extends StatelessWidget {
         child: FutureBuilder<Aria2ResponseModel>(
           // future: aria2API.setting.getGlobalOption(),
           builder: (_, snap) {
-            return TMSettingsView(
+            return QBSettingsView(
               controller: controller,
               groups: [
-                TMGroup.ALL,
+                QBGroup.ALL,
               ],
               loadSettingValues: () async {
                 // var response = await aria2API.setting.getGlobalOption();

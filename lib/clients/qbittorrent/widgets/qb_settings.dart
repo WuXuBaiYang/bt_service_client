@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:bt_service_manager/clients/aria2/widgets/aria2_settings.dart';
 import 'package:bt_service_manager/model/settings_model.dart';
 import 'package:bt_service_manager/widgets/settings.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,21 +10,21 @@ import 'package:flutter/services.dart';
 typedef LoadSettingValues = Future<Map> Function();
 
 /*
-* transmission设置列表视图
+* aria2设置列表视图
 * @author jtechjh
 * @Time 2021/5/13 1:04 下午
 */
-class TMSettingsView extends StatelessWidget {
+class QBSettingsView extends StatelessWidget {
   //控制器
   final SettingsViewController controller;
 
   //要展示的设置项组名集合
-  final List<TMGroup> groups;
+  final List<QBGroup> groups;
 
   //加载设置项的值
   final LoadSettingValues loadSettingValues;
 
-  TMSettingsView({
+  QBSettingsView({
     Key key,
     @required this.controller,
     @required this.groups,
@@ -35,7 +34,7 @@ class TMSettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<SettingItemModel>>(
-      future: _loadTMSettings(),
+      future: _loadQBSettings(),
       builder: (_, snap) {
         if (!snap.hasData) {
           return Center(child: CircularProgressIndicator());
@@ -43,12 +42,30 @@ class TMSettingsView extends StatelessWidget {
         return SettingsView(
           controller: controller,
           settings: snap.data,
-          getSettingValue: (k) {
-            return _settingValues[k];
+          getSettingValue: (k) => _settingValues[k],
+          customItemBuilder: (item) {
+            if (item.key == "scan_dirs") {
+              return _buildScanDirsBuilder(item);
+            }
+            return null;
           },
         );
       },
     );
+  }
+
+  //构建文件路径监听选项
+  _buildScanDirsBuilder(SettingItemModel item) {
+    return null;
+    // return CustomBuilder(
+    //   initialValue: initialValue,
+    //   hasEdited: (v) {
+    //     return true;
+    //   },
+    //   onSaved: (controller, v) {
+    //     controller.saveFormField(key, value);
+    //   },
+    // );
   }
 
   //缓存当前设置表
@@ -57,19 +74,19 @@ class TMSettingsView extends StatelessWidget {
   //缓存当前设置项集合
   final List<SettingItemModel> _settings = [];
 
-  //加载Transmission设置配置集合
-  Future<List<SettingItemModel>> _loadTMSettings() async {
+  //加载QBitTorrent设置配置集合
+  Future<List<SettingItemModel>> _loadQBSettings() async {
     //加载设置项的值
     _settingValues.addAll(await loadSettingValues());
     //加载配置项
     if (_settings.isEmpty) {
       var json = jsonDecode(await rootBundle.loadString(
-          "lib/assets/config/transmission_settings.json",
+          "lib/assets/config/qbittorrent_settings.json",
           cache: true));
       var groupStr = groups.map<String>((it) => it.text).join(",");
       (json ?? []).forEach((it) {
         var item = SettingGroupModel.fromJson(it);
-        if (groupStr.contains(Aria2Group.ALL.text) ||
+        if (groupStr.contains(QBGroup.ALL.text) ||
             groupStr.contains(item.group)) {
           _settings.addAll(item.settings);
         }
@@ -80,39 +97,45 @@ class TMSettingsView extends StatelessWidget {
 }
 
 /*
-* transmission设置项分组
+* QBitTorrent设置项分组
 * @author jtechjh
 * @Time 2021/5/13 1:35 下午
 */
-enum TMGroup {
-  Torrents,
+enum QBGroup {
+  Download,
+  Connect,
   Speed,
-  Peers,
-  Network,
-  Queue,
+  BitTorrent,
+  RSS,
+  WebUI,
+  Advance,
   ALL,
 }
 
 /*
-* 扩展transmission设置项分组
+* 扩展QBitTorrent设置项分组
 * @author jtechjh
 * @Time 2021/5/13 1:39 下午
 */
-extension TMGroupExtension on TMGroup {
+extension QBGroupExtension on QBGroup {
   //获取枚举对应的文本
   String get text {
     switch (this) {
-      case TMGroup.Torrents:
-        return "torrents";
-      case TMGroup.Speed:
+      case QBGroup.Download:
+        return "download";
+      case QBGroup.Connect:
+        return "connect";
+      case QBGroup.Speed:
         return "speed";
-      case TMGroup.Peers:
-        return "peers";
-      case TMGroup.Network:
-        return "network";
-      case TMGroup.Queue:
-        return "queue";
-      case TMGroup.ALL:
+      case QBGroup.BitTorrent:
+        return "bitTorrent";
+      case QBGroup.RSS:
+        return "rss";
+      case QBGroup.WebUI:
+        return "webui";
+      case QBGroup.Advance:
+        return "advance";
+      case QBGroup.ALL:
         return "all";
     }
     return "";

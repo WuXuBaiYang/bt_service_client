@@ -8,7 +8,10 @@
           "en": ""
         },
         "key": "auto_delete_mode",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -195,7 +198,10 @@
           "en": ""
         },
         "key": "listen_port",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -219,7 +225,10 @@
           "en": ""
         },
         "key": "max_connec",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -227,7 +236,10 @@
           "en": ""
         },
         "key": "max_connec_per_torrent",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -235,7 +247,10 @@
           "en": ""
         },
         "key": "max_uploads",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -243,7 +258,10 @@
           "en": ""
         },
         "key": "max_uploads_per_torrent",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -346,7 +364,10 @@
           "en": ""
         },
         "key": "proxy_port",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -403,7 +424,10 @@
           "en": ""
         },
         "key": "dl_limit",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -411,7 +435,10 @@
           "en": ""
         },
         "key": "up_limit",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -443,7 +470,10 @@
           "en": ""
         },
         "key": "alt_dl_limit",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -451,7 +481,10 @@
           "en": ""
         },
         "key": "alt_up_limit",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -467,7 +500,10 @@
           "en": ""
         },
         "key": "schedule_from_hour",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -475,7 +511,10 @@
           "en": ""
         },
         "key": "schedule_from_min",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -483,7 +522,10 @@
           "en": ""
         },
         "key": "schedule_to_hour",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -491,7 +533,10 @@
           "en": ""
         },
         "key": "schedule_to_min",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -500,78 +545,80 @@
         },
         "key": "scheduler_days",
         "type": "sel",
-        "param": [
-          {
-            "name": {
-              "cn": "每天",
-              "en": "Every day"
+        "param": {
+          "items": [
+            {
+              "name": {
+                "cn": "每天",
+                "en": "Every day"
+              },
+              "value": 0
             },
-            "value": 0
-          },
-          {
-            "name": {
-              "cn": "工作日",
-              "en": "Every weekday"
+            {
+              "name": {
+                "cn": "工作日",
+                "en": "Every weekday"
+              },
+              "value": 1
             },
-            "value": 1
-          },
-          {
-            "name": {
-              "cn": "周末",
-              "en": "Every weekend"
+            {
+              "name": {
+                "cn": "周末",
+                "en": "Every weekend"
+              },
+              "value": 2
             },
-            "value": 2
-          },
-          {
-            "name": {
-              "cn": "周一",
-              "en": "Every Monday"
+            {
+              "name": {
+                "cn": "周一",
+                "en": "Every Monday"
+              },
+              "value": 3
             },
-            "value": 3
-          },
-          {
-            "name": {
-              "cn": "周二",
-              "en": "Every Tuesday"
+            {
+              "name": {
+                "cn": "周二",
+                "en": "Every Tuesday"
+              },
+              "value": 4
             },
-            "value": 4
-          },
-          {
-            "name": {
-              "cn": "周三",
-              "en": "Every Wednesday"
+            {
+              "name": {
+                "cn": "周三",
+                "en": "Every Wednesday"
+              },
+              "value": 5
             },
-            "value": 5
-          },
-          {
-            "name": {
-              "cn": "周四",
-              "en": "Every Thursday"
+            {
+              "name": {
+                "cn": "周四",
+                "en": "Every Thursday"
+              },
+              "value": 6
             },
-            "value": 6
-          },
-          {
-            "name": {
-              "cn": "周五",
-              "en": "Every Friday"
+            {
+              "name": {
+                "cn": "周五",
+                "en": "Every Friday"
+              },
+              "value": 7
             },
-            "value": 7
-          },
-          {
-            "name": {
-              "cn": "周六",
-              "en": "Every Saturday"
+            {
+              "name": {
+                "cn": "周六",
+                "en": "Every Saturday"
+              },
+              "value": 8
             },
-            "value": 8
-          },
-          {
-            "name": {
-              "cn": "周日",
-              "en": "Every Sunday"
-            },
-            "value": 9
-          }
-        ]
+            {
+              "name": {
+                "cn": "周日",
+                "en": "Every Sunday"
+              },
+              "value": 9
+            }
+          ]
+        }
       },
       {
         "name": {
@@ -700,7 +747,13 @@
           "en": ""
         },
         "key": "max_active_downloads",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "txt",
+        "param": {
+          "type": "num"
+        }
+        }
       },
       {
         "name": {
@@ -708,7 +761,10 @@
           "en": ""
         },
         "key": "max_active_torrents",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -716,7 +772,10 @@
           "en": ""
         },
         "key": "max_active_uploads",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -732,7 +791,10 @@
           "en": ""
         },
         "key": "slow_torrent_dl_rate_threshold",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -740,7 +802,10 @@
           "en": ""
         },
         "key": "slow_torrent_ul_rate_threshold",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -748,7 +813,10 @@
           "en": ""
         },
         "key": "slow_torrent_inactive_timer",
-        "type": "num",
+        "type": "txt",
+        "param": {
+          "type": "num"
+        },
         "unit": {
           "cn": "秒",
           "en": "sec"
@@ -760,8 +828,9 @@
           "en": ""
         },
         "key": "max_ratio",
-        "type": "num",
+        "type": "txt",
         "param": {
+          "type": "num",
           "enableKey": "max_ratio_enabled"
         }
       },
@@ -797,8 +866,9 @@
           "en": ""
         },
         "key": "max_seeding_time",
-        "type": "num",
+        "type": "txt",
         "param": {
+          "type": "num",
           "enableKey": "max_seeding_time_enabled"
         }
       },
@@ -838,7 +908,10 @@
           "en": ""
         },
         "key": "rss_refresh_interval",
-        "type": "num",
+        "type": "txt",
+        "param": {
+          "type": "num"
+        },
         "unit": {
           "cn": "分钟",
           "en": "min"
@@ -850,7 +923,10 @@
           "en": ""
         },
         "key": "rss_max_articles_per_feed",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -1226,7 +1302,10 @@
           "en": ""
         },
         "key": "web_ui_port",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -1282,7 +1361,10 @@
           "en": ""
         },
         "key": "web_ui_max_auth_fail_count",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -1290,7 +1372,10 @@
           "en": ""
         },
         "key": "web_ui_ban_duration",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -1298,7 +1383,10 @@
           "en": ""
         },
         "key": "web_ui_session_timeout",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
@@ -1453,7 +1541,10 @@
           "en": ""
         },
         "key": "stop_tracker_timeout",
-        "type": "num",
+        "type": "txt",
+        "param": {
+          "type": "num"
+        },
         "unit": {
           "cn": "秒",
           "en": "sec"
@@ -1461,7 +1552,7 @@
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "enable_piece_extent_affinity",
@@ -1469,7 +1560,7 @@
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "announce_ip",
@@ -1477,7 +1568,7 @@
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "announce_to_all_tiers",
@@ -1485,7 +1576,7 @@
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "announce_to_all_trackers",
@@ -1494,15 +1585,18 @@
 
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "async_io_threads",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "banned_IPs",
@@ -1514,15 +1608,18 @@
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "checking_memory_use",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "current_interface_address",
@@ -1530,7 +1627,7 @@
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "current_network_interface",
@@ -1538,31 +1635,40 @@
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "disk_cache",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "disk_cache_ttl",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "embedded_tracker_port",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "enable_coalesce_read_write",
@@ -1570,7 +1676,7 @@
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "enable_embedded_tracker",
@@ -1578,7 +1684,7 @@
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "enable_multi_connections_from_same_ip",
@@ -1586,7 +1692,7 @@
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "enable_os_cache",
@@ -1594,7 +1700,7 @@
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "enable_upload_suggestions",
@@ -1602,31 +1708,40 @@
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "file_pool_size",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "outgoing_ports_max",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "outgoing_ports_min",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "recheck_completed_torrents",
@@ -1634,7 +1749,7 @@
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "resolve_peer_countries",
@@ -1642,47 +1757,62 @@
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "save_resume_data_interval",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "send_buffer_low_watermark",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "send_buffer_watermark",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "send_buffer_watermark_factor",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "socket_backlog_size",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "upload_choking_algorithm",
@@ -1715,7 +1845,7 @@
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "upload_slots_behavior",
@@ -1741,15 +1871,18 @@
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "upnp_lease_duration",
-        "type": "num"
+        "type": "txt",
+        "param": {
+          "type": "num"
+        }
       },
       {
         "name": {
-          "cn": "*",
+          "cn": "-",
           "en": ""
         },
         "key": "utp_tcp_mixed_mode",
