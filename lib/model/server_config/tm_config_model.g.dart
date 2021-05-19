@@ -18,11 +18,18 @@ class TMConfigModelAdapter extends TypeAdapter<TMConfigModel> {
     };
     return TMConfigModel()
       ..path = fields[100] as String
-      ..method = fields[101] as HTTPMethod
+      ..method =
+          fields[101] == null ? HTTPMethod.POST : fields[101] as HTTPMethod
       ..secretToken = fields[102] as String
-      ..protocol = fields[50] == null ? '' : fields[50] as Protocol
+      ..protocol = fields[50] == null ? Protocol.HTTP : fields[50] as Protocol
       ..hostname = fields[51] == null ? '' : fields[51] as String
       ..port = fields[52] == null ? 80 : fields[52] as num
+      ..alias = fields[53] == null ? '' : fields[53] as String
+      ..tags = fields[54] == null ? [] : (fields[54] as List)?.cast<String>()
+      ..flagColor = fields[55] == null ? const Color(0) : fields[55] as Color
+      ..logoPath = fields[56] == null ? '' : fields[56] as String
+      ..type = fields[57] as ServerType
+      ..orderNum = fields[58] == null ? 0 : fields[58] as int
       ..id = fields[0] == null ? '' : fields[0] as String
       ..createTime = fields[1] == null ? 0 : fields[1] as DateTime
       ..updateTime = fields[2] == null ? 0 : fields[2] as DateTime;
@@ -31,7 +38,7 @@ class TMConfigModelAdapter extends TypeAdapter<TMConfigModel> {
   @override
   void write(BinaryWriter writer, TMConfigModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(15)
       ..writeByte(100)
       ..write(obj.path)
       ..writeByte(101)
@@ -44,6 +51,18 @@ class TMConfigModelAdapter extends TypeAdapter<TMConfigModel> {
       ..write(obj.hostname)
       ..writeByte(52)
       ..write(obj.port)
+      ..writeByte(53)
+      ..write(obj.alias)
+      ..writeByte(54)
+      ..write(obj.tags)
+      ..writeByte(55)
+      ..write(obj.flagColor)
+      ..writeByte(56)
+      ..write(obj.logoPath)
+      ..writeByte(57)
+      ..write(obj.type)
+      ..writeByte(58)
+      ..write(obj.orderNum)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)

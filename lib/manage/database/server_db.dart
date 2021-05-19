@@ -1,3 +1,4 @@
+import 'package:bt_service_manager/model/server_config/aria2_config_model.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:hive/hive.dart';
 
@@ -17,16 +18,28 @@ class ServerDatabase extends BaseDatabase {
 
   //添加一个服务器配置
   Future<void> addServerConfig<T extends ServerConfigModel>(T config) async {
+    //自增序号
+    config.orderNum = await queryLength(_serverConfig);
     return insert<ServerConfigModel>(_serverConfig, model: config);
   }
 
+  //移除一个服务器配置
+  Future<void> removeServerConfig(String id) async {
+    return delete(_serverConfig, key: id);
+  }
+
   //以表的形式获取所有服务器配置
-  Future<List> loadAllServerConfig() async {
+  Future<List<ServerConfigModel>> loadAllServerConfig() async {
     return queryAll<ServerConfigModel>(_serverConfig);
   }
 
   //监听服务器配置变化
   Future<Stream<BoxEvent>> watchOn(String key) async {
     return watch<ServerConfigModel>(_serverConfig, key: key);
+  }
+
+  //加载服务器数量
+  Future<int> loadServerCount() async {
+    return queryLength<ServerConfigModel>(_serverConfig);
   }
 }

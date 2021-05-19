@@ -1,6 +1,7 @@
 import 'package:bt_service_manager/model/base_model.dart';
 import 'package:bt_service_manager/model/server_config/aria2_config_model.dart';
 import 'package:bt_service_manager/model/server_config/qb_config_model.dart';
+import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:bt_service_manager/model/server_config/tm_config_model.dart';
 import 'package:bt_service_manager/tools/file.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,7 @@ class DBManage {
   _registerAdapter() {
     Hive.registerAdapter<HTTPMethod>(HTTPMethodAdapter());
     Hive.registerAdapter<Protocol>(ProtocolAdapter());
+    Hive.registerAdapter<ServerType>(ServerTypeAdapter());
     Hive.registerAdapter<QBConfigModel>(QBConfigModelAdapter());
     Hive.registerAdapter<Aria2ConfigModel>(Aria2ConfigModelAdapter());
     Hive.registerAdapter<TMConfigModel>(TMConfigModelAdapter());
@@ -114,6 +116,12 @@ abstract class BaseDatabase {
   Future<List<T>> queryAll<T extends BaseModel>(String boxName) async {
     var box = await getBox<T>(boxName);
     return box?.values?.toList() ?? [];
+  }
+
+  @protected
+  Future<int> queryLength<T extends BaseModel>(String boxName) async {
+    var box = await getBox<T>(boxName);
+    return box?.length ?? 0;
   }
 
   //监听一个box的对象

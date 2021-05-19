@@ -1,6 +1,10 @@
 import 'package:bt_service_manager/manage/page_manage.dart';
+import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:bt_service_manager/pages/home/server_controller.dart';
+import 'package:bt_service_manager/pages/home/server_list.dart';
+import 'package:bt_service_manager/tools/alert.dart';
 import 'package:bt_service_manager/tools/jimage.dart';
+import 'package:bt_service_manager/tools/route.dart';
 import 'package:bt_service_manager/tools/tools.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +25,25 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: _buildTitleInfo(),
         actions: [
-          //添加服务器按钮
-          _buildAddServerAction(),
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => _showAddServerMenu(),
+          ),
         ],
       ),
-      body: Container(),
+      body: FutureBuilder<List<ServerConfigModel>>(
+        future: serverControl.loadServerList(),
+        builder: (_, snap) {
+          if (!snap.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return ServerListView(
+            serverList: snap.data,
+          );
+        },
+      ),
       drawer: _buildDrawerMenu(),
     );
   }
@@ -65,55 +83,85 @@ class HomePage extends StatelessWidget {
   //构建侧滑面板
   _buildDrawerMenu() {
     return Drawer(
-      child: Container(
-        // color: Colors.red,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            DrawerHeader(
+              child: Text("aaa"),
+            ),
+          ]..addAll(List<Widget>.generate(
+              _drawerMenuList.length,
+              (i) {
+                var item = _drawerMenuList[i];
+                return ListTile(
+                  leading: Icon(item["icon"]),
+                  title: Text(item["name"]),
+                  onTap: () => item["fun"]?.call(),
+                );
+              },
+            )),
+        ),
       ),
     );
   }
 
-  //添加服务按钮功能表
-  final List<Map<String, dynamic>> _addServerList = [
-    {
-      "name": "Aria2",
-      "icon": "server_aria2.png",
-      "fun": () async => PageManage.goAddAria2Service(),
-    },
-    {
-      "name": "QBitTorrent",
-      "icon": "server_qbittorrent.png",
-      "fun": () async => PageManage.goAddQBService(),
-    },
-    {
-      "name": "Transmission",
-      "icon": "server_transmission.png",
-      "fun": () async => PageManage.goAddTMService(),
-    }
-  ];
-
-  //构建添加服务器按钮
-  _buildAddServerAction() {
-    return PopupMenuButton<int>(
-      tooltip: "添加服务器",
-      icon: Icon(Icons.add),
-      itemBuilder: (_) => List.generate(_addServerList.length, (i) {
-        var item = _addServerList[i];
-        return PopupMenuItem<int>(
-          child: ListTile(
-            contentPadding: EdgeInsets.zero,
+  //展示添加服务器菜单
+  _showAddServerMenu() {
+    AlertTools.bottomSheet(
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: List.generate(_addServerList.length, (i) {
+          var item = _addServerList[i];
+          return ListTile(
             leading: JImage.assetsIcon(
               item["icon"],
               size: 25,
             ),
             title: Text(item["name"]),
-          ),
-          value: i,
-        );
-      }),
-      onSelected: (i) async {
-        await _addServerList[i]["fun"]();
+            onTap: () async {
+              RouteTools.pop();
+              await item["fun"]();
 
-        ///刷新列表
-      },
+              ///返回的时候判断是否需要刷新列表
+            },
+          );
+        }),
+      ),
     );
   }
 }
+
+//添加服务按钮功能表
+final List<Map<String, dynamic>> _addServerList = [
+  {
+    "name": "Aria2",
+    "icon": serverIcon[ServerType.Aria2],
+    "fun": () async => PageManage.goAddAria2Service(),
+  },
+  {
+    "name": "QBitTorrent",
+    "icon": serverIcon[ServerType.QBitTorrent],
+    "fun": () async => PageManage.goAddQBService(),
+  },
+  {
+    "name": "Transmission",
+    "icon": serverIcon[ServerType.Transmission],
+    "fun": () async => PageManage.goAddTMService(),
+  }
+];
+
+//侧滑菜单列表
+final List<Map<String, dynamic>> _drawerMenuList = [
+  {
+    "name": "应用设置",
+    "icon": Icons.settings,
+    "fun": () async => PageManage.goAppSetting(),
+  }
+];
+
+//服务器类型与对应的图标
+final Map<ServerType, String> serverIcon = {
+  ServerType.Aria2: "server_aria2.png",
+  ServerType.QBitTorrent: "server_qbittorrent.png",
+  ServerType.Transmission: "server_transmission.png",
+};

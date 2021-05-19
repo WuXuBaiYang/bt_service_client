@@ -40,6 +40,9 @@ class AlertTools {
   //底部弹出sheet
   static Future<T> bottomSheet<T>({@required Widget content}) =>
       Get.bottomSheet(
-        content,
+        Card(
+          margin: EdgeInsets.zero,
+          child: content,
+        ),
       );
 }

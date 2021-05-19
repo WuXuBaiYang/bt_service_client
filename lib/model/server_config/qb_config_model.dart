@@ -1,6 +1,7 @@
-import 'package:bt_service_manager/model/base_model.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+
 part 'qb_config_model.g.dart';
 
 /*
@@ -13,12 +14,21 @@ class QBConfigModel extends ServerConfigModel with HiveObjectMixin {
   QBConfigModel();
 
   QBConfigModel.create(
-    protocol,
-    hostname,
-    port,
+    String alias,
+    List<String> tags,
+    Color flagColor,
+    String logoPath,
+    Protocol protocol,
+    String hostname,
+    num port,
   ) : super.create(
+          alias,
+          tags,
+          flagColor,
+          logoPath,
           protocol,
           hostname,
           port,
+          ServerType.QBitTorrent,
         );
 }

@@ -1,5 +1,5 @@
-import 'package:bt_service_manager/model/base_model.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 part 'aria2_config_model.g.dart';
@@ -16,7 +16,7 @@ class Aria2ConfigModel extends ServerConfigModel with HiveObjectMixin {
   String path;
 
   //通信协议
-  @HiveField(101, defaultValue: "POST")
+  @HiveField(101, defaultValue: HTTPMethod.POST)
   HTTPMethod method;
 
   //授权token
@@ -26,6 +26,10 @@ class Aria2ConfigModel extends ServerConfigModel with HiveObjectMixin {
   Aria2ConfigModel();
 
   Aria2ConfigModel.create(
+    String alias,
+    List<String> tags,
+    Color flagColor,
+    String logoPath,
     Protocol protocol,
     String hostname,
     num port,
@@ -33,8 +37,13 @@ class Aria2ConfigModel extends ServerConfigModel with HiveObjectMixin {
     this.method,
     this.secretToken,
   ) : super.create(
+          alias,
+          tags,
+          flagColor,
+          logoPath,
           protocol,
           hostname,
           port,
+          ServerType.Aria2,
         );
 }

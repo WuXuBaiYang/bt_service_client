@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:bt_service_manager/clients/transmission/model/request.dart';
 import 'package:bt_service_manager/clients/transmission/model/response.dart';
 import 'package:bt_service_manager/manage/database/database_manage.dart';
-import 'package:bt_service_manager/model/base_model.dart';
+import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:bt_service_manager/model/server_config/tm_config_model.dart';
 import 'package:bt_service_manager/net/base_api.dart';
 import 'package:dio/dio.dart';

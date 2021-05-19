@@ -1,10 +1,54 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'base_model.dart';
+part of 'server_config_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
+
+class ServerTypeAdapter extends TypeAdapter<ServerType> {
+  @override
+  final int typeId = 101;
+
+  @override
+  ServerType read(BinaryReader reader) {
+    switch (reader.readByte()) {
+      case 0:
+        return ServerType.Aria2;
+      case 1:
+        return ServerType.Transmission;
+      case 2:
+        return ServerType.QBitTorrent;
+      default:
+        return ServerType.Aria2;
+    }
+  }
+
+  @override
+  void write(BinaryWriter writer, ServerType obj) {
+    switch (obj) {
+      case ServerType.Aria2:
+        writer.writeByte(0);
+        break;
+      case ServerType.Transmission:
+        writer.writeByte(1);
+        break;
+      case ServerType.QBitTorrent:
+        writer.writeByte(2);
+        break;
+    }
+  }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ServerTypeAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+}
 
 class HTTPMethodAdapter extends TypeAdapter<HTTPMethod> {
   @override

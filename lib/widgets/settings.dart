@@ -166,47 +166,45 @@ class _SettingsViewState extends State<SettingsView> {
       content: StatefulBuilder(
         builder: (c, state) {
           return WillPopScope(
-            child: Card(
-              child: _buildDefaultItem(
-                item,
-                bottomChildren: [
-                  FocusScope(
-                    child: ListView.builder(
-                      controller: controller,
-                      itemCount: values.length,
-                      itemBuilder: (_, i) =>
-                          _buildMultiTextItem(c, item, values, nodes, i, state),
+            child: _buildDefaultItem(
+              item,
+              bottomChildren: [
+                FocusScope(
+                  child: ListView.builder(
+                    controller: controller,
+                    itemCount: values.length,
+                    itemBuilder: (_, i) =>
+                        _buildMultiTextItem(c, item, values, nodes, i, state),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: () => state(() {
+                        values.add("");
+                        nodes
+                          ..add(FocusNode())
+                          ..last.requestFocus();
+                        Future.delayed(Duration(milliseconds: 100)).then(
+                                (value) => controller.animateTo(
+                                controller.position.maxScrollExtent,
+                                duration: Duration(milliseconds: 100),
+                                curve: Curves.ease));
+                      }),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.add),
-                        onPressed: () => state(() {
-                          values.add("");
-                          nodes
-                            ..add(FocusNode())
-                            ..last.requestFocus();
-                          Future.delayed(Duration(milliseconds: 100)).then(
-                              (value) => controller.animateTo(
-                                  controller.position.maxScrollExtent,
-                                  duration: Duration(milliseconds: 100),
-                                  curve: Curves.ease));
-                        }),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.done_all),
-                        onPressed: () {
-                          values.removeWhere((v) => v.isEmpty);
-                          RouteTools.pop(
-                              values.join(textParam.split).toString());
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                    IconButton(
+                      icon: Icon(Icons.done_all),
+                      onPressed: () {
+                        values.removeWhere((v) => v.isEmpty);
+                        RouteTools.pop(
+                            values.join(textParam.split).toString());
+                      },
+                    ),
+                  ],
+                ),
+              ],
             ),
             onWillPop: () async {
               values.removeWhere((v) => v.isEmpty);
@@ -272,28 +270,26 @@ class _SettingsViewState extends State<SettingsView> {
           var controller = TextEditingController(text: value);
           return WillPopScope(
             child: SingleChildScrollView(
-              child: Card(
-                child: _buildDefaultItem(
-                  item,
-                  bottomChildren: [
-                    TextField(
-                      autofocus: true,
-                      controller: controller,
-                      textInputAction: TextInputAction.done,
-                      keyboardType: _inputType[textParam?.type ?? ""],
-                      decoration: InputDecoration(
-                        suffixText: item.unit?.text ?? "",
-                        suffixStyle: TextStyle(color: Colors.blueAccent),
-                        suffixIcon: IconButton(
-                          color: Colors.blueAccent,
-                          icon: Icon(Icons.done),
-                          onPressed: () => RouteTools.pop(controller.text),
-                        ),
+              child: _buildDefaultItem(
+                item,
+                bottomChildren: [
+                  TextField(
+                    autofocus: true,
+                    controller: controller,
+                    textInputAction: TextInputAction.done,
+                    keyboardType: _inputType[textParam?.type ?? ""],
+                    decoration: InputDecoration(
+                      suffixText: item.unit?.text ?? "",
+                      suffixStyle: TextStyle(color: Colors.blueAccent),
+                      suffixIcon: IconButton(
+                        color: Colors.blueAccent,
+                        icon: Icon(Icons.done),
+                        onPressed: () => RouteTools.pop(controller.text),
                       ),
-                      onSubmitted: (v) => RouteTools.pop(v),
                     ),
-                  ],
-                ),
+                    onSubmitted: (v) => RouteTools.pop(v),
+                  ),
+                ],
               ),
             ),
             onWillPop: () async {

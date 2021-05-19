@@ -1,6 +1,7 @@
-import 'package:bt_service_manager/model/base_model.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+
 part 'tm_config_model.g.dart';
 
 /*
@@ -15,7 +16,7 @@ class TMConfigModel extends ServerConfigModel with HiveObjectMixin {
   String path;
 
   //通信协议
-  @HiveField(101)
+  @HiveField(101, defaultValue: HTTPMethod.POST)
   HTTPMethod method;
 
   //授权token
@@ -25,15 +26,24 @@ class TMConfigModel extends ServerConfigModel with HiveObjectMixin {
   TMConfigModel();
 
   TMConfigModel.create(
-    protocol,
-    hostname,
-    port,
+    String alias,
+    List<String> tags,
+    Color flagColor,
+    String logoPath,
+    Protocol protocol,
+    String hostname,
+    num port,
     this.path,
     this.method,
     this.secretToken,
   ) : super.create(
+          alias,
+          tags,
+          flagColor,
+          logoPath,
           protocol,
           hostname,
           port,
+          ServerType.Transmission,
         );
 }

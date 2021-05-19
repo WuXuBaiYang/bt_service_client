@@ -18,4 +18,7 @@ class PageManage {
 
   //添加transmission服务器
   static goAddTMService() {}
+
+  //跳转到应用设置页面
+  static goAppSetting() {}
 }

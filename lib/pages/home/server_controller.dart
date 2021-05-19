@@ -1,3 +1,6 @@
+import 'package:bt_service_manager/manage/database/database_manage.dart';
+import 'package:bt_service_manager/model/server_config/server_config_model.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 /*
@@ -16,5 +19,10 @@ class ServerController extends GetxController {
   void updateTotalInfo(num downSpeed, num upSpeed) {
     this.totalDownloadSpeed.value = downSpeed;
     this.totalUploadSpeed = upSpeed;
+  }
+
+  //加载服务器列表
+  Future<List<ServerConfigModel>> loadServerList() async {
+    return dbManage.server.loadAllServerConfig();
   }
 }
