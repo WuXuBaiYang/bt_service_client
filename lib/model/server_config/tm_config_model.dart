@@ -9,7 +9,7 @@ part 'tm_config_model.g.dart';
 * @author jtechjh
 * @Time 2021/5/13 4:20 下午
 */
-@HiveType(typeId: 2)
+@HiveType(typeId: 3)
 class TMConfigModel extends ServerConfigModel with HiveObjectMixin {
   //rpc路径
   @HiveField(100)

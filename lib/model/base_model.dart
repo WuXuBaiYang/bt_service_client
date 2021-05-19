@@ -1,4 +1,3 @@
-import 'package:bt_service_manager/tools/tools.dart';
 import 'package:hive/hive.dart';
 
 /*
@@ -18,10 +17,4 @@ abstract class BaseModel {
   //更新时间
   @HiveField(2, defaultValue: 0)
   DateTime updateTime;
-
-  BaseModel() {
-    id = Tools.generationID;
-    createTime = DateTime.now();
-    updateTime = createTime;
-  }
 }

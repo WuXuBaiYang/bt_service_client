@@ -8,7 +8,7 @@ part of 'tm_config_model.dart';
 
 class TMConfigModelAdapter extends TypeAdapter<TMConfigModel> {
   @override
-  final int typeId = 2;
+  final int typeId = 3;
 
   @override
   TMConfigModel read(BinaryReader reader) {

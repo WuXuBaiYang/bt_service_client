@@ -9,7 +9,7 @@ part 'qb_config_model.g.dart';
 * @author jtechjh
 * @Time 2021/5/13 4:20 下午
 */
-@HiveType(typeId: 3)
+@HiveType(typeId: 2)
 class QBConfigModel extends ServerConfigModel with HiveObjectMixin {
   QBConfigModel();
 

@@ -2,6 +2,7 @@ import 'package:bt_service_manager/manage/page_manage.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:bt_service_manager/pages/home/server_controller.dart';
 import 'package:bt_service_manager/pages/home/server_list.dart';
+import 'package:bt_service_manager/pages/server/modify_aria2.dart';
 import 'package:bt_service_manager/tools/alert.dart';
 import 'package:bt_service_manager/tools/jimage.dart';
 import 'package:bt_service_manager/tools/route.dart';
@@ -17,7 +18,7 @@ import 'package:get/get.dart';
 */
 class HomePage extends StatelessWidget {
   //服务控制器
-  final serverControl = Get.put(ServerController());
+  final controller = Get.put(ServerController());
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +28,12 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
             icon: Icon(Icons.add),
-            onPressed: () => _showAddServerMenu(),
+            onPressed: () => _showCreateServerMenu(),
           ),
         ],
       ),
       body: FutureBuilder<List<ServerConfigModel>>(
-        future: serverControl.loadServerList(),
+        future: controller.loadServerList(),
         builder: (_, snap) {
           if (!snap.hasData) {
             return Center(
@@ -56,10 +57,10 @@ class HomePage extends StatelessWidget {
     );
     return Obx(() {
       var downSpeed = Tools.convertByte(
-        serverControl.totalDownloadSpeed.value,
+        controller.totalDownloadSpeed.value,
       );
       var upSpeed = Tools.convertByte(
-        serverControl.totalUploadSpeed,
+        controller.totalUploadSpeed,
       );
       return Row(
         children: [
@@ -106,7 +107,7 @@ class HomePage extends StatelessWidget {
   }
 
   //展示添加服务器菜单
-  _showAddServerMenu() {
+  _showCreateServerMenu() {
     AlertTools.bottomSheet(
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -120,7 +121,7 @@ class HomePage extends StatelessWidget {
             title: Text(item["name"]),
             onTap: () async {
               RouteTools.pop();
-              await item["fun"]();
+              await item["fun"]?.call();
 
               ///返回的时候判断是否需要刷新列表
             },
@@ -136,17 +137,17 @@ final List<Map<String, dynamic>> _addServerList = [
   {
     "name": "Aria2",
     "icon": serverIcon[ServerType.Aria2],
-    "fun": () async => PageManage.goAddAria2Service(),
+    "fun": () => PageManage.goCreateAria2Service(),
   },
   {
     "name": "QBitTorrent",
     "icon": serverIcon[ServerType.QBitTorrent],
-    "fun": () async => PageManage.goAddQBService(),
+    "fun": () => PageManage.goCreateQBService(),
   },
   {
     "name": "Transmission",
     "icon": serverIcon[ServerType.Transmission],
-    "fun": () async => PageManage.goAddTMService(),
+    "fun": () => PageManage.goCreateTMService(),
   }
 ];
 

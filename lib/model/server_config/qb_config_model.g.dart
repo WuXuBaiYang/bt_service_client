@@ -8,7 +8,7 @@ part of 'qb_config_model.dart';
 
 class QBConfigModelAdapter extends TypeAdapter<QBConfigModel> {
   @override
-  final int typeId = 3;
+  final int typeId = 2;
 
   @override
   QBConfigModel read(BinaryReader reader) {

@@ -1,5 +1,6 @@
 import 'package:bt_service_manager/model/server_config/aria2_config_model.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
+import 'package:bt_service_manager/tools/tools.dart';
 import 'package:hive/hive.dart';
 
 import 'database_manage.dart';
@@ -18,9 +19,17 @@ class ServerDatabase extends BaseDatabase {
 
   //添加一个服务器配置
   Future<void> addServerConfig<T extends ServerConfigModel>(T config) async {
-    //自增序号
+    config.id = Tools.generationID;
+    config.createTime = DateTime.now();
+    config.updateTime = config.createTime;
     config.orderNum = await queryLength(_serverConfig);
     return insert<ServerConfigModel>(_serverConfig, model: config);
+  }
+
+  //更新一个服务器配置
+  Future<void> modifyServerConfig<T extends ServerConfigModel>(T config) async {
+    config.updateTime = DateTime.now();
+    return update<ServerConfigModel>(_serverConfig, model: config);
   }
 
   //移除一个服务器配置

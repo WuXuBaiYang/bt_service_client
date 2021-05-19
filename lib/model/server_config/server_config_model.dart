@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 part 'server_config_model.g.dart';
+
 /*
 * 服务配置对象
 * @author jtechjh
@@ -48,6 +49,9 @@ abstract class ServerConfigModel extends BaseModel {
   //拼接基础地址
   String get baseUrl => "${protocol.text}$hostname:$port";
 
+  //判断当前配置是否为编辑状态
+  bool get isEdited => id?.isNotEmpty ?? false;
+
   ServerConfigModel();
 
   ServerConfigModel.create(
@@ -67,7 +71,7 @@ abstract class ServerConfigModel extends BaseModel {
 * @author jtechjh
 * @Time 2021/5/19 2:47 下午
 */
-@HiveType(typeId: 101)
+@HiveType(typeId: 100)
 enum ServerType {
   @HiveField(0)
   Aria2,
@@ -101,7 +105,7 @@ extension ServerTypeExtension on ServerType {
 * @author jtechjh
 * @Time 2021/5/13 5:17 下午
 */
-@HiveType(typeId: 100)
+@HiveType(typeId: 101)
 enum HTTPMethod {
   @HiveField(0, defaultValue: true)
   POST,
@@ -140,7 +144,7 @@ extension HTTPMethodExtension on HTTPMethod {
 * @author jtechjh
 * @Time 2021/5/14 8:52 上午
 */
-@HiveType(typeId: 101)
+@HiveType(typeId: 102)
 enum Protocol {
   @HiveField(0, defaultValue: true)
   HTTP,

@@ -1,4 +1,6 @@
+import 'package:bt_service_manager/model/server_config/aria2_config_model.dart';
 import 'package:bt_service_manager/pages/home/home.dart';
+import 'package:bt_service_manager/pages/server/modify_aria2.dart';
 import 'package:bt_service_manager/tools/route.dart';
 
 /*
@@ -11,13 +13,15 @@ class PageManage {
   static goHomePage() => RouteTools.go(HomePage());
 
   //添加aria2服务器
-  static goAddAria2Service() {}
+  static goCreateAria2Service({Aria2ConfigModel config}) {
+    return RouteTools.go(ModifyAria2ConfigPage(config));
+  }
 
   //添加qBittorrent服务器
-  static goAddQBService() {}
+  static goCreateQBService() {}
 
   //添加transmission服务器
-  static goAddTMService() {}
+  static goCreateTMService() {}
 
   //跳转到应用设置页面
   static goAppSetting() {}

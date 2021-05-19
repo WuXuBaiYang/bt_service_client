@@ -5,7 +5,6 @@ import 'package:bt_service_manager/manage/page_manage.dart';
 import 'package:bt_service_manager/manage/permission_manage.dart';
 import 'package:bt_service_manager/net/api.dart';
 import 'package:bt_service_manager/tools/alert.dart';
-import 'package:bt_service_manager/tools/route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

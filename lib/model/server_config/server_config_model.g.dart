@@ -8,7 +8,7 @@ part of 'server_config_model.dart';
 
 class ServerTypeAdapter extends TypeAdapter<ServerType> {
   @override
-  final int typeId = 101;
+  final int typeId = 100;
 
   @override
   ServerType read(BinaryReader reader) {
@@ -52,7 +52,7 @@ class ServerTypeAdapter extends TypeAdapter<ServerType> {
 
 class HTTPMethodAdapter extends TypeAdapter<HTTPMethod> {
   @override
-  final int typeId = 100;
+  final int typeId = 101;
 
   @override
   HTTPMethod read(BinaryReader reader) {
@@ -101,7 +101,7 @@ class HTTPMethodAdapter extends TypeAdapter<HTTPMethod> {
 
 class ProtocolAdapter extends TypeAdapter<Protocol> {
   @override
-  final int typeId = 101;
+  final int typeId = 102;
 
   @override
   Protocol read(BinaryReader reader) {

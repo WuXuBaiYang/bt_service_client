@@ -25,7 +25,7 @@ class Aria2ConfigModel extends ServerConfigModel with HiveObjectMixin {
 
   Aria2ConfigModel();
 
-  Aria2ConfigModel.create(
+  Aria2ConfigModel.create({
     String alias,
     List<String> tags,
     Color flagColor,
@@ -36,7 +36,7 @@ class Aria2ConfigModel extends ServerConfigModel with HiveObjectMixin {
     this.path,
     this.method,
     this.secretToken,
-  ) : super.create(
+  }) : super.create(
           alias,
           tags,
           flagColor,
