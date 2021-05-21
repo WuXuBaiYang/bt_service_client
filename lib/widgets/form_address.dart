@@ -13,7 +13,7 @@ class UrlAddressFormField extends StatefulWidget {
   final List<Protocol> protocols;
 
   //服务器地址信息对象
-  final UrlAddress address;
+  final UrlAddressModel address;
 
   const UrlAddressFormField({
     Key key,
@@ -31,16 +31,17 @@ class UrlAddressFormField extends StatefulWidget {
 * @Time 2021/5/21 5:08 下午
 */
 class _UrlAddressFormFieldState extends State<UrlAddressFormField> {
-
   @override
   Widget build(BuildContext context) {
-    return FormField<UrlAddress>(
+    return FormField<UrlAddressModel>(
       initialValue: widget.address,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       builder: (f) => InputDecorator(
         decoration: InputDecoration(
           contentPadding: EdgeInsets.zero,
           border: InputBorder.none,
           errorText: f.errorText,
+          errorMaxLines: 10,
         ),
         child: Flex(
           direction: Axis.horizontal,
@@ -52,56 +53,68 @@ class _UrlAddressFormFieldState extends State<UrlAddressFormField> {
         ),
       ),
       validator: (v) {
+        v.clearErr();
         if (null == v.protocol) {
-          return "协议不能为空";
+          v.protocolErr = "协议不能为空";
         }
         if (v.hostname?.isEmpty ?? true) {
-          return "域名/IP不能为空";
-        }
-        if (!RegExp(r"^\d{0,3}\.\d{0,3}\.\d{0,3}\.\d{0,3}$")
+          v.hostnameErr = "域名/IP不能为空";
+        } else if (!RegExp(r"^\d{0,3}\.\d{0,3}\.\d{0,3}\.\d{0,3}$")
                 .hasMatch(v.hostname) &&
             !RegExp(r"^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$")
                 .hasMatch(v.hostname)) {
-          return "域名/IP格式错误";
+          v.hostnameErr = "域名/IP格式错误";
         }
         if ((v?.port ?? 0) <= 0) {
-          return "端口号错误";
+          v.portErr = "端口号错误";
         }
-        return null;
+        return v.validResult;
       },
       onSaved: (v) {},
     );
   }
 
+  //报错边框
+  final errorBorder =
+      UnderlineInputBorder(borderSide: BorderSide(color: Colors.red, width: 1));
+
+  //报错焦点边框
+  final errorBorderFocus =
+      UnderlineInputBorder(borderSide: BorderSide(color: Colors.red, width: 2));
+
+  //错误的提示文本
+  final errorLabelStyle = TextStyle(color: Colors.red);
+
   //协议项
-  _buildProtocolItem(FormFieldState<UrlAddress> f) {
+  _buildProtocolItem(FormFieldState<UrlAddressModel> f) {
+    var hasErr = null != f.value.protocolErr;
     return Flexible(
-      flex: 2,
+      flex: 3,
       child: PopupMenuButton<Protocol>(
         child: InputDecorator(
           isEmpty: null == f.value.protocol,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.zero,
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            enabledBorder: hasErr ? errorBorder : null,
+            focusedBorder: hasErr ? errorBorderFocus : null,
+            labelStyle: hasErr ? errorLabelStyle : null,
             labelText: "协议",
-            enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.red,
-                // width: 20
-              ),
-            ),
-            focusedBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                color: Colors.red,
-                width: 2
-              ),
+            suffixText: " :// ",
+          ),
+          child: Text(
+            f.value.protocol?.text?.toUpperCase() ?? "",
+            textAlign: TextAlign.end,
+            style: TextStyle(
+              fontSize: 15,
+              color: Colors.black,
             ),
           ),
-          child: Text(f.value.protocol?.text ?? ""),
         ),
         itemBuilder: (_) => List.generate(widget.protocols.length, (i) {
           var item = widget.protocols[i];
           return PopupMenuItem(
-            child: Text("${item.text}://"),
+            child: Text(item.text),
             value: item,
           );
         }),
@@ -117,10 +130,11 @@ class _UrlAddressFormFieldState extends State<UrlAddressFormField> {
   final hostnameController = TextEditingController();
 
   //域名/IP项
-  _buildHostnameItem(FormFieldState<UrlAddress> f) {
+  _buildHostnameItem(FormFieldState<UrlAddressModel> f) {
     if (hostnameController.text.isEmpty) {
       hostnameController.text = f.value.hostname;
     }
+    var hasErr = null != f.value.hostnameErr;
     return Flexible(
       flex: 10,
       child: TextField(
@@ -131,8 +145,14 @@ class _UrlAddressFormFieldState extends State<UrlAddressFormField> {
         ],
         decoration: InputDecoration(
           contentPadding: EdgeInsets.zero,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          enabledBorder: hasErr ? errorBorder : null,
+          focusedBorder: hasErr ? errorBorderFocus : null,
+          labelStyle: hasErr ? errorLabelStyle : null,
           labelText: "域名/IP",
         ),
+        onChanged: (v) => f.value.hostname = v,
+        onEditingComplete: () => f.didChange(f.value),
       ),
     );
   }
@@ -141,12 +161,13 @@ class _UrlAddressFormFieldState extends State<UrlAddressFormField> {
   final portController = TextEditingController();
 
   //端口号
-  _buildPortItem(FormFieldState<UrlAddress> f) {
+  _buildPortItem(FormFieldState<UrlAddressModel> f) {
     if (portController.text.isEmpty) {
       portController.text = "${f.value.port ?? ""}";
     }
+    var hasErr = null != f.value.portErr;
     return Flexible(
-      flex: 2,
+      flex: 3,
       child: TextField(
         controller: portController,
         keyboardType: TextInputType.number,
@@ -156,8 +177,15 @@ class _UrlAddressFormFieldState extends State<UrlAddressFormField> {
         ],
         decoration: InputDecoration(
           contentPadding: EdgeInsets.zero,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          enabledBorder: hasErr ? errorBorder : null,
+          focusedBorder: hasErr ? errorBorderFocus : null,
+          labelStyle: hasErr ? errorLabelStyle : null,
           labelText: "端口号",
+          prefixText: " : ",
         ),
+        onChanged: (v) => f.value.port = num.tryParse(v),
+        onEditingComplete: () => f.didChange(f.value),
       ),
     );
   }
@@ -168,17 +196,45 @@ class _UrlAddressFormFieldState extends State<UrlAddressFormField> {
 * @author jtechjh
 * @Time 2021/5/21 2:09 下午
 */
-class UrlAddress {
+class UrlAddressModel {
   //协议
   Protocol protocol;
+
+  //错误提示
+  @protected
+  String protocolErr;
 
   //域名/ip地址
   String hostname;
 
+  //错误提示
+  @protected
+  String hostnameErr;
+
   //端口号
   num port;
 
-  UrlAddress.build({
+  //错误提示
+  @protected
+  String portErr;
+
+  //清除所有提示
+  void clearErr() {
+    protocolErr = null;
+    hostnameErr = null;
+    portErr = null;
+  }
+
+  //编辑错误提示
+  String get validResult {
+    List<String> errors = [];
+    if (null != protocolErr) errors.add(protocolErr);
+    if (null != hostnameErr) errors.add(hostnameErr);
+    if (null != portErr) errors.add(portErr);
+    return errors.isNotEmpty ? errors.join("，") : null;
+  }
+
+  UrlAddressModel.build({
     @required this.protocol,
     @required this.hostname,
     @required this.port,

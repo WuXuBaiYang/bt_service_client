@@ -13,7 +13,7 @@ class ModifyServerController<T extends ServerConfigModel>
   final T config;
 
   //记录rpc的授权密码可视状态
-  var rpcTokenVisible = false.obs;
+  var rpcTokenVisible = true.obs;
 
   ModifyServerController({@required this.config});
 
