@@ -3,7 +3,6 @@ import 'package:bt_service_manager/model/server_config/server_config_model.dart'
 import 'package:bt_service_manager/pages/server/modify_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import 'common_config.dart';
 import 'rpc_config.dart';
@@ -21,8 +20,8 @@ class ModifyAria2ConfigPage extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey();
 
   ModifyAria2ConfigPage(Aria2ConfigModel config)
-      : controller = Get.put(
-            ModifyServerController(config: config ?? Aria2ConfigModel()));
+      : controller =
+            ModifyServerController(config: config ?? Aria2ConfigModel());
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +50,13 @@ class ModifyAria2ConfigPage extends StatelessWidget {
                 HTTPMethod.POST,
               ],
             ),
-            ModifyCommonConfig(),
+            ModifyCommonConfig(
+              controller: controller,
+              protocols: [
+                Protocol.HTTPS,
+                Protocol.HTTP,
+              ],
+            ),
           ],
         ),
       ),

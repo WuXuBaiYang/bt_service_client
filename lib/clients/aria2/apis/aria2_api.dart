@@ -75,7 +75,7 @@ class Aria2API {
       var response;
       if (_config.method == HTTPMethod.POST) {
         response = await _baseAPI.httpPost(
-          _config.path,
+          "/${_config.path}",
           data: requestData,
         );
       } else if (_config.method == HTTPMethod.GET) {

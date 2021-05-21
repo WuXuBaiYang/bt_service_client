@@ -73,7 +73,7 @@ abstract class ServerConfigModel extends BaseModel {
 */
 abstract class RPCServerConfigModel extends ServerConfigModel {
   //rpc路径
-  @HiveField(30, defaultValue: "/jsonrpc")
+  @HiveField(30, defaultValue: "jsonrpc")
   String path;
 
   //通信协议
@@ -205,13 +205,13 @@ extension ProtocolExtension on Protocol {
   String get text {
     switch (this) {
       case Protocol.HTTP:
-        return "http://";
+        return "http";
       case Protocol.HTTPS:
-        return "https://";
+        return "https";
       case Protocol.WS:
-        return "ws://";
+        return "ws";
       case Protocol.WSS:
-        return "wss://";
+        return "wss";
     }
     return "";
   }
