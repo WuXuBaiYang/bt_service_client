@@ -8,21 +8,21 @@ import 'package:flutter/services.dart';
 * @author jtechjh
 * @Time 2021/5/21 5:07 下午
 */
-class FormUrlAddressView extends StatefulWidget {
+class UrlAddressFormField extends StatefulWidget {
   //支持的协议类型
   final List<Protocol> protocols;
 
   //服务器地址信息对象
   final UrlAddress address;
 
-  const FormUrlAddressView({
+  const UrlAddressFormField({
     Key key,
     @required this.address,
     this.protocols = const [],
   }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _FormUrlAddressViewState();
+  State<StatefulWidget> createState() => _UrlAddressFormFieldState();
 }
 
 /*
@@ -30,11 +30,7 @@ class FormUrlAddressView extends StatefulWidget {
 * @author jtechjh
 * @Time 2021/5/21 5:08 下午
 */
-class _FormUrlAddressViewState extends State<FormUrlAddressView> {
-  @override
-  void initState() {
-    super.initState();
-  }
+class _UrlAddressFormFieldState extends State<UrlAddressFormField> {
 
   @override
   Widget build(BuildContext context) {

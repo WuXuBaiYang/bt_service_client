@@ -56,7 +56,7 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
 
   //构建地址子项
   _buildAddressItem() {
-    return FormUrlAddressView(
+    return UrlAddressFormField(
       address: UrlAddress.build(
         protocol: controller.config.protocol,
         hostname: controller.config.hostname,
