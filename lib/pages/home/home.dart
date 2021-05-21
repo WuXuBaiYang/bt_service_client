@@ -2,7 +2,6 @@ import 'package:bt_service_manager/manage/page_manage.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:bt_service_manager/pages/home/server_controller.dart';
 import 'package:bt_service_manager/pages/home/server_list.dart';
-import 'package:bt_service_manager/pages/server/modify_aria2.dart';
 import 'package:bt_service_manager/tools/alert.dart';
 import 'package:bt_service_manager/tools/jimage.dart';
 import 'package:bt_service_manager/tools/route.dart';

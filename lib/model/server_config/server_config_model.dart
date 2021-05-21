@@ -54,7 +54,7 @@ abstract class ServerConfigModel extends BaseModel {
 
   ServerConfigModel();
 
-  ServerConfigModel.create(
+  ServerConfigModel.create({
     this.alias,
     this.tags,
     this.flagColor,
@@ -63,7 +63,51 @@ abstract class ServerConfigModel extends BaseModel {
     this.hostname,
     this.port,
     this.type,
-  );
+  });
+}
+
+/*
+* rpc协议配置
+* @author jtechjh
+* @Time 2021/5/20 3:53 下午
+*/
+abstract class RPCServerConfigModel extends ServerConfigModel {
+  //rpc路径
+  @HiveField(30, defaultValue: "/jsonrpc")
+  String path;
+
+  //通信协议
+  @HiveField(31, defaultValue: HTTPMethod.POST)
+  HTTPMethod method;
+
+  //授权token
+  @HiveField(32, defaultValue: "")
+  String secretToken;
+
+  RPCServerConfigModel();
+
+  RPCServerConfigModel.create({
+    String alias,
+    List<String> tags,
+    Color flagColor,
+    String logoPath,
+    Protocol protocol,
+    String hostname,
+    num port,
+    ServerType type,
+    this.path,
+    this.method,
+    this.secretToken,
+  }) : super.create(
+          alias: alias,
+          tags: tags,
+          flagColor: flagColor,
+          logoPath: logoPath,
+          protocol: protocol,
+          hostname: hostname,
+          port: port,
+          type: type,
+        );
 }
 
 /*

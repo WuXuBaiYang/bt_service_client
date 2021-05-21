@@ -10,19 +10,7 @@ part 'aria2_config_model.g.dart';
 * @Time 2021/5/13 4:20 下午
 */
 @HiveType(typeId: 1)
-class Aria2ConfigModel extends ServerConfigModel with HiveObjectMixin {
-  //rpc路径
-  @HiveField(100, defaultValue: "/jsonrpc")
-  String path;
-
-  //通信协议
-  @HiveField(101, defaultValue: HTTPMethod.POST)
-  HTTPMethod method;
-
-  //授权token
-  @HiveField(102, defaultValue: "")
-  String secretToken;
-
+class Aria2ConfigModel extends RPCServerConfigModel with HiveObjectMixin {
   Aria2ConfigModel();
 
   Aria2ConfigModel.create({
@@ -33,17 +21,20 @@ class Aria2ConfigModel extends ServerConfigModel with HiveObjectMixin {
     Protocol protocol,
     String hostname,
     num port,
-    this.path,
-    this.method,
-    this.secretToken,
+    String path,
+    HTTPMethod method,
+    String secretToken,
   }) : super.create(
-          alias,
-          tags,
-          flagColor,
-          logoPath,
-          protocol,
-          hostname,
-          port,
-          ServerType.Aria2,
+          alias: alias,
+          tags: tags,
+          flagColor: flagColor,
+          logoPath: logoPath,
+          protocol: protocol,
+          hostname: hostname,
+          port: port,
+          type: ServerType.Aria2,
+          path: path,
+          method: method,
+          secretToken: secretToken,
         );
 }

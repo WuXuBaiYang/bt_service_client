@@ -10,11 +10,11 @@ import 'package:bt_service_manager/tools/route.dart';
 */
 class PageManage {
   //跳转到首页
-  static goHomePage() => RouteTools.go(HomePage());
+  static goHomePage() => RouteTools.pushOff(HomePage());
 
   //添加aria2服务器
   static goCreateAria2Service({Aria2ConfigModel config}) {
-    return RouteTools.go(ModifyAria2ConfigPage(config));
+    return RouteTools.push(ModifyAria2ConfigPage(config));
   }
 
   //添加qBittorrent服务器

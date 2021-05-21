@@ -1,10 +1,12 @@
 import 'package:bt_service_manager/model/server_config/aria2_config_model.dart';
-import 'package:bt_service_manager/pages/server/common_config.dart';
+import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:bt_service_manager/pages/server/modify_controller.dart';
-import 'package:bt_service_manager/pages/server/rpc_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'common_config.dart';
+import 'rpc_config.dart';
 
 /*
 * 创建/编辑Aria2服务器
@@ -13,7 +15,10 @@ import 'package:get/get.dart';
 */
 class ModifyAria2ConfigPage extends StatelessWidget {
   //配置编辑控制器
-  final controller;
+  final ModifyServerController<Aria2ConfigModel> controller;
+
+  //表单key
+  final GlobalKey<FormState> formKey = GlobalKey();
 
   ModifyAria2ConfigPage(Aria2ConfigModel config)
       : controller = Get.put(
@@ -35,11 +40,18 @@ class ModifyAria2ConfigPage extends StatelessWidget {
   //构建表单内容
   _buildFormContent() {
     return Form(
+      key: formKey,
       child: SingleChildScrollView(
         child: Column(
           children: [
-            // ModifyRPCConfig(),
-            // ModifyCommonConfig(),
+            ModifyRPCConfig(
+              controller: controller,
+              methods: [
+                HTTPMethod.GET,
+                HTTPMethod.POST,
+              ],
+            ),
+            ModifyCommonConfig(),
           ],
         ),
       ),
@@ -54,9 +66,11 @@ class ModifyAria2ConfigPage extends StatelessWidget {
     return IconButton(
       icon: Icon(Icons.done),
       onPressed: () {
-        Form.of(context)
+        formKey.currentState
           ..validate()
           ..save();
+        var a = controller.config;
+        print("");
       },
     );
   }

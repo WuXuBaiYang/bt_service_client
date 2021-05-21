@@ -10,22 +10,10 @@ part 'tm_config_model.g.dart';
 * @Time 2021/5/13 4:20 下午
 */
 @HiveType(typeId: 3)
-class TMConfigModel extends ServerConfigModel with HiveObjectMixin {
-  //rpc路径
-  @HiveField(100)
-  String path;
-
-  //通信协议
-  @HiveField(101, defaultValue: HTTPMethod.POST)
-  HTTPMethod method;
-
-  //授权token
-  @HiveField(102)
-  String secretToken;
-
+class TMConfigModel extends RPCServerConfigModel with HiveObjectMixin {
   TMConfigModel();
 
-  TMConfigModel.create(
+  TMConfigModel.create({
     String alias,
     List<String> tags,
     Color flagColor,
@@ -33,17 +21,20 @@ class TMConfigModel extends ServerConfigModel with HiveObjectMixin {
     Protocol protocol,
     String hostname,
     num port,
-    this.path,
-    this.method,
-    this.secretToken,
-  ) : super.create(
-          alias,
-          tags,
-          flagColor,
-          logoPath,
-          protocol,
-          hostname,
-          port,
-          ServerType.Transmission,
+    String path,
+    HTTPMethod method,
+    String secretToken,
+  }) : super.create(
+          alias: alias,
+          tags: tags,
+          flagColor: flagColor,
+          logoPath: logoPath,
+          protocol: protocol,
+          hostname: hostname,
+          port: port,
+          type: ServerType.Transmission,
+          path: path,
+          method: method,
+          secretToken: secretToken,
         );
 }

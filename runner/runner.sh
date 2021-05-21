@@ -1,0 +1,1 @@
+flutter2 packages pub run build_runner build

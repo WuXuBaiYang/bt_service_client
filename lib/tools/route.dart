@@ -8,10 +8,20 @@ import 'package:get/get.dart';
 */
 class RouteTools {
   //进入页面
-  static Future<T> go<T>(Widget page, {dynamic arguments}) => Get.to<T>(
-        () => page,
-        arguments: arguments,
-      );
+  static Future<T> push<T>(dynamic page, {dynamic arguments}) {
+    return Get.to<T>(
+      page,
+      arguments: arguments,
+    );
+  }
+
+  //进入一个页面并退出当前页面
+  static Future<T> pushOff<T>(dynamic page, {dynamic arguments}) {
+    return Get.off(
+      page,
+      arguments: arguments,
+    );
+  }
 
   //退出页面/弹窗等
   static pop<T>([result]) => Get.back<T>(result: result);

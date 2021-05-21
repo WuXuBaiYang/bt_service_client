@@ -13,7 +13,7 @@ part 'qb_config_model.g.dart';
 class QBConfigModel extends ServerConfigModel with HiveObjectMixin {
   QBConfigModel();
 
-  QBConfigModel.create(
+  QBConfigModel.create({
     String alias,
     List<String> tags,
     Color flagColor,
@@ -21,14 +21,14 @@ class QBConfigModel extends ServerConfigModel with HiveObjectMixin {
     Protocol protocol,
     String hostname,
     num port,
-  ) : super.create(
-          alias,
-          tags,
-          flagColor,
-          logoPath,
-          protocol,
-          hostname,
-          port,
-          ServerType.QBitTorrent,
+  }) : super.create(
+          alias: alias,
+          tags: tags,
+          flagColor: flagColor,
+          logoPath: logoPath,
+          protocol: protocol,
+          hostname: hostname,
+          port: port,
+          type: ServerType.QBitTorrent,
         );
 }

@@ -17,10 +17,9 @@ class Aria2ConfigModelAdapter extends TypeAdapter<Aria2ConfigModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Aria2ConfigModel()
-      ..path = fields[100] == null ? '/jsonrpc' : fields[100] as String
-      ..method =
-          fields[101] == null ? HTTPMethod.POST : fields[101] as HTTPMethod
-      ..secretToken = fields[102] == null ? '' : fields[102] as String
+      ..path = fields[30] == null ? '/jsonrpc' : fields[30] as String
+      ..method = fields[31] == null ? HTTPMethod.POST : fields[31] as HTTPMethod
+      ..secretToken = fields[32] == null ? '' : fields[32] as String
       ..protocol = fields[50] == null ? Protocol.HTTP : fields[50] as Protocol
       ..hostname = fields[51] == null ? '' : fields[51] as String
       ..port = fields[52] == null ? 80 : fields[52] as num
@@ -39,11 +38,11 @@ class Aria2ConfigModelAdapter extends TypeAdapter<Aria2ConfigModel> {
   void write(BinaryWriter writer, Aria2ConfigModel obj) {
     writer
       ..writeByte(15)
-      ..writeByte(100)
+      ..writeByte(30)
       ..write(obj.path)
-      ..writeByte(101)
+      ..writeByte(31)
       ..write(obj.method)
-      ..writeByte(102)
+      ..writeByte(32)
       ..write(obj.secretToken)
       ..writeByte(50)
       ..write(obj.protocol)
