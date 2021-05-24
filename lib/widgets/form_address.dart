@@ -34,70 +34,45 @@ class UrlAddressFormField extends StatefulWidget {
 class _UrlAddressFormFieldState extends State<UrlAddressFormField> {
   @override
   Widget build(BuildContext context) {
-    // return FormField<UrlAddressModel>(
-    //   initialValue: widget.address,
-    //   builder: (f) => InputDecorator(
-    //     decoration: InputDecoration(
-    //       contentPadding: EdgeInsets.zero,
-    //       border: InputBorder.none,
-    //       errorText: f.errorText,
-    //       errorMaxLines: 10,
-    //     ),
-    //     child: Flex(
-    //       direction: Axis.horizontal,
-    //       children: [
-    //         _buildProtocolItem(f),
-    //         _buildHostnameItem(f),
-    //         _buildPortItem(f),
-    //       ],
-    //     ),
-    //   ),
-    //   validator: (v) {
-    //     v.clearErr();
-    //     if (null == v.protocol) {
-    //       v.protocolErr = "协议不能为空";
-    //     }
-    //     if (v.hostname?.isEmpty ?? true) {
-    //       v.hostnameErr = "域名/IP不能为空";
-    //     } else if (!RegExp(r"^\d{0,3}\.\d{0,3}\.\d{0,3}\.\d{0,3}$")
-    //             .hasMatch(v.hostname) &&
-    //         !RegExp(r"^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$")
-    //             .hasMatch(v.hostname)) {
-    //       v.hostnameErr = "域名/IP格式错误";
-    //     }
-    //     if ((v?.port ?? 0) <= 0) {
-    //       v.portErr = "端口号错误";
-    //     }
-    //     return v.validResult;
-    //   },
-    //   onSaved: (v) {},
-    // );
-    return TextFormField(
-      initialValue: "",
-      decoration: InputDecoration(
-        suffixIcon: SizedBox(
-          child: TextField(),
-          width: 50,
+    return FormField<UrlAddressModel>(
+      initialValue: widget.address,
+      builder: (f) => InputDecorator(
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.zero,
+          border: InputBorder.none,
+          errorText: f.errorText,
+          errorMaxLines: 10,
         ),
-        prefixIcon: SizedBox(
-          child: TextField(),
-          width: 50,
+        child: Flex(
+          direction: Axis.horizontal,
+          children: [
+            _buildProtocolItem(f),
+            _buildHostnameItem(f),
+            _buildPortItem(f),
+          ],
         ),
-        border: AddressUnderlineInputBorder(inputBorder: null),
-        enabledBorder: AddressUnderlineInputBorder(inputBorder: null),
-        focusedBorder: AddressUnderlineInputBorder(inputBorder: null),
       ),
+      validator: (v) {
+        v.clearErr();
+        if (null == v.protocol) {
+          v.protocolErr = "协议不能为空";
+        }
+        if (v.hostname?.isEmpty ?? true) {
+          v.hostnameErr = "域名/IP不能为空";
+        } else if (!RegExp(r"^\d{0,3}\.\d{0,3}\.\d{0,3}\.\d{0,3}$")
+                .hasMatch(v.hostname) &&
+            !RegExp(r"^(?=^.{3,255}$)[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$")
+                .hasMatch(v.hostname)) {
+          v.hostnameErr = "域名/IP格式错误";
+        }
+        if ((v?.port ?? 0) <= 0) {
+          v.portErr = "端口号错误";
+        }
+        return v.validResult;
+      },
+      onSaved: (v) {},
     );
   }
-
-  //输入框样式
-  final decorationTheme = InputDecorationTheme(
-    enabledBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.red, width: 1)),
-    focusedBorder: UnderlineInputBorder(
-        borderSide: BorderSide(color: Colors.red, width: 2)),
-    labelStyle: TextStyle(color: Colors.red),
-  );
 
   //报错边框
   final errorBorder =
@@ -162,7 +137,7 @@ class _UrlAddressFormFieldState extends State<UrlAddressFormField> {
     }
     var hasErr = null != f.value.hostnameErr;
     return Flexible(
-      flex: 10,
+      flex: 8,
       child: TextField(
         controller: hostnameController,
         keyboardType: TextInputType.number,
@@ -325,11 +300,12 @@ class AddressUnderlineInputBorder extends InputBorder {
   @override
   ShapeBorder lerpFrom(ShapeBorder a, double t) {
     if (a is UnderlineInputBorder) {
-      return UnderlineInputBorder(
-        borderSide: BorderSide.lerp(a.borderSide, borderSide, t),
-        borderRadius:
-            BorderRadius.lerp(a.borderRadius, inputBorder.borderRadius, t),
-      );
+      return AddressUnderlineInputBorder(inputBorder: inputBorder);
+      // return UnderlineInputBorder(
+      //   borderSide: BorderSide.lerp(a.borderSide, borderSide, t),
+      //   borderRadius:
+      //       BorderRadius.lerp(a.borderRadius, inputBorder.borderRadius, t),
+      // );
     }
     return super.lerpFrom(a, t);
   }
@@ -337,11 +313,12 @@ class AddressUnderlineInputBorder extends InputBorder {
   @override
   ShapeBorder lerpTo(ShapeBorder b, double t) {
     if (b is UnderlineInputBorder) {
-      return UnderlineInputBorder(
-        borderSide: BorderSide.lerp(borderSide, b.borderSide, t),
-        borderRadius:
-            BorderRadius.lerp(inputBorder.borderRadius, b.borderRadius, t),
-      );
+      return AddressUnderlineInputBorder(inputBorder: inputBorder);
+      // return UnderlineInputBorder(
+      //   borderSide: BorderSide.lerp(borderSide, b.borderSide, t),
+      //   borderRadius:
+      //       BorderRadius.lerp(inputBorder.borderRadius, b.borderRadius, t),
+      // );
     }
     return super.lerpTo(b, t);
   }
@@ -359,15 +336,16 @@ class AddressUnderlineInputBorder extends InputBorder {
     double gapPercentage = 0.0,
     TextDirection textDirection,
   }) {
-    inputBorder.paint(canvas, rect,
-        gapStart: gapStart,
-        gapExtent: gapExtent,
-        gapPercentage: gapPercentage,
-        textDirection: textDirection);
+    // inputBorder.paint(canvas, rect,
+    //     gapStart: gapStart,
+    //     gapExtent: gapExtent,
+    //     gapPercentage: gapPercentage,
+    //     textDirection: textDirection);
     // if (inputBorder.borderRadius.bottomLeft != Radius.zero ||
     //     inputBorder.borderRadius.bottomRight != Radius.zero)
     //   canvas.clipPath(getOuterPath(rect, textDirection: textDirection));
-    // canvas.drawLine(rect.bottomLeft, rect.bottomRight, borderSide.toPaint());
+    canvas.drawLine(
+        rect.bottomLeft, rect.bottomRight, inputBorder.borderSide.toPaint());
   }
 
   @override
