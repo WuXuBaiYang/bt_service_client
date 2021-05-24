@@ -48,7 +48,7 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
       decoration: InputDecoration(
         labelText: "服务器别名",
         contentPadding: contentPadding,
-        border: OutlineInputBorder(),
+        // border: OutlineInputBorder(),
       ),
       onSaved: (v) => controller.config.alias = v,
     );
