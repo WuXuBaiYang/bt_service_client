@@ -56,13 +56,13 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
 
   //构建地址子项
   _buildAddressItem() {
-    return UrlAddressFormField(
-      address: UrlAddressModel.build(
-        protocol: controller.config.protocol,
-        hostname: controller.config.hostname,
-        port: controller.config.port,
-      ),
-      protocols: protocols,
-    );
+    // return UrlAddressFormField(
+    //   address: UrlAddressModel.build(
+    //     protocol: controller.config.protocol,
+    //     hostname: controller.config.hostname,
+    //     port: controller.config.port,
+    //   ),
+    //   protocols: protocols,
+    // );
   }
 }
