@@ -135,17 +135,17 @@ class HomePage extends StatelessWidget {
 final List<Map<String, dynamic>> _addServerList = [
   {
     "name": "Aria2",
-    "icon": serverIcon[ServerType.Aria2],
+    "icon": ServerConfigModel.getServerAssetsIcon(ServerType.Aria2),
     "fun": () => PageManage.goCreateAria2Service(),
   },
   {
     "name": "QBitTorrent",
-    "icon": serverIcon[ServerType.QBitTorrent],
+    "icon": ServerConfigModel.getServerAssetsIcon(ServerType.QBitTorrent),
     "fun": () => PageManage.goCreateQBService(),
   },
   {
     "name": "Transmission",
-    "icon": serverIcon[ServerType.Transmission],
+    "icon": ServerConfigModel.getServerAssetsIcon(ServerType.Transmission),
     "fun": () => PageManage.goCreateTMService(),
   }
 ];
@@ -158,10 +158,3 @@ final List<Map<String, dynamic>> _drawerMenuList = [
     "fun": () async => PageManage.goAppSetting(),
   }
 ];
-
-//服务器类型与对应的图标
-final Map<ServerType, String> serverIcon = {
-  ServerType.Aria2: "server_aria2.png",
-  ServerType.QBitTorrent: "server_qbittorrent.png",
-  ServerType.Transmission: "server_transmission.png",
-};

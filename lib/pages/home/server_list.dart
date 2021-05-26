@@ -98,7 +98,8 @@ class _ServerListViewState extends State<ServerListView> {
       var value = counter[key];
       return Row(
         children: [
-          JImage.assetsIcon(serverIcon[key], size: 15),
+          JImage.assetsIcon(ServerConfigModel.getServerAssetsIcon(key),
+              size: 15),
           Text("$value"),
         ],
       );

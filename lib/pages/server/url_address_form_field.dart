@@ -17,10 +17,14 @@ class UrlAddressFormField extends StatefulWidget {
   //保存事件
   final FormFieldSetter<UrlAddressModel> onSaved;
 
+  //输入框样式
+  final InputDecorationTheme decorationTheme;
+
   UrlAddressFormField({
     @required Protocol protocol,
     @required String hostname,
     @required num port,
+    @required this.decorationTheme,
     this.protocols = const [],
     this.onSaved,
   }) : urlAddress = UrlAddressModel.build(
@@ -46,12 +50,10 @@ class _UrlAddressFormFieldState extends State<UrlAddressFormField> {
           isEmpty: isEmpty,
           isFocused: hasFocus,
           decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 15),
-            border: OutlineInputBorder(),
             errorText: field.errorText,
             errorMaxLines: 999,
             labelText: "协议://域名IP:端口号",
-          ),
+          ).applyDefaults(widget.decorationTheme),
           child: FocusScope(
             child: Flex(
               direction: Axis.horizontal,

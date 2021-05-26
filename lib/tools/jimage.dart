@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bt_service_manager/tools/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:octo_image/octo_image.dart';
@@ -37,12 +39,31 @@ class JImage {
     String fileName, {
     @required AssetsFile assetsPath,
     double size,
+    double width,
+    double height,
   }) {
     return image(
       image: Image.asset(
         "${assetsPath.path}$fileName",
       ).image,
       size: size,
+      width: width,
+      height: height,
+    );
+  }
+
+  //从本地文件中加载
+  static Widget file(
+    String filePath, {
+    double size,
+    double width,
+    double height,
+  }) {
+    return image(
+      image: Image.file(File(filePath)).image,
+      size: size,
+      width: width,
+      height: height,
     );
   }
 

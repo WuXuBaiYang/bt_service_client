@@ -11,7 +11,10 @@ part 'aria2_config_model.g.dart';
 */
 @HiveType(typeId: 1)
 class Aria2ConfigModel extends RPCServerConfigModel with HiveObjectMixin {
-  Aria2ConfigModel();
+  Aria2ConfigModel()
+      : super.create(
+          type: ServerType.Aria2,
+        );
 
   Aria2ConfigModel.create({
     String alias,

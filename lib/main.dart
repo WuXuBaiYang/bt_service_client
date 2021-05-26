@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'pages/splash/splash.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 

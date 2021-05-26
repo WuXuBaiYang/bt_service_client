@@ -11,7 +11,10 @@ part 'qb_config_model.g.dart';
 */
 @HiveType(typeId: 2)
 class QBConfigModel extends ServerConfigModel with HiveObjectMixin {
-  QBConfigModel();
+  QBConfigModel()
+      : super.create(
+          type: ServerType.QBitTorrent,
+        );
 
   QBConfigModel.create({
     String alias,

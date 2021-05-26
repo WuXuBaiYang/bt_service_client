@@ -36,6 +36,12 @@ class ModifyAria2ConfigPage extends StatelessWidget {
     );
   }
 
+  //容器样式
+  final decorationTheme = InputDecorationTheme(
+    contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+    floatingLabelBehavior: FloatingLabelBehavior.always,
+  );
+
   //构建表单内容
   _buildFormContent() {
     return Form(
@@ -49,6 +55,7 @@ class ModifyAria2ConfigPage extends StatelessWidget {
                 HTTPMethod.GET,
                 HTTPMethod.POST,
               ],
+              decorationTheme: decorationTheme,
             ),
             ModifyCommonConfig(
               controller: controller,
@@ -56,6 +63,7 @@ class ModifyAria2ConfigPage extends StatelessWidget {
                 Protocol.HTTPS,
                 Protocol.HTTP,
               ],
+              decorationTheme: decorationTheme,
             ),
           ],
         ),

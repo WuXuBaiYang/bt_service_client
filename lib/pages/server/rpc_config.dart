@@ -16,34 +16,37 @@ class ModifyRPCConfig<T extends RPCServerConfigModel> extends StatelessWidget {
   //支持的请求方法集合
   final List<HTTPMethod> methods;
 
-  const ModifyRPCConfig({
+  //表单项样式
+  final InputDecorationTheme decorationTheme;
+
+  //间隔大小
+  final double separatorSize;
+
+  ModifyRPCConfig({
     Key key,
     @required this.controller,
     @required this.methods,
+    @required this.decorationTheme,
+    this.separatorSize = 15,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    List items = [
+      _buildHTTPMethodItem(),
+      _buildPathItem(),
+      _buildTokenItem(),
+    ];
     return Container(
-      padding: EdgeInsets.all(8),
-      child: Column(
-        children: [
-          _buildHTTPMethodItem(),
-          SizedBox(height: 15),
-          _buildPathItem(),
-          SizedBox(height: 15),
-          _buildTokenItem(),
-        ],
+      child: ListView.separated(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: items.length,
+        itemBuilder: (_, i) => items[i],
+        separatorBuilder: (_, i) => SizedBox(height: separatorSize),
       ),
     );
   }
-
-  //判断是否为编辑状态
-  bool get isEdited => controller.config.isEdited;
-
-  //内容内间距
-  final contentPadding =
-      const EdgeInsets.symmetric(vertical: 0, horizontal: 15);
 
   //构建请求方法选择
   _buildHTTPMethodItem() {
@@ -59,9 +62,7 @@ class ModifyRPCConfig<T extends RPCServerConfigModel> extends StatelessWidget {
       }),
       decoration: InputDecoration(
         labelText: "请求方法",
-        contentPadding: contentPadding,
-        border: OutlineInputBorder(),
-      ),
+      ).applyDefaults(decorationTheme),
       onChanged: (v) {},
       validator: (v) {
         if (null == v) {
@@ -76,14 +77,12 @@ class ModifyRPCConfig<T extends RPCServerConfigModel> extends StatelessWidget {
   //构建json-rpc路径
   _buildPathItem() {
     return TextFormField(
-      initialValue: isEdited ? controller.config.path : "jsonrpc",
+      initialValue: controller.config.path ?? "jsonrpc",
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
-        contentPadding: contentPadding,
-        border: OutlineInputBorder(),
         labelText: "路径",
         prefixText: "/",
-      ),
+      ).applyDefaults(decorationTheme),
       validator: (v) {
         if (v.isEmpty) {
           return "RPC路径不能为空";
@@ -97,12 +96,10 @@ class ModifyRPCConfig<T extends RPCServerConfigModel> extends StatelessWidget {
   //构建授权密钥
   _buildTokenItem() {
     return Obx(() => TextFormField(
-          initialValue: isEdited ? controller.config.secretToken : "",
+          initialValue: controller.config.secretToken ?? "",
           autovalidateMode: AutovalidateMode.onUserInteraction,
           obscureText: controller.rpcTokenVisible.value,
           decoration: InputDecoration(
-            contentPadding: contentPadding,
-            border: OutlineInputBorder(),
             labelText: "授权密钥",
             suffixIcon: IconButton(
               icon: Icon(controller.rpcTokenVisible.value
@@ -110,7 +107,7 @@ class ModifyRPCConfig<T extends RPCServerConfigModel> extends StatelessWidget {
                   : Icons.visibility_off),
               onPressed: () => controller.toggleRPCTokenVisible(),
             ),
-          ),
+          ).applyDefaults(decorationTheme),
           validator: (v) {
             if (v.isEmpty) {
               return "授权密钥不能为空";

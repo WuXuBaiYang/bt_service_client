@@ -52,6 +52,20 @@ abstract class ServerConfigModel extends BaseModel {
   //判断当前配置是否为编辑状态
   bool get isEdited => id?.isNotEmpty ?? false;
 
+  //判断是否存在自定义图标
+  bool get hasCustomLogo => logoPath?.isNotEmpty ?? false;
+
+  //获取当前图标
+  String get currentLogoPath {
+    if (logoPath?.isNotEmpty ?? false) {
+      return logoPath;
+    }
+    return getServerAssetsIcon(type);
+  }
+
+  //静态方法，获取服务器类型对应的图标
+  static String getServerAssetsIcon(ServerType type) => _serverAssetsIcon[type];
+
   ServerConfigModel();
 
   ServerConfigModel.create({
@@ -64,6 +78,13 @@ abstract class ServerConfigModel extends BaseModel {
     this.port,
     this.type,
   });
+
+  //服务器类型与对应的图标
+  static Map<ServerType, String> _serverAssetsIcon = {
+    ServerType.Aria2: "server_aria2.png",
+    ServerType.QBitTorrent: "server_qbittorrent.png",
+    ServerType.Transmission: "server_transmission.png",
+  };
 }
 
 /*

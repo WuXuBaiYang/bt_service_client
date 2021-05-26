@@ -48,6 +48,9 @@ dependencies:
   #hive-flutter
   hive_flutter: ^1.0.0
 
+  #文件选择
+  file_picker: ^3.0.2
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0

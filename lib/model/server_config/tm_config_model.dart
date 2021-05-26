@@ -11,7 +11,10 @@ part 'tm_config_model.g.dart';
 */
 @HiveType(typeId: 3)
 class TMConfigModel extends RPCServerConfigModel with HiveObjectMixin {
-  TMConfigModel();
+  TMConfigModel()
+      : super.create(
+          type: ServerType.Transmission,
+        );
 
   TMConfigModel.create({
     String alias,
