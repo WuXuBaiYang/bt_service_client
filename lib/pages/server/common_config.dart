@@ -1,8 +1,9 @@
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:bt_service_manager/pages/server/modify_controller.dart';
-import 'package:bt_service_manager/widgets/form_address.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'url_address_form_field.dart';
 
 /*
 * 创建/编辑常用服务器配置
@@ -48,7 +49,7 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
       decoration: InputDecoration(
         labelText: "服务器别名",
         contentPadding: contentPadding,
-        // border: OutlineInputBorder(),
+        border: OutlineInputBorder(),
       ),
       onSaved: (v) => controller.config.alias = v,
     );
@@ -56,13 +57,17 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
 
   //构建地址子项
   _buildAddressItem() {
-    // return UrlAddressFormField(
-    //   address: UrlAddressModel.build(
-    //     protocol: controller.config.protocol,
-    //     hostname: controller.config.hostname,
-    //     port: controller.config.port,
-    //   ),
-    //   protocols: protocols,
-    // );
+    var config = controller.config;
+    return UrlAddressFormField(
+      protocol: config.protocol,
+      hostname: config.hostname,
+      port: config.port,
+      protocols: protocols,
+      onSaved: (v) {
+        config.protocol = v.protocol;
+        config.hostname = v.hostname;
+        config.port = v.port;
+      },
+    );
   }
 }

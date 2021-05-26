@@ -60,7 +60,7 @@ class ModifyRPCConfig<T extends RPCServerConfigModel> extends StatelessWidget {
       decoration: InputDecoration(
         labelText: "请求方法",
         contentPadding: contentPadding,
-        // border: OutlineInputBorder(),
+        border: OutlineInputBorder(),
       ),
       onChanged: (v) {},
       validator: (v) {
@@ -80,7 +80,7 @@ class ModifyRPCConfig<T extends RPCServerConfigModel> extends StatelessWidget {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         contentPadding: contentPadding,
-        // border: OutlineInputBorder(),
+        border: OutlineInputBorder(),
         labelText: "路径",
         prefixText: "/",
       ),
@@ -102,7 +102,7 @@ class ModifyRPCConfig<T extends RPCServerConfigModel> extends StatelessWidget {
           obscureText: controller.rpcTokenVisible.value,
           decoration: InputDecoration(
             contentPadding: contentPadding,
-            // border: OutlineInputBorder(),
+            border: OutlineInputBorder(),
             labelText: "授权密钥",
             suffixIcon: IconButton(
               icon: Icon(controller.rpcTokenVisible.value
