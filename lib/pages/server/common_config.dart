@@ -41,6 +41,7 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
       _buildAliasItem(),
       _buildAddressItem(),
       _buildLogoSelectItem(),
+      _buildFlagColor(),
     ];
     return Container(
       child: ListView.separated(
@@ -86,6 +87,7 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
   //构建图表选择子项
   _buildLogoSelectItem() {
     var config = controller.config;
+    config.logoCircle ??= true;
     return FormField<String>(
       initialValue: config.currentLogoPath,
       builder: (field) => InkWell(
@@ -94,7 +96,14 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
             contentPadding: EdgeInsets.zero,
             title: Text("从相册或拍照中选择"),
             trailing: config.hasCustomLogo
-                ? JImage.file(field.value, size: 45)
+                ? Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _buildLogoRadioItem(config, field, false),
+                      SizedBox(width: 8),
+                      _buildLogoRadioItem(config, field, true),
+                    ],
+                  )
                 : JImage.assetsIcon(field.value, size: 45),
             dense: true,
           ),
@@ -111,6 +120,56 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
         },
       ),
       onSaved: (v) => controller.config.logoPath = v,
+    );
+  }
+
+  //图标单选项
+  _buildLogoRadioItem(config, field, bool circle) {
+    return GestureDetector(
+      child: JImage.file(
+        field.value,
+        size: 45,
+        borderWidth: 3,
+        borderColor: circle == config.logoCircle
+            ? Colors.blueAccent
+            : Colors.transparent,
+        circle: circle,
+      ),
+      onTap: () {
+        config.logoCircle = circle;
+        field.didChange(field.value);
+      },
+    );
+  }
+
+  //标记颜色选择
+  _buildFlagColor() {
+    var config = controller.config;
+    return FormField<Color>(
+      initialValue: config.flagColor ?? Colors.red,
+      builder: (field) => InkWell(
+        child: InputDecorator(
+          child: ListTile(
+            contentPadding: EdgeInsets.zero,
+            title: Text("选择一个颜色作为主要标记"),
+            trailing: ClipOval(
+              child: Container(
+                width: 15,
+                height: 15,
+                color: field.value,
+              ),
+            ),
+            dense: true,
+          ),
+          decoration: InputDecoration(
+            labelText: "标记颜色",
+          ).applyDefaults(decorationTheme),
+        ),
+        onTap: () async {
+          JAlert.showColorPanel();
+        },
+      ),
+      onSaved: (v) => controller.config.flagColor = v,
     );
   }
 }

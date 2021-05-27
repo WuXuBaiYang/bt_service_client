@@ -14,11 +14,19 @@ class JImage {
   static Widget assetsImage(
     String fileName, {
     double size,
+    bool circle,
+    double radius,
+    double borderWidth,
+    Color borderColor,
   }) {
     return assets(
       fileName,
       assetsPath: AssetsFile.Images,
       size: size,
+      circle: circle,
+      radius: radius,
+      borderWidth: borderWidth,
+      borderColor: borderColor,
     );
   }
 
@@ -26,11 +34,19 @@ class JImage {
   static Widget assetsIcon(
     String fileName, {
     double size,
+    bool circle,
+    double radius,
+    double borderWidth,
+    Color borderColor,
   }) {
     return assets(
       fileName,
       assetsPath: AssetsFile.Icons,
       size: size,
+      circle: circle,
+      radius: radius,
+      borderWidth: borderWidth,
+      borderColor: borderColor,
     );
   }
 
@@ -41,6 +57,10 @@ class JImage {
     double size,
     double width,
     double height,
+    bool circle,
+    double radius,
+    double borderWidth,
+    Color borderColor,
   }) {
     return image(
       image: Image.asset(
@@ -49,6 +69,10 @@ class JImage {
       size: size,
       width: width,
       height: height,
+      circle: circle,
+      radius: radius,
+      borderWidth: borderWidth,
+      borderColor: borderColor,
     );
   }
 
@@ -58,55 +82,94 @@ class JImage {
     double size,
     double width,
     double height,
+    bool circle,
+    double radius,
+    double borderWidth,
+    Color borderColor,
   }) {
     return image(
       image: Image.file(File(filePath)).image,
       size: size,
       width: width,
       height: height,
+      circle: circle,
+      radius: radius,
+      borderWidth: borderWidth,
+      borderColor: borderColor,
     );
   }
 
   //图片加载基类
   static Widget image({
     @required ImageProvider image,
-    BoxFit fit,
+    bool circle,
+    double radius,
+    double borderWidth,
+    Color borderColor,
+    BoxFit fit = BoxFit.cover,
     double width,
     double height,
     double size,
-    OctoPlaceholderBuilder placeholderBuilder,
-    OctoErrorBuilder errorBuilder,
   }) {
     if (null != size && size >= 0) {
       width = height = size;
     }
+    circle ??= false;
+    radius ??= 0;
+    borderWidth ??= 0;
+    borderColor ??= Colors.transparent;
     return OctoImage(
       image: image,
-      placeholderBuilder: placeholderBuilder ?? _placeholderBuilder,
-      errorBuilder: errorBuilder ?? _errorBuilder,
+      placeholderBuilder: (_) {
+        return _buildImageBody(
+          circle,
+          radius,
+          Container(
+            color: Colors.grey[300],
+          ),
+        );
+      },
+      errorBuilder: (_, error, __) {
+        return _buildImageBody(
+          circle,
+          radius,
+          Container(
+            color: Colors.grey[300],
+            child: Center(
+              child: Icon(
+                Icons.warning_amber_outlined,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        );
+      },
+      imageBuilder: (_, child) {
+        return Container(
+          child: _buildImageBody(circle, radius, child),
+          decoration: BoxDecoration(
+            border: Border.all(
+              width: borderWidth,
+              color: borderColor,
+            ),
+            borderRadius: !circle ? BorderRadius.circular(radius) : null,
+            shape: circle ? BoxShape.circle : BoxShape.rectangle,
+          ),
+        );
+      },
       height: height,
       width: width,
       fit: fit,
     );
   }
 
-  //默认占位视图
-  static get _placeholderBuilder => (_) {
-        return Container(
-          color: Colors.grey[300],
-        );
-      };
-
-  //默认错误视图
-  static get _errorBuilder => (_, error, __) {
-        return Container(
-          color: Colors.grey[300],
-          child: Center(
-            child: Icon(
-              Icons.warning_amber_outlined,
-              color: Colors.white,
-            ),
-          ),
-        );
-      };
+  //构建图片底座
+  static _buildImageBody(bool circle, double radius, Widget child) {
+    return circle
+        ? ClipOval(child: child)
+        : ClipRRect(
+            borderRadius: BorderRadius.circular(radius),
+            child: child,
+          );
+  }
 }

@@ -23,24 +23,114 @@ class AlertTools {
   //显示提示弹窗
   static Future<T> alertDialog<T>(
     String content, {
-    String title = "",
+    Widget child,
+    String title,
+    Widget titleIcon,
     String confirm,
-    VoidCallback onConfirm,
+    Future<T> Function() onConfirm,
     String cancel,
-    VoidCallback onCancel,
+    Future<T> Function() onCancel,
     String custom,
-    VoidCallback onCustom,
+    Future<T> Function() onCustom,
   }) =>
-      Get.defaultDialog<T>(
-        title: title,
-        content: Text(content),
-        textConfirm: confirm,
-        onConfirm: onConfirm,
-        textCancel: cancel,
-        onCancel: onCancel,
-        textCustom: custom,
-        onCustom: onCustom,
+      customDialog<T>(
+        Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Visibility(
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 8),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Visibility(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 8),
+                        child: titleIcon,
+                      ),
+                      visible: null != titleIcon,
+                    ),
+                    Text(
+                      title ?? "",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ],
+                ),
+              ),
+              visible: null != title || null != titleIcon,
+            ),
+            Visibility(
+              child: child ?? Text("\t\t${content ?? ""}"),
+              visible: null != content || null != child,
+            ),
+            Visibility(
+              child: Row(
+                children: [
+                  Visibility(
+                    child: TextButton(
+                      child: Text(custom),
+                      onPressed: () async {
+                        var result = await onCustom?.call();
+                        RouteTools.pop(result);
+                      },
+                    ),
+                    visible: null != custom,
+                  ),
+                  Expanded(child: Container()),
+                  Visibility(
+                    child: TextButton(
+                      child: Text(cancel),
+                      onPressed: () async {
+                        var result = await onCancel?.call();
+                        RouteTools.pop(result);
+                      },
+                    ),
+                    visible: null != cancel,
+                  ),
+                  Visibility(
+                    child: TextButton(
+                      child: Text(confirm),
+                      onPressed: () async {
+                        var result = await onConfirm?.call();
+                        RouteTools.pop(result);
+                      },
+                    ),
+                    visible: null != confirm,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       );
+
+  //自定义弹窗
+  static Future<T> customDialog<T>(
+    Widget content, {
+    bool barrierDismissible = true,
+  }) {
+    return Get.dialog<T>(
+      Material(
+        color: Colors.transparent,
+        child: Center(
+          child: Card(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+              child: Container(
+                child: content,
+                constraints: BoxConstraints(
+                  maxWidth: Get.width / 5 * 4,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+      barrierDismissible: barrierDismissible,
+      useSafeArea: true,
+    );
+  }
 
   //底部弹出sheet
   static Future<T> bottomSheet<T>({@required Widget content}) =>
@@ -58,6 +148,15 @@ class AlertTools {
 * @Time 2021/5/26 3:32 下午
 */
 class JAlert {
+  //展示调色板
+  static Future<Color> showColorPanel({
+    Color selectColor,
+  }) {
+    return AlertTools.customDialog<Color>(
+      null,
+    );
+  }
+
   //弹出单张图片选择
   static Future<File> pickSingleImage({
     bool takeImage = true,

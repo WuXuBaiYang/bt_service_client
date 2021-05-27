@@ -107,26 +107,22 @@ class HomePage extends StatelessWidget {
 
   //展示添加服务器菜单
   _showCreateServerMenu() {
-    AlertTools.bottomSheet(
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: List.generate(_addServerList.length, (i) {
-          var item = _addServerList[i];
-          return ListTile(
-            leading: JImage.assetsIcon(
-              item["icon"],
-              size: 25,
-            ),
-            title: Text(item["name"]),
-            onTap: () async {
-              RouteTools.pop();
-              await item["fun"]?.call();
+    JAlert.showBottomSheetMenu(
+      items: List.generate(_addServerList.length, (i) {
+        var item = _addServerList[i];
+        return BottomSheetMenuItem(
+          leading: JImage.assetsIcon(
+            item["icon"],
+            size: 25,
+          ),
+          title: item["name"],
+          onTap: (i) async {
+            await item["fun"]?.call();
 
-              ///返回的时候判断是否需要刷新列表
-            },
-          );
-        }),
-      ),
+            ///返回的时候判断是否需要刷新列表
+          },
+        );
+      }),
     );
   }
 }

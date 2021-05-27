@@ -17,7 +17,7 @@ class TMConfigModelAdapter extends TypeAdapter<TMConfigModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return TMConfigModel()
-      ..path = fields[30] == null ? '/jsonrpc' : fields[30] as String
+      ..path = fields[30] == null ? 'jsonrpc' : fields[30] as String
       ..method = fields[31] == null ? HTTPMethod.POST : fields[31] as HTTPMethod
       ..secretToken = fields[32] == null ? '' : fields[32] as String
       ..protocol = fields[50] == null ? Protocol.HTTP : fields[50] as Protocol
@@ -27,8 +27,9 @@ class TMConfigModelAdapter extends TypeAdapter<TMConfigModel> {
       ..tags = fields[54] == null ? [] : (fields[54] as List)?.cast<String>()
       ..flagColor = fields[55] == null ? const Color(0) : fields[55] as Color
       ..logoPath = fields[56] == null ? '' : fields[56] as String
-      ..type = fields[57] as ServerType
-      ..orderNum = fields[58] == null ? 0 : fields[58] as int
+      ..logoCircle = fields[57] == null ? true : fields[57] as bool
+      ..type = fields[58] as ServerType
+      ..orderNum = fields[59] == null ? 0 : fields[59] as int
       ..id = fields[0] == null ? '' : fields[0] as String
       ..createTime = fields[1] == null ? 0 : fields[1] as DateTime
       ..updateTime = fields[2] == null ? 0 : fields[2] as DateTime;
@@ -37,7 +38,7 @@ class TMConfigModelAdapter extends TypeAdapter<TMConfigModel> {
   @override
   void write(BinaryWriter writer, TMConfigModel obj) {
     writer
-      ..writeByte(15)
+      ..writeByte(16)
       ..writeByte(30)
       ..write(obj.path)
       ..writeByte(31)
@@ -59,8 +60,10 @@ class TMConfigModelAdapter extends TypeAdapter<TMConfigModel> {
       ..writeByte(56)
       ..write(obj.logoPath)
       ..writeByte(57)
-      ..write(obj.type)
+      ..write(obj.logoCircle)
       ..writeByte(58)
+      ..write(obj.type)
+      ..writeByte(59)
       ..write(obj.orderNum)
       ..writeByte(0)
       ..write(obj.id)
