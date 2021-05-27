@@ -4,6 +4,7 @@ import 'package:bt_service_manager/tools/route.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 /*
 * 通知/弹出框等工具方法
@@ -57,136 +58,111 @@ class AlertTools {
 * @Time 2021/5/26 3:32 下午
 */
 class JAlert {
-  //文件类型参数
-  static final Map<JFileType, dynamic> _fileTypeParams = {
-    JFileType.TakeImage: {
-      "text": "拍摄图片",
-      "icon": Icons.add_a_photo_outlined,
-    },
-    JFileType.RecordVideo: {
-      "text": "录制视频",
-      "icon": Icons.video_call_outlined,
-    },
-    JFileType.RecordAudio: {
-      "text": "录制音频",
-      "icon": Icons.record_voice_over_outlined,
-    },
-    JFileType.Image: {
-      "text": "选择图片",
-      "icon": Icons.add_photo_alternate_outlined,
-    },
-    JFileType.Video: {
-      "text": "选择视频",
-      "icon": Icons.video_library_outlined,
-    },
-    JFileType.Audio: {
-      "text": "选择音频",
-      "icon": Icons.audiotrack_outlined,
-    },
-  };
-
-  //弹出文件选择
-  static Future<List<File>> pickFilesSheet({
-    List<JFileType> filterTypes = const [
-      JFileType.Image,
-      JFileType.TakeImage,
-    ],
+  //弹出单张图片选择
+  static Future<File> pickSingleImage({
+    bool takeImage = true,
     bool compress = true,
-    List<String> customExtensions = const [],
-    String customText = "",
-    IconData customIcon,
-    int maxCount = 1,
+  }) async {
+    var result =
+        await pickImages(takeImage: takeImage, maxCount: 1, compress: compress);
+    return result.isNotEmpty ? result.first : null;
+  }
+
+  //弹出图片选择
+  static Future<List<File>> pickImages({
+    bool takeImage = true,
+    int maxCount = 9,
+    bool compress = true,
   }) {
-    return AlertTools.bottomSheet<List<File>>(
-      content: Column(
-        children: filterTypes.map<Widget>((item) {
-          IconData icon;
-          String text;
-          Future future;
-          if (item == JFileType.TakeImage) {
-          } else if (item == JFileType.RecordVideo) {
-          } else if (item == JFileType.RecordAudio) {
-          } else {
-            if (item == JFileType.Custom) {
-              icon = customIcon;
-              text = customText;
-            } else {
-              var params = _fileTypeParams[item];
-              icon = params["icon"];
-              text = params["text"];
-            }
-            future = FilePicker.platform.pickFiles(
-              type: item.type,
+    return showBottomSheetMenu<List<File>>(
+      items: [
+        BottomSheetMenuItem<List<File>>(
+          title: "相册",
+          leading: Icon(Icons.photo_library_outlined),
+          onTap: (i) async {
+            var result = await FilePicker.platform.pickFiles(
+              type: FileType.image,
               allowCompression: compress,
-              allowedExtensions: customExtensions,
               allowMultiple: maxCount > 1,
             );
-          }
-          return ListTile(
-            leading: Icon(icon),
-            title: Text(text),
-            onTap: () async {
-              List<File> files = [];
-              var result = await future;
-              if (result is FilePickerResult) {
-                for (PlatformFile it in result.files) {
-                  if (files.length >= maxCount) break;
-                  files.add(File(it.path));
-                }
-              }else{
+            if (result.files.length <= 0) return [];
+            var endIndex =
+                result.files.length > maxCount ? maxCount : result.files.length;
+            return result.files
+                .map<File>((it) => File(it.path))
+                .toList()
+                .sublist(0, endIndex);
+          },
+        ),
+      ]..addAll(takeImage
+          ? [
+              BottomSheetMenuItem<List<File>>(
+                title: "拍照",
+                leading: Icon(Icons.photo_camera_outlined),
+                onTap: (i) async {
+                  var result = await ImagePicker().getImage(
+                    source: ImageSource.camera,
+                    imageQuality: compress ? 65 : 100,
+                  );
+                  return [File(result.path)];
+                },
+              ),
+            ]
+          : []),
+    );
+  }
 
-              }
-              RouteTools.pop(files);
-            },
-          );
-        }).toList(),
+  //底部弹出菜单
+  static Future<T> showBottomSheetMenu<T>({
+    @required List<BottomSheetMenuItem<T>> items,
+    bool expanded = false,
+  }) {
+    return AlertTools.bottomSheet<T>(
+      content: StatefulBuilder(
+        builder: (_, setState) => ListView.builder(
+          shrinkWrap: true,
+          physics: expanded ? NeverScrollableScrollPhysics() : null,
+          itemCount: items.length,
+          itemBuilder: (_, i) {
+            BottomSheetMenuItem item = items[i];
+            return ListTile(
+              leading: item.leading,
+              title: null != item.title ? Text(item.title) : null,
+              subtitle: null != item.subTitle ? Text(item.subTitle) : null,
+              onTap: () async {
+                var result = await item.onTap?.call(i);
+                RouteTools.pop(result);
+              },
+            );
+          },
+        ),
       ),
     );
   }
 }
 
 /*
-* 文件选取的枚举类型
+* 底部弹出菜单数据对象
 * @author jtechjh
-* @Time 2021/5/26 3:40 下午
+* @Time 2021/5/27 9:28 上午
 */
-enum JFileType {
-  Image,
-  TakeImage,
-  Video,
-  RecordVideo,
-  Audio,
-  RecordAudio,
-  Custom,
-}
+class BottomSheetMenuItem<T> {
+  //名称
+  String title;
 
-/*
-* 扩展文件选取枚举类型方法
-* @author jtechjh
-* @Time 2021/5/26 3:41 下午
-*/
-extension JFileTypeExtension on JFileType {
-  //判断是否为自定义
-  bool get isCustom => this == JFileType.Custom;
+  //子标题
+  String subTitle;
 
-  //转换为文件选择框架的文件类型
-  FileType get type {
-    switch (this) {
-      case JFileType.Image:
-        return FileType.image;
-      case JFileType.Video:
-        return FileType.video;
-      case JFileType.Audio:
-        return FileType.audio;
-      case JFileType.Custom:
-        return FileType.custom;
-      case JFileType.TakeImage:
-        break;
-      case JFileType.RecordVideo:
-        break;
-      case JFileType.RecordAudio:
-        break;
-    }
-    return FileType.any;
-  }
+  //头部图标
+  Widget leading;
+
+  //异步点击事件
+  Future<T> Function(int i) onTap;
+
+  BottomSheetMenuItem({
+    this.title,
+    this.subTitle,
+    this.leading,
+    this.onTap,
+  });
 }

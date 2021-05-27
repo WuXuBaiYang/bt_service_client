@@ -38,12 +38,16 @@ abstract class ServerConfigModel extends BaseModel {
   @HiveField(56, defaultValue: "")
   String logoPath;
 
+  //图标展示形状
+  @HiveField(57, defaultValue: true)
+  bool logoCircle;
+
   //服务器类别
-  @HiveField(57)
+  @HiveField(58)
   ServerType type;
 
   //排序序号
-  @HiveField(58, defaultValue: 0)
+  @HiveField(59, defaultValue: 0)
   int orderNum;
 
   //拼接基础地址

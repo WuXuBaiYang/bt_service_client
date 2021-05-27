@@ -5,6 +5,7 @@ import 'package:bt_service_manager/tools/jimage.dart';
 import 'package:bt_service_manager/tools/route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'url_address_form_field.dart';
 
@@ -102,12 +103,10 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
           ).applyDefaults(decorationTheme),
         ),
         onTap: () async {
-          var result = await JAlert.pickFilesSheet(filterTypes: [
-            JFileType.Image,
-            // JFileType.TakeImage,
-          ]);
-          if (result.isNotEmpty) {
-            field.didChange(result.first.path);
+          var result = await JAlert.pickSingleImage();
+          if (null != result) {
+            config.logoPath = result.path;
+            field.didChange(result.path);
           }
         },
       ),
