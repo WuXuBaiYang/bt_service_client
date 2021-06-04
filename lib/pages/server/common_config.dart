@@ -41,7 +41,8 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
       _buildAliasItem(),
       _buildAddressItem(),
       _buildLogoSelectItem(),
-      _buildFlagColor(),
+      _buildFlagColorItem(),
+      _buildTagsItem(),
     ];
     return Container(
       child: ListView.separated(
@@ -143,7 +144,7 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
   }
 
   //标记颜色选择
-  _buildFlagColor() {
+  _buildFlagColorItem() {
     var config = controller.config;
     return FormField<Color>(
       initialValue: config.flagColor ?? Colors.red,
@@ -166,10 +167,72 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
           ).applyDefaults(decorationTheme),
         ),
         onTap: () async {
-          JAlert.showColorPanel();
+          var result = await JAlert.showColorPicker(
+            selectColor: field.value,
+          );
+          if (null != result) field.didChange(result);
         },
       ),
       onSaved: (v) => controller.config.flagColor = v,
+    );
+  }
+
+  //标签组选项
+  _buildTagsItem() {
+    var config = controller.config;
+    return FormField<List<String>>(
+      initialValue: config.tags ?? [],
+      builder: (field) => InputDecorator(
+        child: Wrap(
+          spacing: 8,
+          children: List.generate(field.value.length + 1, (i) {
+            if (i >= field.value.length) {
+              return IconButton(
+                icon: Icon(Icons.add_box_outlined),
+                onPressed: () async {
+                  var result = await _showAddTagSheet();
+                  if (null != result) field.didChange(field.value..add(result));
+                },
+              );
+            }
+            return RawChip(
+              label: Text(field.value[i]),
+              onDeleted: () => field.didChange(field.value..removeAt(i)),
+            );
+          }),
+        ),
+        decoration: InputDecoration(
+          labelText: "标签",
+        ).applyDefaults(decorationTheme),
+      ),
+      onSaved: (v) => controller.config.tags = v,
+    );
+  }
+
+  //添加标签输入框
+  _showAddTagSheet() {
+    final controller = TextEditingController();
+    return AlertTools.bottomSheet<String>(
+      content: Container(
+        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+        child: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: InputDecoration(
+            labelText: "添加标签",
+            suffixIcon: IconButton(
+              icon: Icon(Icons.done),
+              onPressed: () {
+                var text = controller.text.trim();
+                if (text.isEmpty) {
+                  return AlertTools.snack("无法添加空标签");
+                }
+                RouteTools.pop(text);
+              },
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

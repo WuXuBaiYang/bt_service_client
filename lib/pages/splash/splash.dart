@@ -31,7 +31,7 @@ class SplashPage extends StatelessWidget {
     //申请必备权限
     if (!await PermissionManage.required()) {
       return await AlertTools.alertDialog(
-        "必备权限获取失败",
+        content: "必备权限获取失败",
         confirm: "关闭应用",
         onConfirm: () => exit(0),
       );

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bt_service_manager/tools/route.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -21,11 +22,11 @@ class AlertTools {
       );
 
   //显示提示弹窗
-  static Future<T> alertDialog<T>(
-    String content, {
-    Widget child,
+  static Future<T> alertDialog<T>({
     String title,
     Widget titleIcon,
+    String content,
+    Widget child,
     String confirm,
     Future<T> Function() onConfirm,
     String cancel,
@@ -64,42 +65,40 @@ class AlertTools {
               child: child ?? Text("\t\t${content ?? ""}"),
               visible: null != content || null != child,
             ),
-            Visibility(
-              child: Row(
-                children: [
-                  Visibility(
-                    child: TextButton(
-                      child: Text(custom),
-                      onPressed: () async {
-                        var result = await onCustom?.call();
-                        RouteTools.pop(result);
-                      },
-                    ),
-                    visible: null != custom,
+            Row(
+              children: [
+                Visibility(
+                  child: TextButton(
+                    child: Text(custom ?? ""),
+                    onPressed: () async {
+                      var result = await onCustom?.call();
+                      RouteTools.pop(result);
+                    },
                   ),
-                  Expanded(child: Container()),
-                  Visibility(
-                    child: TextButton(
-                      child: Text(cancel),
-                      onPressed: () async {
-                        var result = await onCancel?.call();
-                        RouteTools.pop(result);
-                      },
-                    ),
-                    visible: null != cancel,
+                  visible: null != custom,
+                ),
+                Expanded(child: Container()),
+                Visibility(
+                  child: TextButton(
+                    child: Text(cancel ?? ""),
+                    onPressed: () async {
+                      var result = await onCancel?.call();
+                      RouteTools.pop(result);
+                    },
                   ),
-                  Visibility(
-                    child: TextButton(
-                      child: Text(confirm),
-                      onPressed: () async {
-                        var result = await onConfirm?.call();
-                        RouteTools.pop(result);
-                      },
-                    ),
-                    visible: null != confirm,
+                  visible: null != cancel,
+                ),
+                Visibility(
+                  child: TextButton(
+                    child: Text(confirm ?? ""),
+                    onPressed: () async {
+                      var result = await onConfirm?.call();
+                      RouteTools.pop(result);
+                    },
                   ),
-                ],
-              ),
+                  visible: null != confirm,
+                ),
+              ],
             ),
           ],
         ),
@@ -134,7 +133,7 @@ class AlertTools {
 
   //底部弹出sheet
   static Future<T> bottomSheet<T>({@required Widget content}) =>
-      Get.bottomSheet(
+      Get.bottomSheet<T>(
         Card(
           margin: EdgeInsets.zero,
           child: content,
@@ -149,11 +148,29 @@ class AlertTools {
 */
 class JAlert {
   //展示调色板
-  static Future<Color> showColorPanel({
-    Color selectColor,
+  static Future<Color> showColorPicker({
+    @required Color selectColor,
+    String title,
+    ValueChanged<Color> onColorChanged,
   }) {
-    return AlertTools.customDialog<Color>(
-      null,
+    Color tempColor = selectColor;
+    return AlertTools.alertDialog<Color>(
+      title: title,
+      child: Container(
+        padding: EdgeInsets.only(top: 8),
+        child: ColorPicker(
+          pickerColor: selectColor,
+          onColorChanged: (value) {
+            onColorChanged?.call(value);
+            tempColor = value;
+          },
+          showLabel: true,
+          pickerAreaHeightPercent: 0.8,
+        ),
+      ),
+      cancel: "取消",
+      confirm: "选择",
+      onConfirm: () async => tempColor,
     );
   }
 

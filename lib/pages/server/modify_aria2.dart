@@ -32,7 +32,34 @@ class ModifyAria2ConfigPage extends StatelessWidget {
           _buildActionDone(context),
         ],
       ),
-      body: _buildFormContent(),
+      body: Form(
+        key: formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              ModifyRPCConfig(
+                controller: controller,
+                methods: [
+                  HTTPMethod.GET,
+                  HTTPMethod.POST,
+                ],
+                decorationTheme: decorationTheme,
+              ),
+              ModifyCommonConfig(
+                controller: controller,
+                protocols: [
+                  Protocol.HTTPS,
+                  Protocol.HTTP,
+                ],
+                decorationTheme: decorationTheme,
+              ),
+            ],
+          ),
+        ),
+        onWillPop: () async {
+          return true;
+        },
+      ),
     );
   }
 
@@ -41,38 +68,6 @@ class ModifyAria2ConfigPage extends StatelessWidget {
     contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 15),
     floatingLabelBehavior: FloatingLabelBehavior.always,
   );
-
-  //构建表单内容
-  _buildFormContent() {
-    return Form(
-      key: formKey,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            ModifyRPCConfig(
-              controller: controller,
-              methods: [
-                HTTPMethod.GET,
-                HTTPMethod.POST,
-              ],
-              decorationTheme: decorationTheme,
-            ),
-            ModifyCommonConfig(
-              controller: controller,
-              protocols: [
-                Protocol.HTTPS,
-                Protocol.HTTP,
-              ],
-              decorationTheme: decorationTheme,
-            ),
-          ],
-        ),
-      ),
-      onWillPop: () async {
-        return true;
-      },
-    );
-  }
 
   //构建完成事件
   _buildActionDone(BuildContext context) {
