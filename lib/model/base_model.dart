@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
 /*
@@ -5,7 +6,8 @@ import 'package:hive/hive.dart';
 * @author jtechjh
 * @Time 2021/5/12 5:44 下午
 */
-abstract class BaseModel {
+// ignore: must_be_immutable
+abstract class BaseModel extends Equatable {
   //id
   @HiveField(0, defaultValue: "")
   String id;
@@ -17,4 +19,11 @@ abstract class BaseModel {
   //更新时间
   @HiveField(2, defaultValue: 0)
   DateTime updateTime;
+
+  @override
+  List<Object> get props => [
+        id,
+        createTime,
+        updateTime,
+      ];
 }

@@ -10,6 +10,7 @@ part 'aria2_config_model.g.dart';
 * @Time 2021/5/13 4:20 下午
 */
 @HiveType(typeId: 1)
+// ignore: must_be_immutable
 class Aria2ConfigModel extends RPCServerConfigModel with HiveObjectMixin {
   Aria2ConfigModel()
       : super.create(

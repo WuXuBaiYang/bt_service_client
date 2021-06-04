@@ -15,7 +15,14 @@ class ModifyServerController<T extends ServerConfigModel>
   //记录rpc的授权密码可视状态
   var rpcTokenVisible = true.obs;
 
-  ModifyServerController({@required this.config});
+  ModifyServerController({@required this.config})
+      : configHash = config.hashCode;
+
+  //记录初次对象hash值
+  final configHash;
+
+  //判断是否发生过编辑
+  bool get hasBeenEdited => configHash != config.hashCode;
 
   //切换rpc授权密码可视状态
   void toggleRPCTokenVisible() {

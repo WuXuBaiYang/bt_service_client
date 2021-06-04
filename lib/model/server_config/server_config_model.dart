@@ -9,6 +9,7 @@ part 'server_config_model.g.dart';
 * @author jtechjh
 * @Time 2021/5/13 4:22 下午
 */
+// ignore: must_be_immutable
 abstract class ServerConfigModel extends BaseModel {
   //协议
   @HiveField(50, defaultValue: Protocol.HTTP)
@@ -90,6 +91,21 @@ abstract class ServerConfigModel extends BaseModel {
     ServerType.QBitTorrent: "server_qbittorrent.png",
     ServerType.Transmission: "server_transmission.png",
   };
+
+  @override
+  List<Object> get props => super.props
+    ..addAll([
+      alias,
+      tags,
+      flagColor,
+      logoPath,
+      logoCircle,
+      protocol,
+      hostname,
+      port,
+      type,
+      orderNum,
+    ]);
 }
 
 /*
@@ -97,6 +113,7 @@ abstract class ServerConfigModel extends BaseModel {
 * @author jtechjh
 * @Time 2021/5/20 3:53 下午
 */
+// ignore: must_be_immutable
 abstract class RPCServerConfigModel extends ServerConfigModel {
   //rpc路径
   @HiveField(30, defaultValue: "jsonrpc")
@@ -136,6 +153,14 @@ abstract class RPCServerConfigModel extends ServerConfigModel {
           port: port,
           type: type,
         );
+
+  @override
+  List<Object> get props => super.props
+    ..addAll([
+      path,
+      method,
+      secretToken,
+    ]);
 }
 
 /*

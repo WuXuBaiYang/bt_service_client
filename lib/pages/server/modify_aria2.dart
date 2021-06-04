@@ -1,6 +1,8 @@
 import 'package:bt_service_manager/model/server_config/aria2_config_model.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:bt_service_manager/pages/server/modify_controller.dart';
+import 'package:bt_service_manager/tools/alert.dart';
+import 'package:bt_service_manager/tools/route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -37,26 +39,45 @@ class ModifyAria2ConfigPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              ModifyRPCConfig(
-                controller: controller,
-                methods: [
-                  HTTPMethod.GET,
-                  HTTPMethod.POST,
-                ],
-                decorationTheme: decorationTheme,
+              Card(
+                child: Container(
+                  padding: EdgeInsets.all(15),
+                  child: ModifyRPCConfig(
+                    controller: controller,
+                    methods: [
+                      HTTPMethod.GET,
+                      HTTPMethod.POST,
+                    ],
+                    decorationTheme: decorationTheme,
+                  ),
+                ),
               ),
-              ModifyCommonConfig(
-                controller: controller,
-                protocols: [
-                  Protocol.HTTPS,
-                  Protocol.HTTP,
-                ],
-                decorationTheme: decorationTheme,
+              Card(
+                child: Container(
+                  padding: EdgeInsets.all(15),
+                  child: ModifyCommonConfig(
+                    controller: controller,
+                    protocols: [
+                      Protocol.HTTPS,
+                      Protocol.HTTP,
+                    ],
+                    decorationTheme: decorationTheme,
+                  ),
+                ),
               ),
             ],
           ),
         ),
         onWillPop: () async {
+          if (controller.hasBeenEdited) {
+            AlertTools.alertDialog(
+              content: "数据发生过编辑，继续退出将丢失已编辑数据",
+              cancel: "返回",
+              confirm: "继续退出",
+              onConfirm: () async => RouteTools.pop(false),
+            );
+            return false;
+          }
           return true;
         },
       ),
