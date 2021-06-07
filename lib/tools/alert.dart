@@ -112,6 +112,9 @@ class AlertTools {
   static Future<T> customDialog<T>(
     Widget content, {
     bool barrierDismissible = true,
+    double size,
+    double width,
+    double height,
   }) {
     return Get.dialog<T>(
       Material(
@@ -122,6 +125,8 @@ class AlertTools {
               padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
               child: Container(
                 child: content,
+                width: size ?? width,
+                height: size ?? height,
                 constraints: BoxConstraints(
                   maxWidth: Get.width / 5 * 4,
                 ),
@@ -258,6 +263,28 @@ class JAlert {
         ),
       ),
     );
+  }
+
+  //记录等待弹窗状态
+  static Future _loadingFuture;
+
+  //展示等待弹窗
+  static Future<void> showLoading() {
+    if (null == _loadingFuture) {
+      _loadingFuture = AlertTools.customDialog(
+        CircularProgressIndicator(),
+        size: 100,
+      );
+    }
+    return _loadingFuture;
+  }
+
+  //关闭等待弹窗
+  static hideLoading() {
+    if (null != _loadingFuture) {
+      RouteTools.pop();
+      _loadingFuture = null;
+    }
   }
 }
 

@@ -1,3 +1,4 @@
+import 'package:bt_service_manager/manage/database/database_manage.dart';
 import 'package:bt_service_manager/model/server_config/aria2_config_model.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:bt_service_manager/pages/server/modify_controller.dart';
@@ -21,6 +22,12 @@ class ModifyAria2ConfigPage extends StatelessWidget {
   //表单key
   final GlobalKey<FormState> formKey = GlobalKey();
 
+  //容器样式
+  final decorationTheme = InputDecorationTheme(
+    contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 15),
+    floatingLabelBehavior: FloatingLabelBehavior.always,
+  );
+
   ModifyAria2ConfigPage(Aria2ConfigModel config)
       : controller =
             ModifyServerController(config: config ?? Aria2ConfigModel());
@@ -30,9 +37,7 @@ class ModifyAria2ConfigPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("${controller.config.isEdited ? "编辑" : "添加"}Aria2服务器"),
-        actions: [
-          _buildActionDone(context),
-        ],
+        actions: _buildActions(context),
       ),
       body: Form(
         key: formKey,
@@ -85,23 +90,27 @@ class ModifyAria2ConfigPage extends StatelessWidget {
     );
   }
 
-  //容器样式
-  final decorationTheme = InputDecorationTheme(
-    contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 15),
-    floatingLabelBehavior: FloatingLabelBehavior.always,
-  );
-
   //构建完成事件
-  _buildActionDone(BuildContext context) {
-    return IconButton(
-      icon: Icon(Icons.done),
-      onPressed: () {
-        formKey.currentState
-          ..validate()
-          ..save();
-        var a = controller.config;
-        print("");
-      },
-    );
+  _buildActions(BuildContext context) => [
+        IconButton(
+          icon: Icon(Icons.done),
+          onPressed: () => _submitAria2Config(),
+        ),
+      ];
+
+  //提交配置信息
+  _submitAria2Config() {
+    JAlert.showLoading();
+    formKey.currentState
+      ..validate()
+      ..save();
+    var config = controller.config;
+    if (config.isEdited) {
+      dbManage.server.modifyServerConfig(config);
+    } else {
+      dbManage.server.addServerConfig(config);
+    }
+    JAlert.hideLoading();
+    RouteTools.pop(true);
   }
 }
