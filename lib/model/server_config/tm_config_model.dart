@@ -10,10 +10,12 @@ part 'tm_config_model.g.dart';
 * @Time 2021/5/13 4:20 下午
 */
 @HiveType(typeId: 3)
+// ignore: must_be_immutable
 class TMConfigModel extends RPCServerConfigModel with HiveObjectMixin {
   TMConfigModel()
       : super.create(
           type: ServerType.Transmission,
+          logoCircle: true,
         );
 
   TMConfigModel.create({
@@ -33,7 +35,7 @@ class TMConfigModel extends RPCServerConfigModel with HiveObjectMixin {
           tags: tags,
           flagColor: flagColor,
           logoPath: logoPath,
-          logoCircle: logoCircle,
+          logoCircle: logoCircle ?? true,
           protocol: protocol,
           hostname: hostname,
           port: port,

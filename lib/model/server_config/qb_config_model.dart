@@ -10,10 +10,12 @@ part 'qb_config_model.g.dart';
 * @Time 2021/5/13 4:20 下午
 */
 @HiveType(typeId: 2)
+// ignore: must_be_immutable
 class QBConfigModel extends ServerConfigModel with HiveObjectMixin {
   QBConfigModel()
       : super.create(
           type: ServerType.QBitTorrent,
+          logoCircle: true,
         );
 
   QBConfigModel.create({
@@ -30,7 +32,7 @@ class QBConfigModel extends ServerConfigModel with HiveObjectMixin {
           tags: tags,
           flagColor: flagColor,
           logoPath: logoPath,
-          logoCircle: logoCircle,
+          logoCircle: logoCircle ?? true,
           protocol: protocol,
           hostname: hostname,
           port: port,

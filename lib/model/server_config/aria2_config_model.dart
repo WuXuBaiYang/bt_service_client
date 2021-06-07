@@ -15,6 +15,7 @@ class Aria2ConfigModel extends RPCServerConfigModel with HiveObjectMixin {
   Aria2ConfigModel()
       : super.create(
           type: ServerType.Aria2,
+          logoCircle: true,
         );
 
   Aria2ConfigModel.create({
@@ -34,7 +35,7 @@ class Aria2ConfigModel extends RPCServerConfigModel with HiveObjectMixin {
           tags: tags,
           flagColor: flagColor,
           logoPath: logoPath,
-          logoCircle: logoCircle,
+          logoCircle: logoCircle ?? true,
           protocol: protocol,
           hostname: hostname,
           port: port,

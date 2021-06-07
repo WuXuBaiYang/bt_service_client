@@ -19,13 +19,12 @@ class ModifyServerController<T extends ServerConfigModel>
       : configHash = config.hashCode;
 
   //记录初次对象hash值
-  final configHash;
+  int configHash;
 
   //判断是否发生过编辑
   bool get hasBeenEdited => configHash != config.hashCode;
 
   //切换rpc授权密码可视状态
-  void toggleRPCTokenVisible() {
-    rpcTokenVisible.value = !rpcTokenVisible.value;
-  }
+  void toggleRPCTokenVisible() =>
+      rpcTokenVisible.value = !rpcTokenVisible.value;
 }

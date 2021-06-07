@@ -88,7 +88,6 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
   //构建图表选择子项
   _buildLogoSelectItem() {
     var config = controller.config;
-    config.logoCircle ??= true;
     return FormField<String>(
       initialValue: config.currentLogoPath,
       builder: (field) => InkWell(
@@ -185,24 +184,23 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
       builder: (field) => InputDecorator(
         child: Wrap(
           spacing: 8,
-          children: List.generate(field.value.length + 1, (i) {
-            if (i >= field.value.length) {
-              return IconButton(
-                icon: Icon(Icons.add_box_outlined),
-                onPressed: () async {
-                  var result = await _showAddTagSheet();
-                  if (null != result) field.didChange(field.value..add(result));
-                },
-              );
-            }
-            return RawChip(
+          children: List.generate(
+            field.value.length,
+            (i) => RawChip(
               label: Text(field.value[i]),
               onDeleted: () => field.didChange(field.value..removeAt(i)),
-            );
-          }),
+            ),
+          ),
         ),
         decoration: InputDecoration(
           labelText: "标签",
+          suffixIcon: IconButton(
+            icon: Icon(Icons.add_circle_outline),
+            onPressed: () async {
+              var result = await _showAddTagSheet();
+              if (null != result) field.didChange(field.value..add(result));
+            },
+          ),
         ).applyDefaults(decorationTheme),
       ),
       onSaved: (v) => controller.config.tags = v,

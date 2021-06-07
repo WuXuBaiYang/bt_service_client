@@ -71,8 +71,9 @@ class ModifyAria2ConfigPage extends StatelessWidget {
         onWillPop: () async {
           if (controller.hasBeenEdited) {
             AlertTools.alertDialog(
+              contentPadding: EdgeInsets.symmetric(vertical: 15),
               content: "数据发生过编辑，继续退出将丢失已编辑数据",
-              cancel: "返回",
+              cancel: "取消",
               confirm: "继续退出",
               onConfirm: () async => RouteTools.pop(false),
             );

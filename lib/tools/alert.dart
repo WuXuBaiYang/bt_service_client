@@ -28,6 +28,7 @@ class AlertTools {
     String content,
     Widget child,
     String confirm,
+    EdgeInsets contentPadding = EdgeInsets.zero,
     Future<T> Function() onConfirm,
     String cancel,
     Future<T> Function() onCancel,
@@ -62,7 +63,10 @@ class AlertTools {
               visible: null != title || null != titleIcon,
             ),
             Visibility(
-              child: child ?? Text("\t\t${content ?? ""}"),
+              child: Container(
+                padding: contentPadding,
+                child: child ?? Text("\t\t${content ?? ""}"),
+              ),
               visible: null != content || null != child,
             ),
             Row(
