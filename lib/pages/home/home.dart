@@ -4,7 +4,6 @@ import 'package:bt_service_manager/pages/home/server_controller.dart';
 import 'package:bt_service_manager/pages/home/server_list.dart';
 import 'package:bt_service_manager/tools/alert.dart';
 import 'package:bt_service_manager/tools/jimage.dart';
-import 'package:bt_service_manager/tools/route.dart';
 import 'package:bt_service_manager/tools/tools.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,18 +30,8 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: FutureBuilder<List<ServerConfigModel>>(
-        future: controller.loadServerList(),
-        builder: (_, snap) {
-          if (!snap.hasData) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          return ServerListView(
-            serverList: snap.data,
-          );
-        },
+      body: ServerListView(
+        serverController: controller,
       ),
       drawer: _buildDrawerMenu(),
     );
@@ -118,8 +107,7 @@ class HomePage extends StatelessWidget {
           title: item["name"],
           onTap: (i) async {
             await item["fun"]?.call();
-
-            ///返回的时候判断是否需要刷新列表
+            controller.refreshController.requestRefresh();
           },
         );
       }),

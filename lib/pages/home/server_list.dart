@@ -1,8 +1,10 @@
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
-import 'package:bt_service_manager/pages/home/home.dart';
+import 'package:bt_service_manager/pages/home/server_controller.dart';
 import 'package:bt_service_manager/tools/jimage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 /*
 * 服务器列表视图
@@ -10,10 +12,13 @@ import 'package:flutter/material.dart';
 * @Time 2021/5/19 2:15 下午
 */
 class ServerListView extends StatefulWidget {
-  //服务器配置集合
-  final List<ServerConfigModel> serverList;
+  //首页控制器
+  final ServerController serverController;
 
-  const ServerListView({Key key, @required this.serverList}) : super(key: key);
+  const ServerListView({
+    Key key,
+    @required this.serverController,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _ServerListViewState();
@@ -27,18 +32,24 @@ class ServerListView extends StatefulWidget {
 class _ServerListViewState extends State<ServerListView> {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Column(
-        children: [
-          _buildFilterInfo(),
-          Expanded(
-            child: ListView.builder(
-              itemCount: widget.serverList.length,
-              itemBuilder: (_, i) => _buildServerItem(widget.serverList[i]),
-            ),
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        _buildFilterInfo(),
+        Expanded(
+          child: Obx(() => SmartRefresher(
+                controller: widget.serverController.refreshController,
+                onRefresh: () => widget.serverController.loadServerList(),
+                enablePullDown: true,
+                child: ListView.builder(
+                  itemCount: widget.serverController.servers.length,
+                  itemBuilder: (_, i) {
+                    var model = widget.serverController.servers[i];
+                    return _buildServerItem(model);
+                  },
+                ),
+              )),
+        ),
+      ],
     );
   }
 
@@ -60,7 +71,7 @@ class _ServerListViewState extends State<ServerListView> {
                   color: Colors.blueAccent,
                 ),
                 SizedBox(width: 6),
-                Text("${widget.serverList.length}"),
+                Text("${widget.serverController.servers.length}"),
                 SizedBox(width: 6),
               ]..addAll(_buildServerItemsCount()),
             ),
@@ -90,7 +101,7 @@ class _ServerListViewState extends State<ServerListView> {
   //构建服务器子项数量
   _buildServerItemsCount() {
     Map counter = {};
-    widget.serverList.forEach((item) {
+    widget.serverController.servers.forEach((item) {
       counter[item.type] = (counter[item.type] ?? 0) + 1;
     });
     var children = List<Widget>.generate(counter.length, (i) {
@@ -115,19 +126,7 @@ class _ServerListViewState extends State<ServerListView> {
   //构建服务器子项
   _buildServerItem(ServerConfigModel model) {
     return Card(
-      child: Text.rich(
-        TextSpan(
-          text: model.alias,
-          children: [
-            TextSpan(
-                text: "(${model.type.text})",
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 14,
-                )),
-          ],
-        ),
-      ),
+      child: Container(),
     );
   }
 }

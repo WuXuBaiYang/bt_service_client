@@ -1,23 +1,21 @@
 import 'package:bt_service_manager/manage/database/database_manage.dart';
-import 'package:bt_service_manager/model/server_config/aria2_config_model.dart';
+import 'package:bt_service_manager/model/server_config/qb_config_model.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
+import 'package:bt_service_manager/pages/server/common_config.dart';
 import 'package:bt_service_manager/pages/server/modify_controller.dart';
 import 'package:bt_service_manager/tools/alert.dart';
 import 'package:bt_service_manager/tools/route.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'common_config.dart';
-import 'rpc_config.dart';
-
 /*
-* 创建/编辑Aria2服务器
-* @author jtechjh
-* @Time 2021/5/19 4:21 下午
+* 创建/编辑QBittorrent服务器
+* @author wuxubaiyang
+* @Time 2021/6/7 下午2:49
 */
-class ModifyAria2ConfigPage extends StatelessWidget {
+class ModifyQBConfigPage extends StatelessWidget {
   //配置编辑控制器
-  final ModifyServerController<Aria2ConfigModel> controller;
+  final ModifyServerController<QBConfigModel> controller;
 
   //容器样式
   final decorationTheme = InputDecorationTheme(
@@ -25,15 +23,15 @@ class ModifyAria2ConfigPage extends StatelessWidget {
     floatingLabelBehavior: FloatingLabelBehavior.always,
   );
 
-  ModifyAria2ConfigPage(Aria2ConfigModel config)
+  ModifyQBConfigPage(QBConfigModel config)
       : controller =
-            ModifyServerController(config: config ?? Aria2ConfigModel());
+            ModifyServerController(config: config ?? QBConfigModel());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("${controller.config.isEdited ? "编辑" : "添加"}Aria2服务器"),
+        title: Text("${controller.config.isEdited ? "编辑" : "添加"}QBittorrent服务器"),
         actions: _buildActions(context),
       ),
       body: Form(
@@ -41,19 +39,6 @@ class ModifyAria2ConfigPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Card(
-                child: Container(
-                  padding: EdgeInsets.all(15),
-                  child: ModifyRPCConfig(
-                    controller: controller,
-                    methods: [
-                      HTTPMethod.GET,
-                      HTTPMethod.POST,
-                    ],
-                    decorationTheme: decorationTheme,
-                  ),
-                ),
-              ),
               Card(
                 child: Container(
                   padding: EdgeInsets.all(15),
@@ -91,20 +76,20 @@ class ModifyAria2ConfigPage extends StatelessWidget {
   _buildActions(BuildContext context) => [
         IconButton(
           icon: Icon(Icons.done),
-          onPressed: () => _submitAria2Config(),
+          onPressed: () => _submitConfig(),
         ),
       ];
 
   //提交配置信息
-  _submitAria2Config() async {
+  _submitConfig() async {
     if (!controller.confirmForm()) return;
     JAlert.showLoading();
     var config = controller.config;
-    config.id=null;
+    config.id = null;
     if (config.isEdited) {
-      await dbManage.server.modifyServerConfig<Aria2ConfigModel>(config);
+      await dbManage.server.modifyServerConfig(config);
     } else {
-      await dbManage.server.addServerConfig<Aria2ConfigModel>(config);
+      await dbManage.server.addServerConfig(config);
     }
     JAlert.hideLoading();
     RouteTools.pop(true);
