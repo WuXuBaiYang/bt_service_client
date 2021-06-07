@@ -60,6 +60,7 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
     var config = controller.config;
     return TextFormField(
       initialValue: config.alias ?? "",
+      maxLength: 16,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         labelText: "服务器别名",
@@ -134,6 +135,7 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
             ? Colors.blueAccent
             : Colors.transparent,
         circle: circle,
+        radius: 4,
       ),
       onTap: () {
         config.logoCircle = circle;

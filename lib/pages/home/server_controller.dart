@@ -32,6 +32,7 @@ class ServerController extends GetxController {
     try {
       servers.clear();
       servers.addAll(await dbManage.server.loadAllServerConfig());
+      servers.sort((a, b) => b.orderNum.compareTo(a.orderNum));
       refreshController.refreshCompleted();
     } catch (e) {
       refreshController.refreshFailed();

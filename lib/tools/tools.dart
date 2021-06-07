@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:bt_service_manager/tools/alert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 /*
 * 工具包
@@ -30,6 +31,12 @@ class Tools {
     var result = utf8.decode(bytes);
     return result;
   }
+
+  //获取屏幕宽度
+  static double get screenWidth => Get.width;
+
+  //获取屏幕宽度
+  static double get screenHeight => Get.height;
 
   //生成唯一id
   static String get generationID => toMD5(base64En(

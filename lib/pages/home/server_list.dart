@@ -1,6 +1,7 @@
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:bt_service_manager/pages/home/server_controller.dart';
 import 'package:bt_service_manager/tools/jimage.dart';
+import 'package:bt_service_manager/tools/tools.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -30,24 +31,31 @@ class ServerListView extends StatefulWidget {
 * @Time 2021/5/19 2:16 下午
 */
 class _ServerListViewState extends State<ServerListView> {
+  //服务器列表子项高度
+  final double serverItemHeight = 120;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         _buildFilterInfo(),
         Expanded(
-          child: Obx(() => SmartRefresher(
-                controller: widget.serverController.refreshController,
-                onRefresh: () => widget.serverController.loadServerList(),
-                enablePullDown: true,
-                child: ListView.builder(
-                  itemCount: widget.serverController.servers.length,
-                  itemBuilder: (_, i) {
-                    var model = widget.serverController.servers[i];
-                    return _buildServerItem(model);
-                  },
-                ),
-              )),
+          child: Obx(
+            () => SmartRefresher(
+              controller: widget.serverController.refreshController,
+              onRefresh: () => widget.serverController.loadServerList(),
+              enablePullDown: true,
+              child: ListView.builder(
+                shrinkWrap: true,
+                cacheExtent: serverItemHeight,
+                itemCount: widget.serverController.servers.length,
+                itemBuilder: (_, i) {
+                  var model = widget.serverController.servers[i];
+                  return _buildServerItem(model);
+                },
+              ),
+            ),
+          ),
         ),
       ],
     );
@@ -111,22 +119,86 @@ class _ServerListViewState extends State<ServerListView> {
         children: [
           JImage.assetsIcon(ServerConfigModel.getServerAssetsIcon(key),
               size: 15),
-          Text("$value"),
+          Text("$value "),
         ],
       );
     });
     if (children.isNotEmpty) {
       children
-        ..insert(0, Text("("))
+        ..insert(0, Text("( "))
         ..add(Text(")"));
     }
     return children;
   }
 
   //构建服务器子项
-  _buildServerItem(ServerConfigModel model) {
+  _buildServerItem(ServerConfigModel config) {
+    return Container(
+      height: serverItemHeight,
+      margin: EdgeInsets.symmetric(
+        horizontal: 15,
+      ).copyWith(left: 30, bottom: 8),
+      child: Card(
+        child: OverflowBox(
+          alignment: Alignment.centerRight,
+          maxHeight: serverItemHeight,
+          maxWidth: Tools.screenWidth,
+          child: Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Row(
+              children: [
+                _buildServerItemLogo(config),
+                SizedBox(width: 8),
+                _buildServerItemContent(config),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  //构建服务子项logo
+  _buildServerItemLogo(ServerConfigModel config) {
     return Card(
-      child: Container(),
+      shape: config.logoCircle
+          ? CircleBorder()
+          : RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+            ),
+      child: Padding(
+        padding: EdgeInsets.all(3),
+        child: config.hasCustomLogo
+            ? JImage.file(
+                config.logoPath,
+                size: 45,
+                circle: config.logoCircle,
+                radius: 4,
+              )
+            : JImage.assetsIcon(
+                config.defaultAssetsIcon,
+                size: 45,
+              ),
+      ),
+    );
+  }
+
+  //构建服务子项内容
+  _buildServerItemContent(ServerConfigModel config) {
+    return Expanded(
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: 8).copyWith(right: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(child: Text(config.alias)),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
