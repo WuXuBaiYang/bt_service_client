@@ -190,7 +190,7 @@ class JAlert {
   }) async {
     var result =
         await pickImages(takeImage: takeImage, maxCount: 1, compress: compress);
-    return result.isNotEmpty ? result.first : null;
+    return result?.isNotEmpty ?? false ? result.first : null;
   }
 
   //弹出图片选择
@@ -272,9 +272,15 @@ class JAlert {
   static Future<void> showLoading() {
     if (null == _loadingFuture) {
       _loadingFuture = AlertTools.customDialog(
-        CircularProgressIndicator(),
-        size: 100,
-      );
+        WillPopScope(
+          child: Container(
+            padding: EdgeInsets.all(8),
+            child: CircularProgressIndicator(),
+          ),
+          onWillPop: () async => false,
+        ),
+        size: 55,
+      )..whenComplete(() => _loadingFuture = null);
     }
     return _loadingFuture;
   }

@@ -99,16 +99,16 @@ class ModifyAria2ConfigPage extends StatelessWidget {
       ];
 
   //提交配置信息
-  _submitAria2Config() {
+  _submitAria2Config() async {
+    var form = formKey.currentState;
+    if (!form.validate()) return;
     JAlert.showLoading();
-    formKey.currentState
-      ..validate()
-      ..save();
+    form.save();
     var config = controller.config;
     if (config.isEdited) {
-      dbManage.server.modifyServerConfig(config);
+      await dbManage.server.modifyServerConfig(config);
     } else {
-      dbManage.server.addServerConfig(config);
+      await dbManage.server.addServerConfig(config);
     }
     JAlert.hideLoading();
     RouteTools.pop(true);
