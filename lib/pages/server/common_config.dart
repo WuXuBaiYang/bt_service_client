@@ -89,7 +89,7 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
   _buildLogoSelectItem() {
     var config = controller.config;
     return FormField<String>(
-      initialValue: config.currentLogoPath,
+      initialValue: config.logoPath ?? "",
       builder: (field) => InkWell(
         child: InputDecorator(
           child: ListTile(
@@ -104,7 +104,7 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
                       _buildLogoRadioItem(config, field, true),
                     ],
                   )
-                : JImage.assetsIcon(field.value, size: 45),
+                : JImage.assetsIcon(config.defaultAssetsIcon, size: 45),
             dense: true,
           ),
           decoration: InputDecoration(
@@ -146,7 +146,7 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
   _buildFlagColorItem() {
     var config = controller.config;
     return FormField<Color>(
-      initialValue: config.flagColor ?? Colors.red,
+      initialValue: Color(config.flagColor ?? Colors.red.value),
       builder: (field) => InkWell(
         child: InputDecorator(
           child: ListTile(
@@ -172,7 +172,7 @@ class ModifyCommonConfig<T extends ServerConfigModel> extends StatelessWidget {
           if (null != result) field.didChange(result);
         },
       ),
-      onSaved: (v) => controller.config.flagColor = v,
+      onSaved: (v) => controller.config.flagColor = v.value,
     );
   }
 

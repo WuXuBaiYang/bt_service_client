@@ -25,7 +25,7 @@ class TMConfigModelAdapter extends TypeAdapter<TMConfigModel> {
       ..port = fields[52] == null ? 80 : fields[52] as num
       ..alias = fields[53] == null ? '' : fields[53] as String
       ..tags = fields[54] == null ? [] : (fields[54] as List)?.cast<String>()
-      ..flagColor = fields[55] == null ? const Color(0) : fields[55] as Color
+      ..flagColor = fields[55] == null ? 0 : fields[55] as int
       ..logoPath = fields[56] == null ? '' : fields[56] as String
       ..logoCircle = fields[57] == null ? true : fields[57] as bool
       ..type = fields[58] as ServerType

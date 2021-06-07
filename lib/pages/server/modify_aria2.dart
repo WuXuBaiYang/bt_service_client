@@ -19,9 +19,6 @@ class ModifyAria2ConfigPage extends StatelessWidget {
   //配置编辑控制器
   final ModifyServerController<Aria2ConfigModel> controller;
 
-  //表单key
-  final GlobalKey<FormState> formKey = GlobalKey();
-
   //容器样式
   final decorationTheme = InputDecorationTheme(
     contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 15),
@@ -40,7 +37,7 @@ class ModifyAria2ConfigPage extends StatelessWidget {
         actions: _buildActions(context),
       ),
       body: Form(
-        key: formKey,
+        key: controller.formKey,
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -100,15 +97,14 @@ class ModifyAria2ConfigPage extends StatelessWidget {
 
   //提交配置信息
   _submitAria2Config() async {
-    var form = formKey.currentState;
-    if (!form.validate()) return;
+    if (!controller.confirmForm()) return;
     JAlert.showLoading();
-    form.save();
     var config = controller.config;
+    config.id=null;
     if (config.isEdited) {
-      await dbManage.server.modifyServerConfig(config);
+      await dbManage.server.modifyServerConfig<Aria2ConfigModel>(config);
     } else {
-      await dbManage.server.addServerConfig(config);
+      await dbManage.server.addServerConfig<Aria2ConfigModel>(config);
     }
     JAlert.hideLoading();
     RouteTools.pop(true);

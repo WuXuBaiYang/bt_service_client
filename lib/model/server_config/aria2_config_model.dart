@@ -1,5 +1,4 @@
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
-import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 part 'aria2_config_model.g.dart';
@@ -17,11 +16,10 @@ class Aria2ConfigModel extends RPCServerConfigModel with HiveObjectMixin {
           type: ServerType.Aria2,
           logoCircle: true,
         );
-
   Aria2ConfigModel.create({
     String alias,
     List<String> tags,
-    Color flagColor,
+    int flagColor,
     String logoPath,
     bool logoCircle,
     Protocol protocol,

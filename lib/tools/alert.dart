@@ -277,7 +277,7 @@ class JAlert {
             padding: EdgeInsets.all(8),
             child: CircularProgressIndicator(),
           ),
-          onWillPop: () async => false,
+          onWillPop: () async => true,
         ),
         size: 55,
       )..whenComplete(() => _loadingFuture = null);

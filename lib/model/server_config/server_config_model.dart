@@ -1,5 +1,4 @@
 import 'package:bt_service_manager/model/base_model.dart';
-import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 part 'server_config_model.g.dart';
@@ -32,8 +31,8 @@ abstract class ServerConfigModel extends BaseModel {
   List<String> tags;
 
   //标记颜色
-  @HiveField(55, defaultValue: Colors.transparent)
-  Color flagColor;
+  @HiveField(55, defaultValue: 0x00000000)
+  int flagColor;
 
   //自定义图标路径
   @HiveField(56, defaultValue: "")
@@ -60,13 +59,8 @@ abstract class ServerConfigModel extends BaseModel {
   //判断是否存在自定义图标
   bool get hasCustomLogo => logoPath?.isNotEmpty ?? false;
 
-  //获取当前图标
-  String get currentLogoPath {
-    if (logoPath?.isNotEmpty ?? false) {
-      return logoPath;
-    }
-    return getServerAssetsIcon(type);
-  }
+  //获取当前服务器类型默认图标
+  String get defaultAssetsIcon => getServerAssetsIcon(type);
 
   //静态方法，获取服务器类型对应的图标
   static String getServerAssetsIcon(ServerType type) => _serverAssetsIcon[type];
@@ -132,7 +126,7 @@ abstract class RPCServerConfigModel extends ServerConfigModel {
   RPCServerConfigModel.create({
     String alias,
     List<String> tags,
-    Color flagColor,
+    int flagColor,
     String logoPath,
     bool logoCircle,
     Protocol protocol,

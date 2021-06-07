@@ -1,4 +1,3 @@
-import 'package:bt_service_manager/model/server_config/aria2_config_model.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:bt_service_manager/tools/tools.dart';
 import 'package:hive/hive.dart';
@@ -22,7 +21,7 @@ class ServerDatabase extends BaseDatabase {
     config.id = Tools.generationID;
     config.createTime = DateTime.now();
     config.updateTime = config.createTime;
-    config.orderNum = await queryLength(_serverConfig);
+    config.orderNum = await queryLength<ServerConfigModel>(_serverConfig);
     return insert<ServerConfigModel>(_serverConfig, model: config);
   }
 

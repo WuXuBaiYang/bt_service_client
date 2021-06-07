@@ -15,14 +15,33 @@ class ModifyServerController<T extends ServerConfigModel>
   //记录rpc的授权密码可视状态
   var rpcTokenVisible = true.obs;
 
-  ModifyServerController({@required this.config})
-      : configHash = config.hashCode;
+  //表单key
+  final GlobalKey<FormState> formKey = GlobalKey();
+
+  ModifyServerController({@required this.config}) {
+    //首次绘制完成后，存储数据并获取hashcode
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      formKey.currentState.save();
+      configHash = config.hashCode;
+    });
+  }
 
   //记录初次对象hash值
   int configHash;
 
   //判断是否发生过编辑
-  bool get hasBeenEdited => configHash != config.hashCode;
+  bool get hasBeenEdited {
+    formKey.currentState.save();
+    return configHash != config.hashCode;
+  }
+
+  //表单校验并存储
+  bool confirmForm() {
+    var formState = formKey.currentState;
+    var valid = formState.validate();
+    if (valid) formState.save();
+    return valid;
+  }
 
   //切换rpc授权密码可视状态
   void toggleRPCTokenVisible() =>

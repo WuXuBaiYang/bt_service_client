@@ -1,5 +1,4 @@
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
-import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 part 'tm_config_model.g.dart';
@@ -21,7 +20,7 @@ class TMConfigModel extends RPCServerConfigModel with HiveObjectMixin {
   TMConfigModel.create({
     String alias,
     List<String> tags,
-    Color flagColor,
+    int flagColor,
     String logoPath,
     bool logoCircle,
     Protocol protocol,
