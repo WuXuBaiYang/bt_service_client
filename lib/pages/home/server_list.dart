@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bt_service_manager/manage/page_manage.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:bt_service_manager/pages/home/server_controller.dart';
@@ -8,8 +6,6 @@ import 'package:bt_service_manager/tools/tools.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:octo_image/octo_image.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 /*
 * 服务器列表视图
@@ -44,23 +40,17 @@ class _ServerListViewState extends State<ServerListView> {
       children: [
         _buildFilterInfo(),
         Expanded(
-          child: Obx(
-            () => SmartRefresher(
-              controller: widget.serverController.refreshController,
-              onRefresh: () => widget.serverController.loadServerList(),
-              enablePullDown: true,
-              child: ListView.builder(
-                shrinkWrap: true,
-                cacheExtent: serverItemHeight,
-                itemCount: widget.serverController.servers.length,
-                itemBuilder: (_, i) {
-                  var model = widget.serverController.servers[i];
-                  return _buildServerItem(model);
-                },
-              ),
-            ),
+            child: Obx(
+          () => ReorderableListView.builder(
+            onReorder: (int oldIndex, int newIndex) =>
+                widget.serverController.switchConfig(oldIndex, newIndex),
+            itemCount: widget.serverController.servers.length,
+            itemBuilder: (_, i) {
+              var model = widget.serverController.servers[i];
+              return _buildServerItem(model);
+            },
           ),
-        ),
+        )),
       ],
     );
   }
@@ -83,9 +73,10 @@ class _ServerListViewState extends State<ServerListView> {
                   color: Colors.blueAccent,
                 ),
                 SizedBox(width: 6),
-                Text("${widget.serverController.servers.length}"),
+                Obx(() => Text("${widget.serverController.servers.length}")),
                 SizedBox(width: 6),
-              ]..addAll(_buildServerItemsCount()),
+                _buildServerItemsCount(),
+              ],
             ),
           ),
           DropdownButton<FilterType>(
@@ -101,9 +92,7 @@ class _ServerListViewState extends State<ServerListView> {
                 ]),
               );
             }),
-            onChanged: (v) {
-              setState(() => _filterType = v);
-            },
+            onChanged: (v) => setState(() => _filterType = v),
           ),
         ],
       ),
@@ -112,32 +101,39 @@ class _ServerListViewState extends State<ServerListView> {
 
   //构建服务器子项数量
   _buildServerItemsCount() {
-    Map counter = {};
-    widget.serverController.servers.forEach((item) {
-      counter[item.type] = (counter[item.type] ?? 0) + 1;
-    });
-    var children = List<Widget>.generate(counter.length, (i) {
-      var key = counter.keys.elementAt(i);
-      var value = counter[key];
-      return Row(
-        children: [
-          JImage.assetsIcon(ServerConfigModel.getServerAssetsIcon(key),
-              size: 15),
-          Text("$value "),
-        ],
-      );
-    });
-    if (children.isNotEmpty) {
-      children
-        ..insert(0, Text("( "))
-        ..add(Text(")"));
-    }
-    return children;
+    return Obx(() => FutureBuilder<List<Widget>>(
+          future: Future<List<Widget>>.sync(() {
+            Map counter = {};
+            widget.serverController.servers.forEach((item) {
+              counter[item.type] = (counter[item.type] ?? 0) + 1;
+            });
+            List<Widget> children = [];
+            counter.forEach((k, v) => children.addAll([
+                  JImage.assetsIcon(
+                    ServerConfigModel.getServerAssetsIcon(k),
+                    size: 15,
+                    circle: true,
+                  ),
+                  Text("$v "),
+                ]));
+            if (children.isNotEmpty) {
+              children
+                ..insert(0, Text("( "))
+                ..add(Text(")"));
+            }
+            return children;
+          }),
+          builder: (_, snap) {
+            if (!snap.hasData) return Container();
+            return Row(children: snap.data);
+          },
+        ));
   }
 
   //构建服务器子项
   _buildServerItem(ServerConfigModel config) {
     return Container(
+      key: Key(config.id),
       height: serverItemHeight,
       width: Tools.screenWidth,
       padding: EdgeInsets.symmetric(
@@ -155,8 +151,6 @@ class _ServerListViewState extends State<ServerListView> {
                 _buildServerItemLogo(config),
                 SizedBox(width: 8),
                 _buildServerItemContent(config),
-                SizedBox(width: 8),
-                _buildServerItemOptions(config),
               ],
             ),
           ),
@@ -185,6 +179,7 @@ class _ServerListViewState extends State<ServerListView> {
             : JImage.assetsIcon(
                 config.defaultAssetsIcon,
                 size: size,
+                circle: true,
               ),
       ),
     );
@@ -194,89 +189,34 @@ class _ServerListViewState extends State<ServerListView> {
   _buildServerItemContent(ServerConfigModel config) {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(config.alias, maxLines: 1),
+            Row(
+              children: [
+                Expanded(child: Text(config.alias, maxLines: 1)),
+                IconButton(
+                  iconSize: 15,
+                  splashRadius: 20,
+                  color: Colors.grey,
+                  icon: Icon(Icons.edit_outlined),
+                  visualDensity: VisualDensity.comfortable,
+                  onPressed: () async {
+                    if (null != _goModifyPage(config)) {
+                      widget.serverController.loadServerList();
+                    }
+                  },
+                ),
+              ],
+            ),
           ],
         ),
       ),
     );
   }
 
-  //构建服务子项操作按钮
-  _buildServerItemOptions(ServerConfigModel config) {
-    return Obx(() {
-      if (widget.serverController.inOptionsId.contains(config.id)) {
-        return Flex(
-          direction: Axis.vertical,
-          children: [
-            Flexible(
-              child: IconButton(
-                iconSize: 15,
-                splashRadius: 20,
-                color: Colors.grey,
-                visualDensity: VisualDensity.comfortable,
-                icon: Icon(Icons.edit),
-                onPressed: () async {
-                  widget.serverController.clearOptionsId();
-                  if (null != await _goModifyConfig(config)) {
-                    widget.serverController.loadServerList();
-                  }
-                },
-              ),
-            ),
-            Flexible(
-              child: IconButton(
-                iconSize: 15,
-                splashRadius: 20,
-                color: Colors.grey,
-                visualDensity: VisualDensity.comfortable,
-                icon: Icon(Icons.drag_handle),
-                onPressed: () async {
-                  ///拖拽完成之后需要把id设置空
-                  // widget.serverController.clearOptionsId();
-                },
-              ),
-            ),
-            Flexible(
-              child: IconButton(
-                iconSize: 15,
-                splashRadius: 20,
-                color: Colors.grey,
-                visualDensity: VisualDensity.comfortable,
-                icon: Icon(Icons.delete_outline),
-                onPressed: () async {
-                  widget.serverController.clearOptionsId();
-                },
-              ),
-            ),
-          ],
-        );
-      }
-      return Flex(
-        direction: Axis.vertical,
-        children: [
-          Flexible(
-            child: IconButton(
-              iconSize: 15,
-              splashRadius: 20,
-              color: Colors.grey,
-              visualDensity: VisualDensity.comfortable,
-              icon: Icon(Icons.more_horiz),
-              onPressed: () =>
-                  widget.serverController.setOptionsId(config.id),
-            ),
-          ),
-          Flexible(flex: 2, child: Container()),
-        ],
-      );
-    });
-  }
-
-  //跳转到配置编辑页面
-  Future _goModifyConfig(ServerConfigModel config) {
+  //跳转到编辑页面
+  _goModifyPage(ServerConfigModel config) {
     switch (config.type) {
       case ServerType.Aria2:
         return PageManage.goModifyAria2Service(config: config);
@@ -285,7 +225,7 @@ class _ServerListViewState extends State<ServerListView> {
       case ServerType.QBitTorrent:
         return PageManage.goModifyQBService(config: config);
       default:
-        return null;
+        return;
     }
   }
 }

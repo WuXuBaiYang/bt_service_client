@@ -33,7 +33,7 @@ class ServerDatabase extends BaseDatabase {
 
   //移除一个服务器配置
   Future<void> removeServerConfig(String id) async {
-    return delete(_serverConfig, key: id);
+    return delete<ServerConfigModel>(_serverConfig, key: id);
   }
 
   //以表的形式获取所有服务器配置

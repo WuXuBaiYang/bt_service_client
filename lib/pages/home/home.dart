@@ -107,7 +107,7 @@ class HomePage extends StatelessWidget {
           title: item["name"],
           onTap: (i) async {
             await item["fun"]?.call();
-            controller.refreshController.requestRefresh();
+            controller.loadServerList();
           },
         );
       }),

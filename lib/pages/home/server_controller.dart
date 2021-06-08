@@ -1,7 +1,6 @@
 import 'package:bt_service_manager/manage/database/database_manage.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:get/get.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 /*
 * 服务器状态/列表控制器
@@ -9,6 +8,11 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 * @Time 2021/5/18 4:08 下午
 */
 class ServerController extends GetxController {
+  ServerController() {
+    //加载服务器列表
+    loadServerList();
+  }
+
   //全局下载速度
   var totalDownloadSpeed = 0.0.obs;
 
@@ -21,22 +25,15 @@ class ServerController extends GetxController {
     this.totalUploadSpeed = upSpeed;
   }
 
-  //刷新控制器
-  final refreshController = RefreshController(initialRefresh: true);
-
   //记录服务器列表
   final servers = [].obs;
 
   //加载服务器列表
-  Future<void> loadServerList() async {
-    try {
-      servers.clear();
-      servers.addAll(await dbManage.server.loadAllServerConfig());
-      servers.sort((a, b) => b.orderNum.compareTo(a.orderNum));
-      refreshController.refreshCompleted();
-    } catch (e) {
-      refreshController.refreshFailed();
-    }
+  Future<List> loadServerList() async {
+    return servers
+      ..clear()
+      ..addAll(await dbManage.server.loadAllServerConfig())
+      ..sort((l, r) => l.orderNum.compareTo(r.orderNum));
   }
 
   //删除服务器
@@ -45,12 +42,16 @@ class ServerController extends GetxController {
     servers.remove(config);
   }
 
-  //记录当前展示操作菜单的服务项id
-  final inOptionsId = "".obs;
-
-  //设置当前要操作的服务项id
-  void setOptionsId(String id) => inOptionsId.value = id;
-
-  //清空当前要操作的服务项id
-  void clearOptionsId() => inOptionsId.value = "";
+  //交换两个配置的位置
+  void switchConfig(int oldIndex, int newIndex) async {
+    if (oldIndex < newIndex) newIndex -= 1;
+    var item = servers.removeAt(oldIndex);
+    servers.insert(newIndex, item);
+    //重新排序并存储
+    int index = 0;
+    servers.forEach((config) {
+      config.orderNum = index++;
+      config.save();
+    });
+  }
 }
