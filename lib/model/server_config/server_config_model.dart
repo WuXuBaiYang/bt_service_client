@@ -65,9 +65,7 @@ abstract class ServerConfigModel extends BaseModel {
   //静态方法，获取服务器类型对应的图标
   static String getServerAssetsIcon(ServerType type) => _serverAssetsIcon[type];
 
-  ServerConfigModel();
-
-  ServerConfigModel.create({
+  ServerConfigModel({
     this.alias,
     this.tags,
     this.flagColor,
@@ -77,7 +75,15 @@ abstract class ServerConfigModel extends BaseModel {
     this.hostname,
     this.port,
     this.type,
-  });
+    this.orderNum,
+    String id,
+    DateTime createTime,
+    DateTime updateTime,
+  }) : super(
+          id: id,
+          createTime: createTime,
+          updateTime: updateTime,
+        );
 
   //服务器类型与对应的图标
   static Map<ServerType, String> _serverAssetsIcon = {
@@ -121,9 +127,7 @@ abstract class RPCServerConfigModel extends ServerConfigModel {
   @HiveField(32, defaultValue: "")
   String secretToken;
 
-  RPCServerConfigModel();
-
-  RPCServerConfigModel.create({
+  RPCServerConfigModel({
     String alias,
     List<String> tags,
     int flagColor,
@@ -133,10 +137,14 @@ abstract class RPCServerConfigModel extends ServerConfigModel {
     String hostname,
     num port,
     ServerType type,
+    int orderNum,
+    String id,
+    DateTime createTime,
+    DateTime updateTime,
     this.path,
     this.method,
     this.secretToken,
-  }) : super.create(
+  }) : super(
           alias: alias,
           tags: tags,
           flagColor: flagColor,
@@ -146,6 +154,10 @@ abstract class RPCServerConfigModel extends ServerConfigModel {
           hostname: hostname,
           port: port,
           type: type,
+          orderNum: orderNum,
+          id: id,
+          createTime: createTime,
+          updateTime: updateTime,
         );
 
   @override

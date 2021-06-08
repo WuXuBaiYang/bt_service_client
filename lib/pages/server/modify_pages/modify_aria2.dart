@@ -25,8 +25,9 @@ class ModifyAria2ConfigPage extends StatelessWidget {
   );
 
   ModifyAria2ConfigPage(Aria2ConfigModel config)
-      : controller =
-            ModifyServerController(config: config ?? Aria2ConfigModel());
+      : controller = ModifyServerController(
+          config: Aria2ConfigModel.copyWith(config: config),
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +77,7 @@ class ModifyAria2ConfigPage extends StatelessWidget {
               content: "数据发生过编辑，继续退出将丢失已编辑数据",
               cancel: "取消",
               confirm: "继续退出",
-              onConfirm: () async => RouteTools.pop(false),
+              onConfirm: () async => RouteTools.pop(),
             );
             return false;
           }
@@ -99,13 +100,12 @@ class ModifyAria2ConfigPage extends StatelessWidget {
     if (!controller.confirmForm()) return;
     JAlert.showLoading();
     var config = controller.config;
-    config.id = null;
     if (config.isEdited) {
       await dbManage.server.modifyServerConfig<Aria2ConfigModel>(config);
     } else {
       await dbManage.server.addServerConfig<Aria2ConfigModel>(config);
     }
     JAlert.hideLoading();
-    RouteTools.pop(true);
+    RouteTools.pop(config);
   }
 }

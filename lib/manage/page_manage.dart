@@ -16,16 +16,16 @@ class PageManage {
   //跳转到首页
   static goHomePage() => RouteTools.pushOff(HomePage());
 
-  //添加aria2服务器
-  static goCreateAria2Service({Aria2ConfigModel config}) =>
+  //添加/编辑aria2服务器
+  static goModifyAria2Service({Aria2ConfigModel config}) =>
       RouteTools.push(ModifyAria2ConfigPage(config));
 
-  //添加qBittorrent服务器
-  static goCreateQBService({QBConfigModel config}) =>
+  //添加/编辑qBittorrent服务器
+  static goModifyQBService({QBConfigModel config}) =>
       RouteTools.push(ModifyQBConfigPage(config));
 
-  //添加transmission服务器
-  static goCreateTMService({TMConfigModel config}) =>
+  //添加/编辑transmission服务器
+  static goModifyTMService({TMConfigModel config}) =>
       RouteTools.push(ModifyTMConfigPage(config));
 
   //跳转到应用设置页面

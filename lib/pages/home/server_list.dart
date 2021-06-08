@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:bt_service_manager/manage/page_manage.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:bt_service_manager/pages/home/server_controller.dart';
 import 'package:bt_service_manager/tools/jimage.dart';
@@ -5,6 +8,7 @@ import 'package:bt_service_manager/tools/tools.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:octo_image/octo_image.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 /*
@@ -135,7 +139,8 @@ class _ServerListViewState extends State<ServerListView> {
   _buildServerItem(ServerConfigModel config) {
     return Container(
       height: serverItemHeight,
-      margin: EdgeInsets.symmetric(
+      width: Tools.screenWidth,
+      padding: EdgeInsets.symmetric(
         horizontal: 15,
       ).copyWith(left: 30, bottom: 8),
       child: Card(
@@ -150,6 +155,8 @@ class _ServerListViewState extends State<ServerListView> {
                 _buildServerItemLogo(config),
                 SizedBox(width: 8),
                 _buildServerItemContent(config),
+                SizedBox(width: 8),
+                _buildServerItemOptions(config),
               ],
             ),
           ),
@@ -159,7 +166,7 @@ class _ServerListViewState extends State<ServerListView> {
   }
 
   //构建服务子项logo
-  _buildServerItemLogo(ServerConfigModel config) {
+  _buildServerItemLogo(ServerConfigModel config, {double size = 45}) {
     return Card(
       shape: config.logoCircle
           ? CircleBorder()
@@ -171,13 +178,13 @@ class _ServerListViewState extends State<ServerListView> {
         child: config.hasCustomLogo
             ? JImage.file(
                 config.logoPath,
-                size: 45,
+                size: size,
                 circle: config.logoCircle,
                 radius: 4,
               )
             : JImage.assetsIcon(
                 config.defaultAssetsIcon,
-                size: 45,
+                size: size,
               ),
       ),
     );
@@ -187,19 +194,99 @@ class _ServerListViewState extends State<ServerListView> {
   _buildServerItemContent(ServerConfigModel config) {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 8).copyWith(right: 8),
+        padding: EdgeInsets.symmetric(vertical: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                Expanded(child: Text(config.alias)),
-              ],
-            ),
+            Text(config.alias, maxLines: 1),
           ],
         ),
       ),
     );
+  }
+
+  //构建服务子项操作按钮
+  _buildServerItemOptions(ServerConfigModel config) {
+    return Obx(() {
+      if (widget.serverController.inOptionsId.contains(config.id)) {
+        return Flex(
+          direction: Axis.vertical,
+          children: [
+            Flexible(
+              child: IconButton(
+                iconSize: 15,
+                splashRadius: 20,
+                color: Colors.grey,
+                visualDensity: VisualDensity.comfortable,
+                icon: Icon(Icons.edit),
+                onPressed: () async {
+                  widget.serverController.clearOptionsId();
+                  if (null != await _goModifyConfig(config)) {
+                    widget.serverController.loadServerList();
+                  }
+                },
+              ),
+            ),
+            Flexible(
+              child: IconButton(
+                iconSize: 15,
+                splashRadius: 20,
+                color: Colors.grey,
+                visualDensity: VisualDensity.comfortable,
+                icon: Icon(Icons.drag_handle),
+                onPressed: () async {
+                  ///拖拽完成之后需要把id设置空
+                  // widget.serverController.clearOptionsId();
+                },
+              ),
+            ),
+            Flexible(
+              child: IconButton(
+                iconSize: 15,
+                splashRadius: 20,
+                color: Colors.grey,
+                visualDensity: VisualDensity.comfortable,
+                icon: Icon(Icons.delete_outline),
+                onPressed: () async {
+                  widget.serverController.clearOptionsId();
+                },
+              ),
+            ),
+          ],
+        );
+      }
+      return Flex(
+        direction: Axis.vertical,
+        children: [
+          Flexible(
+            child: IconButton(
+              iconSize: 15,
+              splashRadius: 20,
+              color: Colors.grey,
+              visualDensity: VisualDensity.comfortable,
+              icon: Icon(Icons.more_horiz),
+              onPressed: () =>
+                  widget.serverController.setOptionsId(config.id),
+            ),
+          ),
+          Flexible(flex: 2, child: Container()),
+        ],
+      );
+    });
+  }
+
+  //跳转到配置编辑页面
+  Future _goModifyConfig(ServerConfigModel config) {
+    switch (config.type) {
+      case ServerType.Aria2:
+        return PageManage.goModifyAria2Service(config: config);
+      case ServerType.Transmission:
+        return PageManage.goModifyTMService(config: config);
+      case ServerType.QBitTorrent:
+        return PageManage.goModifyQBService(config: config);
+      default:
+        return null;
+    }
   }
 }
 

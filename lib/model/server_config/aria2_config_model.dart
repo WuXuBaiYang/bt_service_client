@@ -11,12 +11,7 @@ part 'aria2_config_model.g.dart';
 @HiveType(typeId: 1)
 // ignore: must_be_immutable
 class Aria2ConfigModel extends RPCServerConfigModel with HiveObjectMixin {
-  Aria2ConfigModel()
-      : super.create(
-          type: ServerType.Aria2,
-          logoCircle: true,
-        );
-  Aria2ConfigModel.create({
+  Aria2ConfigModel({
     String alias,
     List<String> tags,
     int flagColor,
@@ -28,7 +23,10 @@ class Aria2ConfigModel extends RPCServerConfigModel with HiveObjectMixin {
     String path,
     HTTPMethod method,
     String secretToken,
-  }) : super.create(
+    String id,
+    DateTime createTime,
+    DateTime updateTime,
+  }) : super(
           alias: alias,
           tags: tags,
           flagColor: flagColor,
@@ -41,5 +39,28 @@ class Aria2ConfigModel extends RPCServerConfigModel with HiveObjectMixin {
           path: path,
           method: method,
           secretToken: secretToken,
+          id: id,
+          createTime: createTime,
+          updateTime: updateTime,
+        );
+
+  Aria2ConfigModel.copyWith({Aria2ConfigModel config})
+      : super(
+          alias: config.alias,
+          tags: config.tags,
+          flagColor: config.flagColor,
+          logoPath: config.logoPath,
+          logoCircle: config.logoCircle ?? true,
+          protocol: config.protocol,
+          hostname: config.hostname,
+          port: config.port,
+          type: ServerType.Aria2,
+          path: config.path,
+          method: config.method,
+          secretToken: config.secretToken,
+          orderNum: config.orderNum,
+          id: config.id,
+          createTime: config.createTime,
+          updateTime: config.updateTime,
         );
 }

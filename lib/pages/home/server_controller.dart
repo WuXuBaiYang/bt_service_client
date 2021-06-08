@@ -38,4 +38,19 @@ class ServerController extends GetxController {
       refreshController.refreshFailed();
     }
   }
+
+  //删除服务器
+  Future<void> removeServer(ServerConfigModel config) async {
+    await dbManage.server.removeServerConfig(config.id);
+    servers.remove(config);
+  }
+
+  //记录当前展示操作菜单的服务项id
+  final inOptionsId = "".obs;
+
+  //设置当前要操作的服务项id
+  void setOptionsId(String id) => inOptionsId.value = id;
+
+  //清空当前要操作的服务项id
+  void clearOptionsId() => inOptionsId.value = "";
 }

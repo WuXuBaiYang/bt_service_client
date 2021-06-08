@@ -11,13 +11,7 @@ part 'qb_config_model.g.dart';
 @HiveType(typeId: 2)
 // ignore: must_be_immutable
 class QBConfigModel extends ServerConfigModel with HiveObjectMixin {
-  QBConfigModel()
-      : super.create(
-          type: ServerType.QBitTorrent,
-          logoCircle: true,
-        );
-
-  QBConfigModel.create({
+  QBConfigModel({
     String alias,
     List<String> tags,
     int flagColor,
@@ -26,7 +20,10 @@ class QBConfigModel extends ServerConfigModel with HiveObjectMixin {
     Protocol protocol,
     String hostname,
     num port,
-  }) : super.create(
+    String id,
+    DateTime createTime,
+    DateTime updateTime,
+  }) : super(
           alias: alias,
           tags: tags,
           flagColor: flagColor,
@@ -36,5 +33,25 @@ class QBConfigModel extends ServerConfigModel with HiveObjectMixin {
           hostname: hostname,
           port: port,
           type: ServerType.QBitTorrent,
+          id: id,
+          createTime: createTime,
+          updateTime: updateTime,
+        );
+
+  QBConfigModel.copyWith({QBConfigModel config})
+      : super(
+          alias: config.alias,
+          tags: config.tags,
+          flagColor: config.flagColor,
+          logoPath: config.logoPath,
+          logoCircle: config.logoCircle ?? true,
+          protocol: config.protocol,
+          hostname: config.hostname,
+          port: config.port,
+          type: ServerType.QBitTorrent,
+          orderNum: config.orderNum,
+          id: config.id,
+          createTime: config.createTime,
+          updateTime: config.updateTime,
         );
 }

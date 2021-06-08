@@ -11,13 +11,7 @@ part 'tm_config_model.g.dart';
 @HiveType(typeId: 3)
 // ignore: must_be_immutable
 class TMConfigModel extends RPCServerConfigModel with HiveObjectMixin {
-  TMConfigModel()
-      : super.create(
-          type: ServerType.Transmission,
-          logoCircle: true,
-        );
-
-  TMConfigModel.create({
+  TMConfigModel({
     String alias,
     List<String> tags,
     int flagColor,
@@ -29,7 +23,10 @@ class TMConfigModel extends RPCServerConfigModel with HiveObjectMixin {
     String path,
     HTTPMethod method,
     String secretToken,
-  }) : super.create(
+    String id,
+    DateTime createTime,
+    DateTime updateTime,
+  }) : super(
           alias: alias,
           tags: tags,
           flagColor: flagColor,
@@ -42,5 +39,28 @@ class TMConfigModel extends RPCServerConfigModel with HiveObjectMixin {
           path: path,
           method: method,
           secretToken: secretToken,
+          id: id,
+          createTime: createTime,
+          updateTime: updateTime,
+        );
+
+  TMConfigModel.copyWith({TMConfigModel config})
+      : super(
+          alias: config.alias,
+          tags: config.tags,
+          flagColor: config.flagColor,
+          logoPath: config.logoPath,
+          logoCircle: config.logoCircle ?? true,
+          protocol: config.protocol,
+          hostname: config.hostname,
+          port: config.port,
+          type: ServerType.Transmission,
+          path: config.path,
+          method: config.method,
+          secretToken: config.secretToken,
+          orderNum: config.orderNum,
+          id: config.id,
+          createTime: config.createTime,
+          updateTime: config.updateTime,
         );
 }

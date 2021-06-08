@@ -120,17 +120,17 @@ final List<Map<String, dynamic>> _addServerList = [
   {
     "name": "Aria2",
     "icon": ServerConfigModel.getServerAssetsIcon(ServerType.Aria2),
-    "fun": () => PageManage.goCreateAria2Service(),
+    "fun": () => PageManage.goModifyAria2Service(),
   },
   {
     "name": "QBitTorrent",
     "icon": ServerConfigModel.getServerAssetsIcon(ServerType.QBitTorrent),
-    "fun": () => PageManage.goCreateQBService(),
+    "fun": () => PageManage.goModifyQBService(),
   },
   {
     "name": "Transmission",
     "icon": ServerConfigModel.getServerAssetsIcon(ServerType.Transmission),
-    "fun": () => PageManage.goCreateTMService(),
+    "fun": () => PageManage.goModifyTMService(),
   }
 ];
 

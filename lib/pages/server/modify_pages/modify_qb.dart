@@ -24,14 +24,16 @@ class ModifyQBConfigPage extends StatelessWidget {
   );
 
   ModifyQBConfigPage(QBConfigModel config)
-      : controller =
-            ModifyServerController(config: config ?? QBConfigModel());
+      : controller = ModifyServerController(
+          config: QBConfigModel.copyWith(config: config),
+        );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("${controller.config.isEdited ? "编辑" : "添加"}QBittorrent服务器"),
+        title:
+            Text("${controller.config.isEdited ? "编辑" : "添加"}QBittorrent服务器"),
         actions: _buildActions(context),
       ),
       body: Form(
@@ -62,7 +64,7 @@ class ModifyQBConfigPage extends StatelessWidget {
               content: "数据发生过编辑，继续退出将丢失已编辑数据",
               cancel: "取消",
               confirm: "继续退出",
-              onConfirm: () async => RouteTools.pop(false),
+              onConfirm: () async => RouteTools.pop(),
             );
             return false;
           }
@@ -85,13 +87,12 @@ class ModifyQBConfigPage extends StatelessWidget {
     if (!controller.confirmForm()) return;
     JAlert.showLoading();
     var config = controller.config;
-    config.id = null;
     if (config.isEdited) {
       await dbManage.server.modifyServerConfig(config);
     } else {
       await dbManage.server.addServerConfig(config);
     }
     JAlert.hideLoading();
-    RouteTools.pop(true);
+    RouteTools.pop(config);
   }
 }

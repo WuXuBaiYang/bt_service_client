@@ -20,6 +20,12 @@ abstract class BaseModel extends Equatable {
   @HiveField(2, defaultValue: 0)
   DateTime updateTime;
 
+  BaseModel({
+    this.id,
+    this.createTime,
+    this.updateTime,
+  });
+
   @override
   List<Object> get props => [
         id,
