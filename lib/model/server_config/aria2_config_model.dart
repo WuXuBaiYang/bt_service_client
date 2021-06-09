@@ -1,4 +1,5 @@
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 
 part 'aria2_config_model.g.dart';
@@ -46,21 +47,21 @@ class Aria2ConfigModel extends RPCServerConfigModel with HiveObjectMixin {
 
   Aria2ConfigModel.copyWith({Aria2ConfigModel config})
       : super(
-          alias: config.alias,
-          tags: config.tags,
-          flagColor: config.flagColor,
-          logoPath: config.logoPath,
-          logoCircle: config.logoCircle ?? true,
-          protocol: config.protocol,
-          hostname: config.hostname,
-          port: config.port,
-          type: ServerType.Aria2,
-          path: config.path,
-          method: config.method,
-          secretToken: config.secretToken,
-          orderNum: config.orderNum,
-          id: config.id,
-          createTime: config.createTime,
-          updateTime: config.updateTime,
+          alias: config?.alias,
+          tags: config?.tags,
+          flagColor: config?.flagColor,
+          logoPath: config?.logoPath,
+          logoCircle: config?.logoCircle ?? true,
+          protocol: config?.protocol,
+          hostname: config?.hostname,
+          port: config?.port,
+          type: ServerType?.Aria2,
+          path: config?.path,
+          method: config?.method,
+          secretToken: config?.secretToken,
+          orderNum: config?.orderNum,
+          id: config?.id,
+          createTime: config?.createTime,
+          updateTime: config?.updateTime,
         );
 }

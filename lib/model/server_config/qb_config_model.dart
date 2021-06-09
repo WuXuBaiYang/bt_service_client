@@ -40,18 +40,18 @@ class QBConfigModel extends ServerConfigModel with HiveObjectMixin {
 
   QBConfigModel.copyWith({QBConfigModel config})
       : super(
-          alias: config.alias,
-          tags: config.tags,
-          flagColor: config.flagColor,
-          logoPath: config.logoPath,
-          logoCircle: config.logoCircle ?? true,
-          protocol: config.protocol,
-          hostname: config.hostname,
-          port: config.port,
+          alias: config?.alias,
+          tags: config?.tags,
+          flagColor: config?.flagColor,
+          logoPath: config?.logoPath,
+          logoCircle: config?.logoCircle ?? true,
+          protocol: config?.protocol,
+          hostname: config?.hostname,
+          port: config?.port,
           type: ServerType.QBitTorrent,
-          orderNum: config.orderNum,
-          id: config.id,
-          createTime: config.createTime,
-          updateTime: config.updateTime,
+          orderNum: config?.orderNum,
+          id: config?.id,
+          createTime: config?.createTime,
+          updateTime: config?.updateTime,
         );
 }

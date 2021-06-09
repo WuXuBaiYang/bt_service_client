@@ -23,12 +23,15 @@ class AlertTools {
     Function onOpening,
     Function onClosed,
     Function onClosing,
+    Duration duration = const Duration(seconds: 3),
   }) =>
       Get.showSnackbar<T>(GetBar(
         title: title,
         message: message,
         mainButton: button,
         icon: icon,
+        isDismissible: true,
+        duration: duration,
         snackbarStatus: (status) {
           switch (status) {
             case SnackbarStatus.OPEN:

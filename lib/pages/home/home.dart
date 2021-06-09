@@ -21,18 +21,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: _buildTitleInfo(),
-      //   actions: [
-      //     IconButton(
-      //       icon: Icon(Icons.add),
-      //       onPressed: () => _showCreateServerMenu(),
-      //     ),
-      //   ],
-      // ),
-      // body: ServerListView(
-      //   serverController: controller,
-      // ),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(

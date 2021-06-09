@@ -50,7 +50,6 @@ class ServerController extends GetxController {
 
   //交换两个配置的位置
   void switchConfig(int oldIndex, int newIndex) async {
-    if (oldIndex < newIndex) newIndex -= 1;
     var item = servers.removeAt(oldIndex);
     servers.insert(newIndex, item);
     //重新排序并存储

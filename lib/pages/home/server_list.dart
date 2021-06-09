@@ -37,6 +37,9 @@ class _ServerListViewState extends State<ServerListView> {
   //服务器列表子项高度
   final double serverItemHeight = 120;
 
+  //服务器列表子项logo尺寸
+  final double serverItemLogoSize = 60;
+
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -50,6 +53,7 @@ class _ServerListViewState extends State<ServerListView> {
         ),
         onReorder: (oldIndex, newIndex) =>
             widget.serverController.switchConfig(oldIndex, newIndex),
+        buildDraggableFeedback: (_, constraints, child) => child,
       ),
     );
   }
@@ -60,31 +64,20 @@ class _ServerListViewState extends State<ServerListView> {
       key: Key(config.id),
       direction: DismissDirection.endToStart,
       child: Container(
+        margin: EdgeInsets.only(bottom: 8),
         height: serverItemHeight,
         width: Tools.screenWidth,
-        padding: EdgeInsets.symmetric(
-          horizontal: 15,
-        ).copyWith(left: 30, top: 8),
-        child: Card(
-          child: OverflowBox(
-            alignment: Alignment.centerRight,
-            maxHeight: serverItemHeight,
-            maxWidth: Tools.screenWidth,
-            child: Padding(
-              padding: EdgeInsets.only(left: 20),
-              child: Row(
-                children: [
-                  _buildServerItemLogo(config),
-                  SizedBox(width: 8),
-                  _buildServerItemContent(config),
-                ],
-              ),
-            ),
-          ),
+        child: Stack(
+          alignment: Alignment.centerLeft,
+          children: [
+            _buildServerItemContent(config),
+            _buildServerItemLogo(config),
+          ],
         ),
       ),
       background: Container(
         padding: EdgeInsets.symmetric(horizontal: 35),
+        margin: EdgeInsets.only(bottom: 8),
         color: Colors.redAccent,
         alignment: Alignment.centerRight,
         child: Icon(
@@ -100,49 +93,57 @@ class _ServerListViewState extends State<ServerListView> {
             child: Text("撤销删除"),
             onPressed: () => RouteTools.pop(false),
           ),
-          onClosed: () => RouteTools.pop(true),
         );
-        if (!confirm) widget.serverController.resumeServer(index, config);
+        if (!confirm ?? true) {
+          widget.serverController.resumeServer(index, config);
+        }
       },
     );
   }
 
   //构建服务子项logo
-  _buildServerItemLogo(ServerConfigModel config, {double size = 45}) {
-    return Card(
-      shape: config.logoCircle
-          ? CircleBorder()
-          : RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-            ),
-      child: Padding(
-        padding: EdgeInsets.all(3),
-        child: config.hasCustomLogo
-            ? JImage.file(
-                config.logoPath,
-                size: size,
-                circle: config.logoCircle,
-                radius: 4,
-              )
-            : JImage.assetsIcon(
-                config.defaultAssetsIcon,
-                size: size,
-                circle: true,
+  _buildServerItemLogo(ServerConfigModel config) {
+    return SizedBox.fromSize(
+      size: Size.square(serverItemLogoSize),
+      child: Card(
+        shape: config.logoCircle
+            ? CircleBorder()
+            : RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
               ),
+        child: Padding(
+          padding: EdgeInsets.all(3),
+          child: config.hasCustomLogo
+              ? JImage.file(
+                  config.logoPath,
+                  // size: serverItemLogoSize,
+                  circle: config.logoCircle,
+                  radius: 4,
+                )
+              : JImage.assetsIcon(
+                  config.defaultAssetsIcon,
+                  // size: serverItemLogoSize,
+                  circle: true,
+                ),
+        ),
       ),
     );
   }
 
   //构建服务子项内容
   _buildServerItemContent(ServerConfigModel config) {
-    return Expanded(
-      child: Container(
+    var halfSize = serverItemLogoSize / 2;
+    return Card(
+      shape: RoundedRectangleBorder(),
+      margin: EdgeInsets.only(left: halfSize),
+      child: Padding(
+        padding: EdgeInsets.only(left: halfSize),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                Expanded(child: Text(config.alias, maxLines: 1)),
+                Expanded(child: Text(config.currentName, maxLines: 1)),
                 IconButton(
                   iconSize: 15,
                   splashRadius: 20,
