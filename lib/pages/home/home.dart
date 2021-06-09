@@ -21,17 +21,37 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: _buildTitleInfo(),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () => _showCreateServerMenu(),
+      // appBar: AppBar(
+      //   title: _buildTitleInfo(),
+      //   actions: [
+      //     IconButton(
+      //       icon: Icon(Icons.add),
+      //       onPressed: () => _showCreateServerMenu(),
+      //     ),
+      //   ],
+      // ),
+      // body: ServerListView(
+      //   serverController: controller,
+      // ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            expandedHeight: 200,
+            flexibleSpace: FlexibleSpaceBar(
+              title: _buildTitleInfo(),
+            ),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () => _showCreateServerMenu(),
+              ),
+            ],
+          ),
+          ServerListView(
+            serverController: controller,
           ),
         ],
-      ),
-      body: ServerListView(
-        serverController: controller,
       ),
       drawer: _buildDrawerMenu(),
     );
@@ -92,6 +112,57 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  //构建顶部过滤信息
+  _buildFilterInfo() {
+    return Container(
+      padding: EdgeInsets.all(15),
+      child: Row(
+        children: [
+          Icon(
+            Icons.cloud,
+            size: 15,
+            color: Colors.blueAccent,
+          ),
+          SizedBox(width: 6),
+          Obx(() => Text("${controller.servers.length}")),
+          SizedBox(width: 6),
+          _buildServerItemsCount(),
+        ],
+      ),
+    );
+  }
+
+  //构建服务器子项数量
+  _buildServerItemsCount() {
+    return Obx(() => FutureBuilder<List<Widget>>(
+          future: Future<List<Widget>>.sync(() {
+            Map counter = {};
+            controller.servers.forEach((item) {
+              counter[item.type] = (counter[item.type] ?? 0) + 1;
+            });
+            List<Widget> children = [];
+            counter.forEach((k, v) => children.addAll([
+                  JImage.assetsIcon(
+                    ServerConfigModel.getServerAssetsIcon(k),
+                    size: 15,
+                    circle: true,
+                  ),
+                  Text("$v "),
+                ]));
+            if (children.isNotEmpty) {
+              children
+                ..insert(0, Text("( "))
+                ..add(Text(")"));
+            }
+            return children;
+          }),
+          builder: (_, snap) {
+            if (!snap.hasData) return Container();
+            return Row(children: snap.data);
+          },
+        ));
   }
 
   //展示添加服务器菜单

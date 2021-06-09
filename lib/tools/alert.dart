@@ -14,12 +14,34 @@ import 'package:image_picker/image_picker.dart';
 */
 class AlertTools {
   //显示snackBar
-  static snack<T>(String message, {String title = "", TextButton button}) =>
-      Get.snackbar<T>(
-        title,
-        message,
+  static Future<T> snack<T>(
+    String message, {
+    String title,
+    TextButton button,
+    Widget icon,
+    Function onOpen,
+    Function onOpening,
+    Function onClosed,
+    Function onClosing,
+  }) =>
+      Get.showSnackbar<T>(GetBar(
+        title: title,
+        message: message,
         mainButton: button,
-      );
+        icon: icon,
+        snackbarStatus: (status) {
+          switch (status) {
+            case SnackbarStatus.OPEN:
+              return onOpen?.call();
+            case SnackbarStatus.OPENING:
+              return onOpening?.call();
+            case SnackbarStatus.CLOSED:
+              return onClosed?.call();
+            case SnackbarStatus.CLOSING:
+              return onClosing?.call();
+          }
+        },
+      ));
 
   //显示提示弹窗
   static Future<T> alertDialog<T>({

@@ -1,11 +1,14 @@
 import 'package:bt_service_manager/manage/page_manage.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:bt_service_manager/pages/home/server_controller.dart';
+import 'package:bt_service_manager/tools/alert.dart';
 import 'package:bt_service_manager/tools/jimage.dart';
+import 'package:bt_service_manager/tools/route.dart';
 import 'package:bt_service_manager/tools/tools.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:reorderables/reorderables.dart';
 
 /*
 * 服务器列表视图
@@ -36,126 +39,71 @@ class _ServerListViewState extends State<ServerListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        _buildFilterInfo(),
-        Expanded(
-            child: Obx(
-          () => ReorderableListView.builder(
-            onReorder: (int oldIndex, int newIndex) =>
-                widget.serverController.switchConfig(oldIndex, newIndex),
-            itemCount: widget.serverController.servers.length,
-            itemBuilder: (_, i) {
-              var model = widget.serverController.servers[i];
-              return _buildServerItem(model);
-            },
-          ),
-        )),
-      ],
-    );
-  }
-
-  //记录当前过滤类型
-  FilterType _filterType = FilterType.List;
-
-  //构建顶部过滤信息
-  _buildFilterInfo() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 15),
-      child: Row(
-        children: [
-          Expanded(
-            child: Row(
-              children: [
-                Icon(
-                  Icons.cloud,
-                  size: 15,
-                  color: Colors.blueAccent,
-                ),
-                SizedBox(width: 6),
-                Obx(() => Text("${widget.serverController.servers.length}")),
-                SizedBox(width: 6),
-                _buildServerItemsCount(),
-              ],
-            ),
-          ),
-          DropdownButton<FilterType>(
-            value: _filterType,
-            items: List.generate(_filterMenu.length, (i) {
-              var item = _filterMenu[i];
-              return DropdownMenuItem(
-                value: item["type"],
-                child: Row(children: [
-                  Icon(item["icon"]),
-                  SizedBox(width: 8),
-                  Text(item["name"]),
-                ]),
-              );
-            }),
-            onChanged: (v) => setState(() => _filterType = v),
-          ),
-        ],
+    return Obx(
+      () => ReorderableSliverList(
+        delegate: ReorderableSliverChildBuilderDelegate(
+          (_, i) {
+            var model = widget.serverController.servers[i];
+            return _buildServerItem(model, i);
+          },
+          childCount: widget.serverController.servers.length,
+        ),
+        onReorder: (oldIndex, newIndex) =>
+            widget.serverController.switchConfig(oldIndex, newIndex),
       ),
     );
   }
 
-  //构建服务器子项数量
-  _buildServerItemsCount() {
-    return Obx(() => FutureBuilder<List<Widget>>(
-          future: Future<List<Widget>>.sync(() {
-            Map counter = {};
-            widget.serverController.servers.forEach((item) {
-              counter[item.type] = (counter[item.type] ?? 0) + 1;
-            });
-            List<Widget> children = [];
-            counter.forEach((k, v) => children.addAll([
-                  JImage.assetsIcon(
-                    ServerConfigModel.getServerAssetsIcon(k),
-                    size: 15,
-                    circle: true,
-                  ),
-                  Text("$v "),
-                ]));
-            if (children.isNotEmpty) {
-              children
-                ..insert(0, Text("( "))
-                ..add(Text(")"));
-            }
-            return children;
-          }),
-          builder: (_, snap) {
-            if (!snap.hasData) return Container();
-            return Row(children: snap.data);
-          },
-        ));
-  }
-
   //构建服务器子项
-  _buildServerItem(ServerConfigModel config) {
-    return Container(
+  _buildServerItem(ServerConfigModel config, int index) {
+    return Dismissible(
       key: Key(config.id),
-      height: serverItemHeight,
-      width: Tools.screenWidth,
-      padding: EdgeInsets.symmetric(
-        horizontal: 15,
-      ).copyWith(left: 30, bottom: 8),
-      child: Card(
-        child: OverflowBox(
-          alignment: Alignment.centerRight,
-          maxHeight: serverItemHeight,
-          maxWidth: Tools.screenWidth,
-          child: Padding(
-            padding: EdgeInsets.only(left: 20),
-            child: Row(
-              children: [
-                _buildServerItemLogo(config),
-                SizedBox(width: 8),
-                _buildServerItemContent(config),
-              ],
+      direction: DismissDirection.endToStart,
+      child: Container(
+        height: serverItemHeight,
+        width: Tools.screenWidth,
+        padding: EdgeInsets.symmetric(
+          horizontal: 15,
+        ).copyWith(left: 30, top: 8),
+        child: Card(
+          child: OverflowBox(
+            alignment: Alignment.centerRight,
+            maxHeight: serverItemHeight,
+            maxWidth: Tools.screenWidth,
+            child: Padding(
+              padding: EdgeInsets.only(left: 20),
+              child: Row(
+                children: [
+                  _buildServerItemLogo(config),
+                  SizedBox(width: 8),
+                  _buildServerItemContent(config),
+                ],
+              ),
             ),
           ),
         ),
       ),
+      background: Container(
+        padding: EdgeInsets.symmetric(horizontal: 35),
+        color: Colors.redAccent,
+        alignment: Alignment.centerRight,
+        child: Icon(
+          Icons.delete_outline,
+          color: Colors.white,
+        ),
+      ),
+      onDismissed: (direction) async {
+        await widget.serverController.removeServer(config);
+        var confirm = await AlertTools.snack<bool>(
+          "${config.currentName} 已移除",
+          button: TextButton(
+            child: Text("撤销删除"),
+            onPressed: () => RouteTools.pop(false),
+          ),
+          onClosed: () => RouteTools.pop(true),
+        );
+        if (!confirm) widget.serverController.resumeServer(index, config);
+      },
     );
   }
 
@@ -202,7 +150,7 @@ class _ServerListViewState extends State<ServerListView> {
                   icon: Icon(Icons.edit_outlined),
                   visualDensity: VisualDensity.comfortable,
                   onPressed: () async {
-                    if (null != _goModifyPage(config)) {
+                    if (null != await _goModifyPage(config)) {
                       widget.serverController.loadServerList();
                     }
                   },
@@ -228,18 +176,4 @@ class _ServerListViewState extends State<ServerListView> {
         return;
     }
   }
-}
-
-//过滤方法表
-final List<Map<String, dynamic>> _filterMenu = [
-  {
-    "name": "列表",
-    "icon": Icons.list,
-    "type": FilterType.List,
-  }
-];
-
-//过滤类型枚举
-enum FilterType {
-  List,
 }

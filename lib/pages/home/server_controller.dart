@@ -42,6 +42,12 @@ class ServerController extends GetxController {
     servers.remove(config);
   }
 
+  //恢复服务器
+  Future<void> resumeServer(int index, ServerConfigModel config) async {
+    await dbManage.server.addServerConfig(config);
+    servers.insert(index, config);
+  }
+
   //交换两个配置的位置
   void switchConfig(int oldIndex, int newIndex) async {
     if (oldIndex < newIndex) newIndex -= 1;
