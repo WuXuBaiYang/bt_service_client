@@ -37,7 +37,7 @@ abstract class BaseModel extends Equatable {
         updateTime,
       ];
 
-  fromJson(json) {}
+  toJson() {}
 
   //将json转换为集合
   List<T> fromList<T extends BaseModel>(
@@ -55,5 +55,45 @@ abstract class BaseModel extends Equatable {
     return def;
   }
 
-  toJson() {}
+  //将json转换为map
+  Map<K, V> fromMap<K, V>(
+    obj, {
+    @required Map<K, V> Function(dynamic k, dynamic v) from,
+    Map<K, V> def = const {},
+  }) {
+    if (obj is Map) {
+      Map<K, V> tempMap = {};
+      for (dynamic k in obj.keys) {
+        dynamic v = obj[k];
+        tempMap.addAll(from(k, v));
+      }
+      return tempMap;
+    }
+    return def;
+  }
+
+  //将集合转换为json
+  List toList<T extends BaseModel>(List<T> data, {List def = const []}) {
+    if (null == data) return def;
+    List tempList = [];
+    for (T item in data) {
+      tempList.add(item.toJson());
+    }
+    return tempList;
+  }
+
+  //将json转换为map
+  Map toMap<K, V>(
+    Map<K, V> data, {
+    @required Map Function(K k, V v) to,
+    Map def = const {},
+  }) {
+    if (null == data) return def;
+    Map tempMap = {};
+    for (K k in data.keys) {
+      V v = data[k];
+      tempMap.addAll(to(k, v));
+    }
+    return tempMap;
+  }
 }

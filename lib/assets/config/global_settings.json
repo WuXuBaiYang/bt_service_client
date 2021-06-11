@@ -1,0 +1,91 @@
+{
+  "globalDownSpeedLevel": [
+    {
+      "speed": 0,
+      "color": 4288585374
+    },
+    {
+      "speed": 1,
+      "color": 4294922834
+    },
+    {
+      "speed": 1048576,
+      "color": 4294945600
+    },
+    {
+      "speed": 104857600,
+      "color": 4285132974
+    }
+  ],
+  "globalUpSpeedLevel": [
+    {
+      "speed": 0,
+      "color": 4288585374
+    },
+    {
+      "speed": 1,
+      "color": 4294922834
+    },
+    {
+      "speed": 1048576,
+      "color": 4294945600
+    },
+    {
+      "speed": 104857600,
+      "color": 4285132974
+    }
+  ],
+  "downSpeedLevel": [
+    {
+      "speed": 0,
+      "color": 4288585374
+    },
+    {
+      "speed": 1,
+      "color": 4294922834
+    },
+    {
+      "speed": 1048576,
+      "color": 4294945600
+    },
+    {
+      "speed": 104857600,
+      "color": 4285132974
+    }
+  ],
+  "upSpeedLevel": [
+    {
+      "speed": 0,
+      "color": 4288585374
+    },
+    {
+      "speed": 1,
+      "color": 4294922834
+    },
+    {
+      "speed": 1048576,
+      "color": 4294945600
+    },
+    {
+      "speed": 104857600,
+      "color": 4285132974
+    }
+  ],
+  "serverStates": {
+    "disconnected": {
+      "state": "disconnected",
+      "color": 4294922834,
+      "width": 2.0
+    },
+    "connected": {
+      "state": "connected",
+      "color": 4285132974,
+      "width": 2.0
+    },
+    "connecting": {
+      "state": "connected",
+      "color": 4294945600,
+      "width": 2.0
+    }
+  }
+}

@@ -21,11 +21,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // rootBundle.loadString(
+    //     "lib/assets/config/global_settings.json",
+    //     cache: true)
     return Scaffold(
       appBar: AppBar(
         title: _buildTitleInfo(),
-        flexibleSpace: FlexibleSpaceBar(
-        ),
+        flexibleSpace: FlexibleSpaceBar(),
         actions: [
           IconButton(
             icon: Icon(Icons.add),

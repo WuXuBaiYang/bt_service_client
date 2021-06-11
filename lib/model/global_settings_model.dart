@@ -1,5 +1,4 @@
 import 'package:bt_service_manager/model/base_model.dart';
-import 'package:flutter/cupertino.dart';
 
 /*
 * 全局设置对象
@@ -32,13 +31,28 @@ class GlobalSettingsModel extends BaseModel {
   });
 
   @override
-  fromJson(json) {}
+  GlobalSettingsModel.fromJson(json) {
+    globalDownSpeedLevel = fromList(json["globalDownSpeedLevel"],
+        from: (it) => SpeedLevelItem.fromJson(it));
+    globalUpSpeedLevel = fromList(json["globalUpSpeedLevel"],
+        from: (it) => SpeedLevelItem.fromJson(it));
+    downSpeedLevel = fromList(json["downSpeedLevel"],
+        from: (it) => SpeedLevelItem.fromJson(it));
+    upSpeedLevel = fromList(json["upSpeedLevel"],
+        from: (it) => SpeedLevelItem.fromJson(it));
+    serverStates = fromMap(json["serverStates"],
+        from: (k, v) => {convertState(k): ServerStateItem.fromJson(v)});
+  }
 
   @override
-  toJson() {
-    // TODO: implement toJson
-    return super.toJson();
-  }
+  toJson() => {
+        "globalDownSpeedLevel": toList(globalDownSpeedLevel),
+        "globalUpSpeedLevel": toList(globalUpSpeedLevel),
+        "downSpeedLevel": toList(downSpeedLevel),
+        "upSpeedLevel": toList(upSpeedLevel),
+        "serverStates": toMap<ServerState, ServerStateItem>(serverStates,
+            to: (k, v) => {k.text: v.toJson()}),
+      };
 }
 
 /*
@@ -59,19 +73,16 @@ class SpeedLevelItem extends BaseModel {
     this.color,
   });
 
-  @override
-  fromJson(json) {
+  SpeedLevelItem.fromJson(json) {
     speed = json["speed"];
     color = json["color"];
   }
 
   @override
-  toJson() {
-    return {
-      "speed": speed,
-      "color": color,
-    };
-  }
+  toJson() => {
+        "speed": speed,
+        "color": color,
+      };
 }
 
 /*
@@ -87,37 +98,27 @@ class ServerStateItem extends BaseModel {
   //颜色
   int color;
 
+  //线条宽度
+  double width;
+
   ServerStateItem({
     this.state,
     this.color,
+    this.width,
   });
 
-  @override
-  fromJson(json) {
-    state = _convertState(json["state"]);
+  ServerStateItem.fromJson(json) {
+    state = convertState(json["state"]);
     color = json["color"];
-  }
-
-  //转换text
-  ServerState _convertState(String text) {
-    switch (text) {
-      case "disconnected":
-        return ServerState.Disconnected;
-      case "connected":
-        return ServerState.Connected;
-      case "connecting":
-        return ServerState.Connecting;
-    }
-    return ServerState.Disconnected;
+    width = json["width"];
   }
 
   @override
-  toJson() {
-    return {
-      "state": state.text,
-      "color": color,
-    };
-  }
+  toJson() => {
+        "state": state.text,
+        "color": color,
+        "width": width,
+      };
 }
 
 /*
@@ -148,4 +149,17 @@ extension ServerStateExtension on ServerState {
     }
     return "";
   }
+}
+
+//转换text
+ServerState convertState(String text) {
+  switch (text) {
+    case "disconnected":
+      return ServerState.Disconnected;
+    case "connected":
+      return ServerState.Connected;
+    case "connecting":
+      return ServerState.Connecting;
+  }
+  return ServerState.Disconnected;
 }

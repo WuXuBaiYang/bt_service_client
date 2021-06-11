@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'global_setting_cache.dart';
 
 /*
@@ -19,6 +21,8 @@ class CacheManage {
   Future<void> init() async {
     //初始化子缓存
     await globalSetting.initCache();
+
+    SharedPreferences.getInstance();
   }
 }
 
