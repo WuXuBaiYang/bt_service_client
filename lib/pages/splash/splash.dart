@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bt_service_manager/manage/caches/cache_manager.dart';
 import 'package:bt_service_manager/manage/database/database_manage.dart';
 import 'package:bt_service_manager/manage/page_manage.dart';
 import 'package:bt_service_manager/manage/permission_manage.dart';
@@ -38,6 +39,8 @@ class SplashPage extends StatelessWidget {
     }
     //初始化数据库
     await dbManage.init();
+    //初始化缓存
+    await cacheManage.init();
     //初始化接口
     await api.init();
     //跳转到首页/首次启动页

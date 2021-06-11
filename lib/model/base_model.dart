@@ -1,5 +1,6 @@
 import 'package:bt_service_manager/tools/tools.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 
 /*
@@ -35,4 +36,24 @@ abstract class BaseModel extends Equatable {
         createTime,
         updateTime,
       ];
+
+  fromJson(json) {}
+
+  //将json转换为集合
+  List<T> fromList<T extends BaseModel>(
+    obj, {
+    @required T Function(Map item) from,
+    List<T> def = const [],
+  }) {
+    if (obj is List) {
+      List<T> tempList = [];
+      for (dynamic item in obj) {
+        tempList.add(from(item));
+      }
+      return tempList;
+    }
+    return def;
+  }
+
+  toJson() {}
 }

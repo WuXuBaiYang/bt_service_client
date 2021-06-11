@@ -1,5 +1,4 @@
 import 'package:bt_service_manager/model/base_model.dart';
-import 'package:bt_service_manager/model/global_settings_model.dart';
 import 'package:bt_service_manager/model/server_config/aria2_config_model.dart';
 import 'package:bt_service_manager/model/server_config/qb_config_model.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
@@ -7,7 +6,6 @@ import 'package:bt_service_manager/model/server_config/tm_config_model.dart';
 import 'package:bt_service_manager/tools/file.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-
 import 'server_db.dart';
 /*
 * 数据库管理
@@ -25,8 +23,8 @@ class DBManage {
   //数据库路径
   final String _dbPath = "/hive_db";
 
-  //服务数据库
-  ServerDatabase server = ServerDatabase();
+  //服务器配置
+  final server = ServerDatabase();
 
   //初始化
   Future<void> init() async {
@@ -47,11 +45,6 @@ class DBManage {
     Hive.registerAdapter<QBConfigModel>(QBConfigModelAdapter());
     Hive.registerAdapter<Aria2ConfigModel>(Aria2ConfigModelAdapter());
     Hive.registerAdapter<TMConfigModel>(TMConfigModelAdapter());
-    //全局设置相关
-    Hive.registerAdapter<GlobalSettingsModel>(GlobalSettingsModelAdapter());
-    Hive.registerAdapter<ServerState>(ServerStateAdapter());
-    Hive.registerAdapter<ServerStateItem>(ServerStateItemAdapter());
-    Hive.registerAdapter<SpeedLevelItem>(SpeedLevelItemAdapter());
   }
 }
 
