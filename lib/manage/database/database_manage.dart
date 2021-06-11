@@ -1,4 +1,5 @@
 import 'package:bt_service_manager/model/base_model.dart';
+import 'package:bt_service_manager/model/global_settings_model.dart';
 import 'package:bt_service_manager/model/server_config/aria2_config_model.dart';
 import 'package:bt_service_manager/model/server_config/qb_config_model.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
@@ -39,12 +40,18 @@ class DBManage {
 
   //注册适配器
   _registerAdapter() {
+    //服务器相关
     Hive.registerAdapter<HTTPMethod>(HTTPMethodAdapter());
     Hive.registerAdapter<Protocol>(ProtocolAdapter());
     Hive.registerAdapter<ServerType>(ServerTypeAdapter());
     Hive.registerAdapter<QBConfigModel>(QBConfigModelAdapter());
     Hive.registerAdapter<Aria2ConfigModel>(Aria2ConfigModelAdapter());
     Hive.registerAdapter<TMConfigModel>(TMConfigModelAdapter());
+    //全局设置相关
+    Hive.registerAdapter<GlobalSettingsModel>(GlobalSettingsModelAdapter());
+    Hive.registerAdapter<ServerState>(ServerStateAdapter());
+    Hive.registerAdapter<ServerStateItem>(ServerStateItemAdapter());
+    Hive.registerAdapter<SpeedLevelItem>(SpeedLevelItemAdapter());
   }
 }
 

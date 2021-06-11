@@ -1,7 +1,7 @@
 import 'package:bt_service_manager/clients/aria2/apis/aria2_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/apis/qb_api.dart';
-import 'package:bt_service_manager/model/server_config/aria2_config_model.dart';
-import 'package:bt_service_manager/model/server_config/qb_config_model.dart';
+import 'package:bt_service_manager/clients/transmission/apis/tm_api.dart';
+import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 
 /*
 * 网络请求入口
@@ -15,27 +15,11 @@ class API {
 
   API._internal();
 
-  //接口对象管理
-  final Map<String, Map<String, dynamic>> _apis = {
-    "aria2": {},
-    "qb": {},
-  };
+  //下载平台接口对象缓存
+  final clientApiCaches = _ClientApiCache();
 
-  //aria2分流
-  Aria2API getAria2(Aria2ConfigModel config) {
-    if (!_apis["aria2"].containsKey(config.id)) {
-      _apis["aria2"][config.id] = Aria2API(config);
-    }
-    return _apis["aria2"][config.id];
-  }
-
-  //qb分流
-  QBAPI getQB(QBConfigModel config) {
-    if (!_apis["qb"].containsKey(config.id)) {
-      _apis["qb"][config.id] = QBAPI(config);
-    }
-    return _apis["qb"][config.id];
-  }
+  //获取平台接口对象
+  getClientApi(ServerConfigModel config) => clientApiCaches.getApi(config);
 
   //初始化接口
   Future init() async {
@@ -45,3 +29,38 @@ class API {
 
 //单利调用
 final API api = API();
+
+/*
+* 接口对象缓存
+* @author wuxubaiyang
+* @Time 2021/6/11 上午9:06
+*/
+class _ClientApiCache {
+  //接口缓存
+  Map<String, dynamic> apiCaches = {};
+
+  //根据配置类型初始化或提取api接口对象
+  getApi(ServerConfigModel config) {
+    String cacheKey = config.id;
+    if (apiCaches.containsKey(cacheKey)) {
+      return apiCaches[cacheKey];
+    }
+    var api = _createApi(config);
+    if (null != api) apiCaches[config.id] = api;
+    return api;
+  }
+
+  //根据服务器类型创建api
+  _createApi(ServerConfigModel config) {
+    switch (config.type) {
+      case ServerType.Aria2:
+        return Aria2API(config);
+      case ServerType.Transmission:
+        return TMAPI(config);
+      case ServerType.QBitTorrent:
+        return QBAPI(config);
+      default:
+        return;
+    }
+  }
+}

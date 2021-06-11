@@ -1,3 +1,4 @@
+import 'package:bt_service_manager/tools/tools.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive/hive.dart';
 
@@ -21,10 +22,12 @@ abstract class BaseModel extends Equatable {
   DateTime updateTime;
 
   BaseModel({
-    this.id,
-    this.createTime,
-    this.updateTime,
-  });
+    String id,
+    DateTime createTime,
+    DateTime updateTime,
+  })  : id = id ?? Tools.generationID,
+        createTime = createTime ?? DateTime.now(),
+        updateTime = updateTime ?? DateTime.now();
 
   @override
   List<Object> get props => [

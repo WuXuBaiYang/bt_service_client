@@ -16,23 +16,24 @@ class Aria2ConfigModelAdapter extends TypeAdapter<Aria2ConfigModel> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Aria2ConfigModel()
-      ..path = fields[30] == null ? 'jsonrpc' : fields[30] as String
-      ..method = fields[31] == null ? HTTPMethod.POST : fields[31] as HTTPMethod
-      ..secretToken = fields[32] == null ? '' : fields[32] as String
-      ..protocol = fields[50] == null ? Protocol.HTTP : fields[50] as Protocol
-      ..hostname = fields[51] == null ? '' : fields[51] as String
-      ..port = fields[52] == null ? 80 : fields[52] as num
-      ..alias = fields[53] == null ? '' : fields[53] as String
-      ..tags = fields[54] == null ? [] : (fields[54] as List)?.cast<String>()
-      ..flagColor = fields[55] == null ? 0 : fields[55] as int
-      ..logoPath = fields[56] == null ? '' : fields[56] as String
-      ..logoCircle = fields[57] == null ? true : fields[57] as bool
+    return Aria2ConfigModel(
+      alias: fields[53] == null ? '' : fields[53] as String,
+      tags: fields[54] == null ? [] : (fields[54] as List)?.cast<String>(),
+      flagColor: fields[55] == null ? 0 : fields[55] as int,
+      logoPath: fields[56] == null ? '' : fields[56] as String,
+      logoCircle: fields[57] == null ? true : fields[57] as bool,
+      protocol: fields[50] == null ? Protocol.HTTP : fields[50] as Protocol,
+      hostname: fields[51] == null ? '' : fields[51] as String,
+      port: fields[52] == null ? 80 : fields[52] as num,
+      path: fields[30] == null ? 'jsonrpc' : fields[30] as String,
+      method: fields[31] == null ? HTTPMethod.POST : fields[31] as HTTPMethod,
+      secretToken: fields[32] == null ? '' : fields[32] as String,
+      id: fields[0] == null ? '' : fields[0] as String,
+      createTime: fields[1] == null ? 0 : fields[1] as DateTime,
+      updateTime: fields[2] == null ? 0 : fields[2] as DateTime,
+    )
       ..type = fields[58] as ServerType
-      ..orderNum = fields[59] == null ? 0 : fields[59] as int
-      ..id = fields[0] == null ? '' : fields[0] as String
-      ..createTime = fields[1] == null ? 0 : fields[1] as DateTime
-      ..updateTime = fields[2] == null ? 0 : fields[2] as DateTime;
+      ..orderNum = fields[59] == null ? 0 : fields[59] as int;
   }
 
   @override

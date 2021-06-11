@@ -8,6 +8,7 @@ import 'package:bt_service_manager/tools/tools.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:reorderables/reorderables.dart';
 
 /*
@@ -40,20 +41,34 @@ class _ServerListViewState extends State<ServerListView> {
   //服务器列表子项logo尺寸
   final double serverItemLogoSize = 60;
 
+  //刷新控制器
+  final refreshController = RefreshController(initialRefresh: true);
+
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => ReorderableSliverList(
-        delegate: ReorderableSliverChildBuilderDelegate(
-          (_, i) {
-            var model = widget.serverController.servers[i];
-            return _buildServerItem(model, i);
-          },
-          childCount: widget.serverController.servers.length,
+      () => SmartRefresher(
+        controller: refreshController,
+        enablePullDown: true,
+        onRefresh: () => widget.serverController
+            .loadServerList()
+            .whenComplete(() => refreshController.refreshCompleted()),
+        child: CustomScrollView(
+          slivers: [
+            ReorderableSliverList(
+              delegate: ReorderableSliverChildBuilderDelegate(
+                (_, i) {
+                  var model = widget.serverController.servers[i];
+                  return _buildServerItem(model, i);
+                },
+                childCount: widget.serverController.servers.length,
+              ),
+              onReorder: (oldIndex, newIndex) =>
+                  widget.serverController.switchConfig(oldIndex, newIndex),
+              buildDraggableFeedback: (_, constraints, child) => child,
+            ),
+          ],
         ),
-        onReorder: (oldIndex, newIndex) =>
-            widget.serverController.switchConfig(oldIndex, newIndex),
-        buildDraggableFeedback: (_, constraints, child) => child,
       ),
     );
   }
@@ -136,8 +151,16 @@ class _ServerListViewState extends State<ServerListView> {
     return Card(
       shape: RoundedRectangleBorder(),
       margin: EdgeInsets.only(left: halfSize),
-      child: Padding(
+      child: Container(
         padding: EdgeInsets.only(left: halfSize),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              width: 1,
+              color: Colors.greenAccent,
+            ),
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

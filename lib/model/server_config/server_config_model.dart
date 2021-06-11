@@ -65,6 +65,17 @@ abstract class ServerConfigModel extends BaseModel {
   //获取名称
   String get currentName => (alias?.isNotEmpty ?? false) ? alias : type.text;
 
+  //获取aria2图标
+  static String get aria2AssetsIcon => getServerAssetsIcon(ServerType.Aria2);
+
+  //获取qBittorrent图标
+  static String get qBittorrentAssetsIcon =>
+      getServerAssetsIcon(ServerType.QBitTorrent);
+
+  //获取transmission图标
+  static String get transmissionAssetsIcon =>
+      getServerAssetsIcon(ServerType.Transmission);
+
   //静态方法，获取服务器类型对应的图标
   static String getServerAssetsIcon(ServerType type) => _serverAssetsIcon[type];
 

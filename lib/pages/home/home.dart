@@ -1,4 +1,5 @@
 import 'package:bt_service_manager/manage/page_manage.dart';
+import 'package:bt_service_manager/model/option_model.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:bt_service_manager/pages/home/server_controller.dart';
 import 'package:bt_service_manager/pages/home/server_list.dart';
@@ -21,25 +22,19 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            pinned: true,
-            expandedHeight: 200,
-            flexibleSpace: FlexibleSpaceBar(
-              title: _buildTitleInfo(),
-            ),
-            actions: [
-              IconButton(
-                icon: Icon(Icons.add),
-                onPressed: () => _showCreateServerMenu(),
-              ),
-            ],
-          ),
-          ServerListView(
-            serverController: controller,
+      appBar: AppBar(
+        title: _buildTitleInfo(),
+        flexibleSpace: FlexibleSpaceBar(
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () => _showCreateServerMenu(),
           ),
         ],
+      ),
+      body: ServerListView(
+        serverController: controller,
       ),
       drawer: _buildDrawerMenu(),
     );
@@ -91,9 +86,9 @@ class HomePage extends StatelessWidget {
               (i) {
                 var item = _drawerMenuList[i];
                 return ListTile(
-                  leading: Icon(item["icon"]),
-                  title: Text(item["name"]),
-                  onTap: () => item["fun"]?.call(),
+                  leading: item.icon,
+                  title: Text(item.name),
+                  onTap: () => item.runTapFun(),
                 );
               },
             )),
@@ -104,21 +99,21 @@ class HomePage extends StatelessWidget {
 
   //构建顶部过滤信息
   _buildFilterInfo() {
-    return Container(
-      padding: EdgeInsets.all(15),
-      child: Row(
-        children: [
-          Icon(
-            Icons.cloud,
-            size: 15,
-            color: Colors.blueAccent,
-          ),
-          SizedBox(width: 6),
-          Obx(() => Text("${controller.servers.length}")),
-          SizedBox(width: 6),
-          _buildServerItemsCount(),
-        ],
-      ),
+    return Row(
+      children: [
+        Icon(
+          Icons.cloud,
+          size: 15,
+          color: Colors.white,
+        ),
+        SizedBox(width: 6),
+        Obx(() => Text(
+              "${controller.servers.length}",
+              style: TextStyle(color: Colors.white),
+            )),
+        SizedBox(width: 6),
+        _buildServerItemsCount(),
+      ],
     );
   }
 
@@ -159,13 +154,10 @@ class HomePage extends StatelessWidget {
       items: List.generate(_addServerList.length, (i) {
         var item = _addServerList[i];
         return BottomSheetMenuItem(
-          leading: JImage.assetsIcon(
-            item["icon"],
-            size: 25,
-          ),
-          title: item["name"],
+          leading: item.icon,
+          title: item.name,
           onTap: (i) async {
-            await item["fun"]?.call();
+            await item.runTapFun();
             controller.loadServerList();
           },
         );
@@ -175,29 +167,38 @@ class HomePage extends StatelessWidget {
 }
 
 //添加服务按钮功能表
-final List<Map<String, dynamic>> _addServerList = [
-  {
-    "name": "Aria2",
-    "icon": ServerConfigModel.getServerAssetsIcon(ServerType.Aria2),
-    "fun": () => PageManage.goModifyAria2Service(),
-  },
-  {
-    "name": "QBitTorrent",
-    "icon": ServerConfigModel.getServerAssetsIcon(ServerType.QBitTorrent),
-    "fun": () => PageManage.goModifyQBService(),
-  },
-  {
-    "name": "Transmission",
-    "icon": ServerConfigModel.getServerAssetsIcon(ServerType.Transmission),
-    "fun": () => PageManage.goModifyTMService(),
-  }
+final List<OptionItem> _addServerList = [
+  OptionItem(
+    name: "Aria2",
+    icon: JImage.assetsIcon(
+      ServerConfigModel.aria2AssetsIcon,
+      size: 25,
+    ),
+    tapFun: () => PageManage.goModifyAria2Service(),
+  ),
+  OptionItem(
+    name: "QBitTorrent",
+    icon: JImage.assetsIcon(
+      ServerConfigModel.qBittorrentAssetsIcon,
+      size: 25,
+    ),
+    tapFun: () => PageManage.goModifyQBService(),
+  ),
+  OptionItem(
+    name: "Transmission",
+    icon: JImage.assetsIcon(
+      ServerConfigModel.transmissionAssetsIcon,
+      size: 25,
+    ),
+    tapFun: () => PageManage.goModifyTMService(),
+  ),
 ];
 
 //侧滑菜单列表
-final List<Map<String, dynamic>> _drawerMenuList = [
-  {
-    "name": "应用设置",
-    "icon": Icons.settings,
-    "fun": () async => PageManage.goAppSetting(),
-  }
+final List<OptionItem> _drawerMenuList = [
+  OptionItem(
+    name: "应用设置",
+    iconData: Icons.settings,
+    tapFun: () => PageManage.goAppSetting(),
+  ),
 ];
