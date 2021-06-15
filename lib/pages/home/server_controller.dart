@@ -1,5 +1,9 @@
+import 'package:bt_service_manager/manage/caches/cache_manager.dart';
 import 'package:bt_service_manager/manage/database/database_manage.dart';
+import 'package:bt_service_manager/model/global_settings_model.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 /*
@@ -59,4 +63,51 @@ class ServerController extends GetxController {
       config.save();
     });
   }
+
+  //缓存全局设置对象
+  GlobalSettingsModel _globalSettings;
+
+  //获取全局设置对象
+  GlobalSettingsModel get globalSettings {
+    if (null == _globalSettings) {
+      _globalSettings = cacheManage.globalSettingCache.globalSettings;
+    }
+    return _globalSettings;
+  }
+
+  //遍历速度区间并返回符合区间的颜色
+  Color _handleSpeedColor(
+    List<SpeedLevelItem> levels, {
+    num speed,
+    Color def = Colors.transparent,
+  }) {
+    for (var item in levels) {
+      if (speed >= item.speed) {
+        return item.color;
+      }
+    }
+    return def;
+  }
+
+  //获取全局下行速度对应颜色
+  Color get globalDownSpeedColor =>
+      _handleSpeedColor(globalSettings.globalDownSpeedLevel,
+          speed: totalDownloadSpeed.value);
+
+  //获取全局上行速度对应颜色
+  Color get globalUpSpeedColor =>
+      _handleSpeedColor(globalSettings.globalUpSpeedLevel,
+          speed: totalUploadSpeed);
+
+  //获取下行速度对应颜色
+  Color getDownSpeedColor(num speed) =>
+      _handleSpeedColor(globalSettings.downSpeedLevel, speed: speed);
+
+  //获取上行速度对应颜色
+  Color getUpSpeedColor(num speed) =>
+      _handleSpeedColor(globalSettings.upSpeedLevel, speed: speed);
+
+  //获取服务器链接状态对应的颜色
+  ServerStateItem getServerStateModel(ServerState state) =>
+      globalSettings.serverStates[state];
 }

@@ -57,13 +57,13 @@ class HomePage extends StatelessWidget {
           Icon(
             Icons.download_sharp,
             size: iconSize,
-            color: Colors.greenAccent,
+            color: controller.globalDownSpeedColor,
           ),
           Text(" $downSpeed  |  ", style: textStyle),
           Icon(
             Icons.upload_sharp,
             size: iconSize,
-            color: Colors.amberAccent,
+            color: controller.globalUpSpeedColor,
           ),
           Text(" $upSpeed", style: textStyle),
         ],

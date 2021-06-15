@@ -1,4 +1,5 @@
 import 'package:bt_service_manager/manage/page_manage.dart';
+import 'package:bt_service_manager/model/global_settings_model.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:bt_service_manager/pages/home/server_controller.dart';
 import 'package:bt_service_manager/tools/alert.dart';
@@ -7,6 +8,7 @@ import 'package:bt_service_manager/tools/route.dart';
 import 'package:bt_service_manager/tools/tools.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:reorderables/reorderables.dart';
@@ -36,7 +38,7 @@ class ServerListView extends StatefulWidget {
 */
 class _ServerListViewState extends State<ServerListView> {
   //服务器列表子项高度
-  final double serverItemHeight = 120;
+  final double serverItemHeight = 110;
 
   //服务器列表子项logo尺寸
   final double serverItemLogoSize = 60;
@@ -78,18 +80,7 @@ class _ServerListViewState extends State<ServerListView> {
     return Dismissible(
       key: Key(config.id),
       direction: DismissDirection.endToStart,
-      child: Container(
-        margin: EdgeInsets.only(bottom: 8),
-        height: serverItemHeight,
-        width: Tools.screenWidth,
-        child: Stack(
-          alignment: Alignment.centerLeft,
-          children: [
-            _buildServerItemContent(config),
-            _buildServerItemLogo(config),
-          ],
-        ),
-      ),
+      child: _buildServerItemContent(config),
       background: Container(
         padding: EdgeInsets.symmetric(horizontal: 35),
         margin: EdgeInsets.only(bottom: 8),
@@ -121,6 +112,7 @@ class _ServerListViewState extends State<ServerListView> {
     return SizedBox.fromSize(
       size: Size.square(serverItemLogoSize),
       child: Card(
+        margin: EdgeInsets.zero,
         shape: config.logoCircle
             ? CircleBorder()
             : RoundedRectangleBorder(
@@ -147,24 +139,45 @@ class _ServerListViewState extends State<ServerListView> {
 
   //构建服务子项内容
   _buildServerItemContent(ServerConfigModel config) {
-    var halfSize = serverItemLogoSize / 2;
-    return Card(
-      shape: RoundedRectangleBorder(),
-      margin: EdgeInsets.only(left: halfSize),
-      child: Container(
-        padding: EdgeInsets.only(left: halfSize),
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              width: 1,
-              color: Colors.greenAccent,
+    double iconSize = 14;
+    TextStyle textStyle = TextStyle(
+      fontSize: 16,
+    );
+
+    ///这里需要查询到当前服务的总下载速度
+    var downSpeed = 0;
+    var upSpeed = 0;
+    var state = ServerState.Connected;
+
+    ///.....
+    var stateModel = widget.serverController.getServerStateModel(state);
+    return Container(
+      margin: EdgeInsets.only(bottom: 8, left: 8),
+      child: Stack(
+        children: [
+          Card(
+            margin: EdgeInsets.only(left: serverItemLogoSize / 2),
+            child: SizedBox(
+              width: Tools.screenWidth,
+              height: serverItemHeight,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: null != stateModel
+                      ? Border(
+                          bottom: BorderSide(
+                            color: stateModel.color,
+                            width: stateModel.width,
+                          ),
+                        )
+                      : null,
+                ),
+              ),
             ),
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+          ListTile(
+            contentPadding: EdgeInsets.only(right: 15),
+            leading: _buildServerItemLogo(config),
+            title: Row(
               children: [
                 Expanded(child: Text(config.currentName, maxLines: 1)),
                 IconButton(
@@ -181,8 +194,32 @@ class _ServerListViewState extends State<ServerListView> {
                 ),
               ],
             ),
-          ],
-        ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(config.baseUrl),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Icon(
+                      Icons.download_sharp,
+                      size: iconSize,
+                      color:
+                          widget.serverController.getDownSpeedColor(downSpeed),
+                    ),
+                    Text(" $downSpeed  |  ", style: textStyle),
+                    Icon(
+                      Icons.upload_sharp,
+                      size: iconSize,
+                      color: widget.serverController.getUpSpeedColor(upSpeed),
+                    ),
+                    Text(" $upSpeed", style: textStyle),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

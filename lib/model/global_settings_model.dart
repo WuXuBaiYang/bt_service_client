@@ -1,4 +1,5 @@
 import 'package:bt_service_manager/model/base_model.dart';
+import 'package:flutter/cupertino.dart';
 
 /*
 * 全局设置对象
@@ -66,7 +67,7 @@ class SpeedLevelItem extends BaseModel {
   num speed;
 
   //颜色
-  int color;
+  Color color;
 
   SpeedLevelItem({
     this.speed,
@@ -75,13 +76,13 @@ class SpeedLevelItem extends BaseModel {
 
   SpeedLevelItem.fromJson(json) {
     speed = json["speed"];
-    color = json["color"];
+    color = Color(json["color"]);
   }
 
   @override
   toJson() => {
         "speed": speed,
-        "color": color,
+        "color": color.value,
       };
 }
 
@@ -96,7 +97,7 @@ class ServerStateItem extends BaseModel {
   ServerState state;
 
   //颜色
-  int color;
+  Color color;
 
   //线条宽度
   double width;
@@ -109,14 +110,14 @@ class ServerStateItem extends BaseModel {
 
   ServerStateItem.fromJson(json) {
     state = convertState(json["state"]);
-    color = json["color"];
+    color = Color(json["color"]);
     width = json["width"];
   }
 
   @override
   toJson() => {
         "state": state.text,
-        "color": color,
+        "color": color.value,
         "width": width,
       };
 }

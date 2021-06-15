@@ -51,7 +51,7 @@ abstract class ServerConfigModel extends BaseModel {
   int orderNum;
 
   //拼接基础地址
-  String get baseUrl => "${protocol.text}$hostname:$port";
+  String get baseUrl => "${protocol.text}://$hostname:$port";
 
   //判断当前配置是否为编辑状态
   bool get isEdited => id?.isNotEmpty ?? false;
@@ -173,6 +173,9 @@ abstract class RPCServerConfigModel extends ServerConfigModel {
           createTime: createTime,
           updateTime: updateTime,
         );
+
+  @override
+  String get baseUrl => "${super.baseUrl}/$path";
 
   @override
   List<Object> get props => super.props
