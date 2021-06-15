@@ -144,82 +144,86 @@ class _ServerListViewState extends State<ServerListView> {
       fontSize: 16,
     );
 
-    ///这里需要查询到当前服务的总下载速度
+    ///这里需要查询到当前服务信息
     var downSpeed = 0;
     var upSpeed = 0;
     var state = ServerState.Connected;
 
-    ///.....
+    ///这里需要查询到当前服务信息
     var stateModel = widget.serverController.getServerStateModel(state);
-    return Container(
-      margin: EdgeInsets.only(bottom: 8, left: 8),
-      child: Stack(
-        children: [
-          Card(
-            margin: EdgeInsets.only(left: serverItemLogoSize / 2),
-            child: SizedBox(
-              width: Tools.screenWidth,
-              height: serverItemHeight,
-              child: Container(
-                decoration: BoxDecoration(
-                  border: null != stateModel
-                      ? Border(
-                          bottom: BorderSide(
-                            color: stateModel.color,
-                            width: stateModel.width,
-                          ),
-                        )
-                      : null,
+    return Material(
+      child: Container(
+        margin: EdgeInsets.only(bottom: 8, left: 8),
+        width: Tools.screenWidth,
+        height: serverItemHeight,
+        child: Stack(
+          children: [
+            Card(
+              margin: EdgeInsets.only(left: serverItemLogoSize / 2),
+              child: SizedBox(
+                width: Tools.screenWidth,
+                height: serverItemHeight,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: null != stateModel
+                        ? Border(
+                      bottom: BorderSide(
+                        color: stateModel.color,
+                        width: stateModel.width,
+                      ),
+                    )
+                        : null,
+                  ),
                 ),
               ),
             ),
-          ),
-          ListTile(
-            contentPadding: EdgeInsets.only(right: 15),
-            leading: _buildServerItemLogo(config),
-            title: Row(
-              children: [
-                Expanded(child: Text(config.currentName, maxLines: 1)),
-                IconButton(
-                  iconSize: 15,
-                  splashRadius: 20,
-                  color: Colors.grey,
-                  icon: Icon(Icons.edit_outlined),
-                  visualDensity: VisualDensity.comfortable,
-                  onPressed: () async {
-                    if (null != await _goModifyPage(config)) {
-                      widget.serverController.loadServerList();
-                    }
-                  },
-                ),
-              ],
+            ListTile(
+              contentPadding: EdgeInsets.only(right: 15),
+              leading: _buildServerItemLogo(config),
+              title: Row(
+                children: [
+                  Expanded(child: Text(config.currentName, maxLines: 1)),
+                  IconButton(
+                    iconSize: 15,
+                    splashRadius: 20,
+                    color: Colors.grey,
+                    icon: Icon(Icons.edit_outlined),
+                    visualDensity: VisualDensity.comfortable,
+                    onPressed: () async {
+                      if (null != await _goModifyPage(config)) {
+                        widget.serverController.loadServerList();
+                      }
+                    },
+                  ),
+                ],
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(config.baseUrl),
+                  SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.download_sharp,
+                        size: iconSize,
+                        color:
+                        widget.serverController.getDownSpeedColor(downSpeed),
+                      ),
+                      Text(" $downSpeed  |  ", style: textStyle),
+                      Icon(
+                        Icons.upload_sharp,
+                        size: iconSize,
+                        color: widget.serverController.getUpSpeedColor(upSpeed),
+                      ),
+                      Text(" $upSpeed", style: textStyle),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(config.baseUrl),
-                SizedBox(height: 8),
-                Row(
-                  children: [
-                    Icon(
-                      Icons.download_sharp,
-                      size: iconSize,
-                      color:
-                          widget.serverController.getDownSpeedColor(downSpeed),
-                    ),
-                    Text(" $downSpeed  |  ", style: textStyle),
-                    Icon(
-                      Icons.upload_sharp,
-                      size: iconSize,
-                      color: widget.serverController.getUpSpeedColor(upSpeed),
-                    ),
-                    Text(" $upSpeed", style: textStyle),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
