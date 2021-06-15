@@ -63,11 +63,4 @@ class Aria2ErrorModel {
     _code = json["code"];
     _message = json["message"];
   }
-
-  Map<String, dynamic> toJson() {
-    var map = <String, dynamic>{};
-    map["code"] = _code;
-    map["message"] = _message;
-    return map;
-  }
 }

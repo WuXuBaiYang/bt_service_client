@@ -18,10 +18,8 @@ class TMRequestModel {
     this._arguments = arguments;
   }
 
-  Map<String, dynamic> toJson() {
-    var map = <String, dynamic>{};
-    map["method"] = _method;
-    map["arguments"] = _arguments;
-    return map;
-  }
+  toJson() => {
+        "method": _method,
+        "arguments": _arguments,
+      };
 }

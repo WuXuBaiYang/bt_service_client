@@ -1,5 +1,3 @@
-import 'package:bt_service_manager/model/base_model.dart';
-
 /*
 * 通用设置视图，设置组数据对象
 * @author jtechjh
@@ -46,7 +44,7 @@ final Map<String, Function> _itemParams = {
 * @author jtechjh
 * @Time 2021/5/12 5:05 下午
 */
-class SettingItemModel extends BaseModel {
+class SettingItemModel {
   //项目名称
   SettingTextModel _name;
 
@@ -120,6 +118,7 @@ class SettingItemModel extends BaseModel {
 * @author jtechjh
 * @Time 2021/5/12 5:24 下午
 */
+// ignore: must_be_immutable
 class TextSettingParam extends _BaseItemParam {
   //文本类型
   String _type;
@@ -157,6 +156,7 @@ class TextSettingParam extends _BaseItemParam {
 * @author jtechjh
 * @Time 2021/5/12 5:26 下午
 */
+// ignore: must_be_immutable
 class SelectSettingParam extends _BaseItemParam {
   //选项集合
   List<SelectSettingParamItem> _items;
@@ -176,6 +176,7 @@ class SelectSettingParam extends _BaseItemParam {
 * @author jtechjh
 * @Time 2021/5/13 2:52 下午
 */
+// ignore: must_be_immutable
 class SwitchSettingParam extends _BaseItemParam {
   SwitchSettingParam.fromJson(data) {}
 }
@@ -185,7 +186,7 @@ class SwitchSettingParam extends _BaseItemParam {
 * @author jtechjh
 * @Time 2021/5/12 5:29 下午
 */
-class SelectSettingParamItem extends BaseModel {
+class SelectSettingParamItem {
   //名称
   SettingTextModel _name;
 
@@ -209,14 +210,14 @@ class SelectSettingParamItem extends BaseModel {
 * @author jtechjh
 * @Time 2021/5/12 5:24 下午
 */
-abstract class _BaseItemParam extends BaseModel {}
+abstract class _BaseItemParam {}
 
 /*
 * 设置文本对象-国际化
 * @author jtechjh
 * @Time 2021/5/12 5:08 下午
 */
-class SettingTextModel extends BaseModel {
+class SettingTextModel {
   //中文
   String _cn;
 
