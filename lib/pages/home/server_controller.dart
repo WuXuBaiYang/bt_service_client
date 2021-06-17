@@ -12,11 +12,6 @@ import 'package:get/get.dart';
 * @Time 2021/5/18 4:08 下午
 */
 class ServerController extends GetxController {
-  ServerController() {
-    //加载服务器列表
-    loadServerList();
-  }
-
   //全局下载速度
   var totalDownloadSpeed = 0.0.obs;
 

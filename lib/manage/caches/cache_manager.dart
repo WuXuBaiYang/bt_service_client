@@ -21,12 +21,8 @@ class CacheManage {
 
   //初始化
   Future<void> init() async {
-    try{
-      //初始化子缓存
-      await globalSettingCache.initCache();
-    }catch(e){
-      print("");
-    }
+    //初始化子缓存
+    await globalSettingCache.initCache();
   }
 }
 

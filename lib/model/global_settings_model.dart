@@ -99,26 +99,26 @@ class ServerStateItem extends BaseModel {
   //颜色
   Color color;
 
-  //线条宽度
-  double width;
+  //图标尺寸
+  double size;
 
   ServerStateItem({
     this.state,
     this.color,
-    this.width,
+    this.size,
   });
 
   ServerStateItem.fromJson(json) {
     state = convertState(json["state"]);
     color = Color(json["color"]);
-    width = json["width"];
+    size = json["size"];
   }
 
   @override
   toJson() => {
         "state": state.text,
         "color": color.value,
-        "width": width,
+        "size": size,
       };
 }
 

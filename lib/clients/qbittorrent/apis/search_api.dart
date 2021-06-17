@@ -6,9 +6,9 @@ import 'package:bt_service_manager/clients/qbittorrent/apis/qb_api.dart';
 * @Time 2021/5/6 3:32 PM
 */
 class SearchAPI {
-  final QBAPI _api;
+  final QBAPI api;
 
-  SearchAPI(this._api);
+  SearchAPI(this.api);
 
   //启动一个搜索任务
   //Plugins to use for searching (e.g. "legittorrents").
@@ -23,19 +23,19 @@ class SearchAPI {
     String plugins,
     String category,
   }) =>
-      _api.requestPost("/search/start", form: {
+      api.requestPost("/search/start", form: {
         "pattern": pattern,
         "plugins": plugins,
         "category": category,
       });
 
   //停止搜索
-  stopSearch(String id) => _api.requestPost("/search/stop", form: {
+  stopSearch(String id) => api.requestPost("/search/stop", form: {
         "id": id,
       });
 
   //删除搜索
-  deleteSearch(String id) => _api.requestPost("/search/delete", form: {
+  deleteSearch(String id) => api.requestPost("/search/delete", form: {
         "id": id,
       });
 
@@ -43,7 +43,7 @@ class SearchAPI {
   //Url or file path of the plugin to install (e.g. "https://raw.githubusercontent.com/qbittorrent/search-plugins/master/nova3/engines/legittorrents.py").
   //Supports multiple sources separated by |
   installPlugin(String sources) =>
-      _api.requestPost("/search/installPlugin", form: {
+      api.requestPost("/search/installPlugin", form: {
         "sources": sources,
       });
 
@@ -51,7 +51,7 @@ class SearchAPI {
   //Name of the plugin to uninstall (e.g. "legittorrents").
   //Supports multiple names separated by |
   uninstallPlugin(String names) =>
-      _api.requestPost("/search/uninstallPlugin", form: {
+      api.requestPost("/search/uninstallPlugin", form: {
         "names": names,
       });
 
@@ -59,16 +59,16 @@ class SearchAPI {
   //Name of the plugin to enable/disable (e.g. "legittorrents").
   //Supports multiple names separated by |
   setPluginEnable(String names, bool enable) =>
-      _api.requestPost("/search/enablePlugin", form: {
+      api.requestPost("/search/enablePlugin", form: {
         "names": names,
         "enable": enable,
       });
 
   //更新插件
-  updatePlugins() => _api.requestPost("/search/updatePlugins");
+  updatePlugins() => api.requestPost("/search/updatePlugins");
 
   //获取搜索状态
-  getSearchStatus(String id) => _api.requestGet("/search/status", query: {
+  getSearchStatus(String id) => api.requestGet("/search/status", query: {
         "id": id,
       });
 
@@ -79,12 +79,12 @@ class SearchAPI {
   //result to start at.
   //A negative number means count backwards (e.g. -2 returns the 2 most recent results)
   getSearchResults(String id, {int limit = 0, int offset = 0}) =>
-      _api.requestGet("/search/results", query: {
+      api.requestGet("/search/results", query: {
         "id": id,
         "limit": limit,
         "offset": offset,
       });
 
   //获取插件
-  getPlugins() => _api.requestGet("/search/plugins");
+  getPlugins() => api.requestGet("/search/plugins");
 }

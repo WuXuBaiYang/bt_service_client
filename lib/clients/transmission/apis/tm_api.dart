@@ -3,10 +3,10 @@ import 'dart:convert';
 
 import 'package:bt_service_manager/clients/transmission/model/request.dart';
 import 'package:bt_service_manager/clients/transmission/model/response.dart';
-import 'package:bt_service_manager/manage/database/database_manage.dart';
+import 'package:bt_service_manager/model/client_info_model.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:bt_service_manager/model/server_config/tm_config_model.dart';
-import 'package:bt_service_manager/net/base_api.dart';
+import 'package:bt_service_manager/net/client_api.dart';
 import 'package:dio/dio.dart';
 
 /*
@@ -14,40 +14,19 @@ import 'package:dio/dio.dart';
 * @author jtechjh
 * @Time 2021/5/14 2:54 下午
 */
-class TMAPI {
-  //http请求方法
-  BaseAPI _baseAPI;
+class TMAPI extends ClientAPI<TMConfigModel> {
+  TMAPI(TMConfigModel config) : super(config);
 
-  //配置信息对象
-  TMConfigModel _config;
-
-  TMAPI(this._config) {
-    //监听配置变化
-    _watchOnConfig();
-    //初始化接口配置等
-    _initAPI();
-  }
-
-  //初始化方法
-  _initAPI() {
-    //初始化http请求
-    _baseAPI = BaseAPI(_config.baseUrl);
-    _baseAPI.addInterceptors([_tmInterceptor]);
+  @override
+  initAPI() {
     //实例化接口分类
   }
 
-  //监听配置变化
-  _watchOnConfig() async {
-    (await dbManage.server.watchOn(_config.id)).listen((event) {
-      //重新初始化接口
-      _initAPI();
-    });
-  }
+  @override
+  Future<ClientInfoModel> loadClientInfo() {}
 
-  //transmission接口请求拦截
-  get _tmInterceptor => InterceptorsWrapper(
-        onError: (e, handle) {},
-      );
+  @override
+  List<Interceptor> get interceptors => [];
 
   //rpc请求
   Future<TMResponseModel> rpcRequest(String method,
@@ -58,14 +37,14 @@ class TMAPI {
         arguments: params,
       ).toJson();
       var response;
-      if (_config.method == HTTPMethod.POST) {
-        response = await _baseAPI.httpPost(
-          _config.path,
+      if (config.method == HTTPMethod.POST) {
+        response = await baseAPI.httpPost(
+          config.path,
           data: requestData,
         );
-      } else if (_config.method == HTTPMethod.GET) {
-        response = await _baseAPI.httpGet(
-          _config.path,
+      } else if (config.method == HTTPMethod.GET) {
+        response = await baseAPI.httpGet(
+          config.path,
           query: requestData,
         );
       }

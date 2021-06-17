@@ -4,10 +4,10 @@ import 'dart:convert';
 import 'package:bt_service_manager/clients/aria2/apis/setting_api.dart';
 import 'package:bt_service_manager/clients/aria2/model/request.dart';
 import 'package:bt_service_manager/clients/aria2/model/response.dart';
-import 'package:bt_service_manager/manage/database/database_manage.dart';
+import 'package:bt_service_manager/model/client_info_model.dart';
 import 'package:bt_service_manager/model/server_config/aria2_config_model.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
-import 'package:bt_service_manager/net/base_api.dart';
+import 'package:bt_service_manager/net/client_api.dart';
 import 'package:dio/dio.dart';
 
 import 'download_api.dart';
@@ -17,48 +17,29 @@ import 'download_api.dart';
 * @author jtechjh
 * @Time 2021/5/6 11:02 AM
 */
-class Aria2API {
-  //http请求方法
-  BaseAPI _baseAPI;
-
-  //配置信息对象
-  Aria2ConfigModel _config;
-
+class Aria2API extends ClientAPI<Aria2ConfigModel> {
   //下载相关接口
   DownloadAPI download;
 
   //设置相关接口
   SettingAPI setting;
 
-  Aria2API(this._config) {
-    //监听配置变化
-    _watchOnConfig();
-    //初始化接口配置等
-    _initAPI();
-  }
+  Aria2API(Aria2ConfigModel config) : super(config);
 
-  //初始化方法
-  _initAPI() {
-    //初始化http请求
-    _baseAPI = BaseAPI(_config.baseUrl);
-    _baseAPI.addInterceptors([_aria2Interceptor]);
-    //实例化接口分类
+  @override
+  initAPI() {
+    //初始化接口对象
     download = DownloadAPI(this);
     setting = SettingAPI(this);
   }
 
-  //监听配置变化
-  _watchOnConfig() async {
-    (await dbManage.server.watchOn(_config.id)).listen((event) {
-      //重新初始化接口
-      _initAPI();
-    });
+  @override
+  Future<ClientInfoModel> loadClientInfo() {
+    ///
   }
 
-  //aria2接口请求拦截
-  get _aria2Interceptor => InterceptorsWrapper(
-        onError: (e, handle) {},
-      );
+  @override
+  List<Interceptor> get interceptors => [];
 
   //rpc请求
   Future<Aria2ResponseModel> rpcRequest(String method,
@@ -67,20 +48,20 @@ class Aria2API {
       var requestData = Aria2RequestModel.build(
         method: method,
         params: [
-          "token:${_config.secretToken}",
+          "token:${config.secretToken}",
           params,
           options,
         ],
       ).toJson();
       var response;
-      if (_config.method == HTTPMethod.POST) {
-        response = await _baseAPI.httpPost(
-          "/${_config.path}",
+      if (config.method == HTTPMethod.POST) {
+        response = await baseAPI.httpPost(
+          "/${config.path}",
           data: requestData,
         );
-      } else if (_config.method == HTTPMethod.GET) {
-        response = await _baseAPI.httpGet(
-          _config.path,
+      } else if (config.method == HTTPMethod.GET) {
+        response = await baseAPI.httpGet(
+          config.path,
           query: requestData,
         );
       }

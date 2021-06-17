@@ -163,25 +163,19 @@ class _ServerListViewState extends State<ServerListView> {
               child: SizedBox(
                 width: Tools.screenWidth,
                 height: serverItemHeight,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: null != stateModel
-                        ? Border(
-                      bottom: BorderSide(
-                        color: stateModel.color,
-                        width: stateModel.width,
-                      ),
-                    )
-                        : null,
-                  ),
-                ),
               ),
             ),
             ListTile(
-              contentPadding: EdgeInsets.only(right: 15),
+              contentPadding: EdgeInsets.zero,
               leading: _buildServerItemLogo(config),
               title: Row(
                 children: [
+                  Icon(
+                    getServerStateIcon(stateModel.state),
+                    color: stateModel.color,
+                    size: stateModel.size,
+                  ),
+                  SizedBox(width: 8),
                   Expanded(child: Text(config.currentName, maxLines: 1)),
                   IconButton(
                     iconSize: 15,
@@ -207,8 +201,8 @@ class _ServerListViewState extends State<ServerListView> {
                       Icon(
                         Icons.download_sharp,
                         size: iconSize,
-                        color:
-                        widget.serverController.getDownSpeedColor(downSpeed),
+                        color: widget.serverController
+                            .getDownSpeedColor(downSpeed),
                       ),
                       Text(" $downSpeed  |  ", style: textStyle),
                       Icon(
@@ -226,6 +220,19 @@ class _ServerListViewState extends State<ServerListView> {
         ),
       ),
     );
+  }
+
+  //根据连接状态获取图标
+  IconData getServerStateIcon(ServerState state){
+    switch(state){
+      case ServerState.Disconnected:
+        return Icons.link_off;
+      case ServerState.Connected:
+        return Icons.link;
+      case ServerState.Connecting:
+        return Icons.link;
+    }
+    return Icons.error;
   }
 
   //跳转到编辑页面

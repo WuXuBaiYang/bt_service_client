@@ -9,34 +9,34 @@ import 'package:dio/dio.dart';
 * @Time 2021/5/6 3:31 PM
 */
 class TorrentAPI {
-  final QBAPI _api;
+  final QBAPI api;
 
-  TorrentAPI(this._api);
+  TorrentAPI(this.api);
 
   //暂停任务
-  pause(List<String> hashes) => _api.requestPost("/torrents/pause", form: {
+  pause(List<String> hashes) => api.requestPost("/torrents/pause", form: {
         "hashes": hashes.join("|"),
       });
 
   //恢复任务
-  resume(List<String> hashes) => _api.requestPost("/torrents/resume", form: {
+  resume(List<String> hashes) => api.requestPost("/torrents/resume", form: {
         "hashes": hashes.join("|"),
       });
 
   //删除任务
   delete(List<String> hashes, bool deleteFiles) =>
-      _api.requestPost("/torrents/delete", form: {
+      api.requestPost("/torrents/delete", form: {
         "hashes": hashes.join("|"),
         "deleteFiles": deleteFiles,
       });
 
   //重查任务
-  recheck(List<String> hashes) => _api.requestPost("/torrents/recheck", form: {
+  recheck(List<String> hashes) => api.requestPost("/torrents/recheck", form: {
         "hashes": hashes.join("|"),
       });
 
   //放弃种子
-  reannounce(List<String> hashes) => _api.requestPost("/torrents/reannounce", form: {
+  reannounce(List<String> hashes) => api.requestPost("/torrents/reannounce", form: {
         "hashes": hashes.join("|"),
       });
 
@@ -67,7 +67,7 @@ class TorrentAPI {
       var name = path.substring(path.lastIndexOf("/"), path.length);
       torrents.add(await MultipartFile.fromFile(it.path, filename: name));
     }
-    return _api.requestPost("/torrents/add", form: {
+    return api.requestPost("/torrents/add", form: {
       "urls": urls.join(r"\n"),
       "torrents": torrents,
       "savepath": savePath,
@@ -93,14 +93,14 @@ class TorrentAPI {
   //Note %0A (aka LF newline) between trackers.
   //Ampersand in tracker urls MUST be escaped.
   addTrackers(String hash, List<String> urls) =>
-      _api.requestPost("/torrents/addTrackers", form: {
+      api.requestPost("/torrents/addTrackers", form: {
         "hash": hash,
         "urls": urls.join(r"\n"),
       });
 
   //编辑tracker服务器
   editTracker(String hash, String origUrl, String newUrl) =>
-      _api.requestPost("/torrents/editTracker", form: {
+      api.requestPost("/torrents/editTracker", form: {
         "hash": hash,
         "origUrl": origUrl,
         "newUrl": newUrl,
@@ -108,44 +108,44 @@ class TorrentAPI {
 
   //移除tracker服务器
   removeTrackers(String hash, List<String> urls) =>
-      _api.requestPost("/torrents/removeTrackers", form: {
+      api.requestPost("/torrents/removeTrackers", form: {
         "hash": hash,
         "urls": urls.join("|"),
       });
 
   //添加peers
   addPeers(List<String> hashes, String peers) =>
-      _api.requestPost("/torrents/addPeers", form: {
+      api.requestPost("/torrents/addPeers", form: {
         "hashes": hashes.join("|"),
         "peers": peers,
       });
 
   //提高优先级
   increasePrio(List<String> hashes) =>
-      _api.requestPost("/torrents/increasePrio", form: {
+      api.requestPost("/torrents/increasePrio", form: {
         "hashes": hashes.join("|"),
       });
 
   //降低优先级
   decreasePrio(List<String> hashes) =>
-      _api.requestPost("/torrents/decreasePrio", form: {
+      api.requestPost("/torrents/decreasePrio", form: {
         "hashes": hashes.join("|"),
       });
 
   //最大化优先级
-  topPrio(List<String> hashes) => _api.requestPost("/torrents/topPrio", form: {
+  topPrio(List<String> hashes) => api.requestPost("/torrents/topPrio", form: {
         "hashes": hashes.join("|"),
       });
 
   //最小化优先级
-  bottomPrio(List<String> hashes) => _api.requestPost("/torrents/bottomPrio", form: {
+  bottomPrio(List<String> hashes) => api.requestPost("/torrents/bottomPrio", form: {
         "hashes": hashes.join("|"),
       });
 
   //设置文件优先级
   //id：｜分割
   post(String hash, List<String> ids, int priority) =>
-      _api.requestPost("/torrents/filePrio", form: {
+      api.requestPost("/torrents/filePrio", form: {
         "hash": hash,
         "id": ids,
         "priority": priority,
@@ -153,55 +153,55 @@ class TorrentAPI {
 
   //设置下载速度限制
   setDownloadLimit(List<String> hashes, int limit) =>
-      _api.requestPost("/torrents/setDownloadLimit", form: {
+      api.requestPost("/torrents/setDownloadLimit", form: {
         "hashes": hashes.join("|"),
         "limit": limit,
       });
 
   //设置分享率限制
   setShareLimits(List<String> hashes, double seedingTimeLimit) =>
-      _api.requestPost("/torrents/setShareLimits", form: {
+      api.requestPost("/torrents/setShareLimits", form: {
         "hashes": hashes.join("|"),
         "seedingTimeLimit": seedingTimeLimit,
       });
 
   //设置上载速度限制
   setUploadLimit(List<String> hashes, int limit) =>
-      _api.requestPost("/torrents/setUploadLimit", form: {
+      api.requestPost("/torrents/setUploadLimit", form: {
         "hashes": hashes.join("|"),
         "limit": limit,
       });
 
   //设置位置
   setLocation(List<String> hashes) =>
-      _api.requestPost("/torrents/setLocation", form: {
+      api.requestPost("/torrents/setLocation", form: {
         "hashes": hashes.join("|"),
       });
 
   //重命名
   rename(String hash, String name) =>
-      _api.requestPost("/torrents/rename", form: {
+      api.requestPost("/torrents/rename", form: {
         "hash": hash,
         "name": name,
       });
 
   //设置分类
   setCategory(List<String> hashes, String category) =>
-      _api.requestPost("/torrents/setCategory", form: {
+      api.requestPost("/torrents/setCategory", form: {
         "hashes": hashes.join("|"),
         "category": category,
       });
 
   //创建分类
   createCategory(String category, String savePath) =>
-      _api.requestPost("/torrents/createCategory", form: {
+      api.requestPost("/torrents/createCategory", form: {
         "category": category,
         "savePath": savePath,
       });
 
   //编辑分类
   editCategory(String category, String savePath) =>
-      _api.requestPost("/torrents/editCategory", form: {
+      api.requestPost("/torrents/editCategory", form: {
         "category": category,
         "savePath": savePath,
       });
@@ -209,71 +209,71 @@ class TorrentAPI {
   //移除分类
   //categories：\n分割
   removeCategories(List<String> categories) =>
-      _api.requestPost("/torrents/removeCategories", form: {
+      api.requestPost("/torrents/removeCategories", form: {
         "categories": categories.join(r"\n"),
       });
 
   //添加标签
   //tags：,分割
   addTags(List<String> hashes, List<String> tags) =>
-      _api.requestPost("/torrents/addTags", form: {
+      api.requestPost("/torrents/addTags", form: {
         "hashes": hashes.join("|"),
         "tags": tags.join(","),
       });
 
   //移除标签
   removeTags(List<String> hashes, List<String> tags) =>
-      _api.requestPost("/torrents/removeTags", form: {
+      api.requestPost("/torrents/removeTags", form: {
         "hashes": hashes.join("|"),
         "tags": tags.join(","),
       });
 
   //创建标签
-  createTags(List<String> tags) => _api.requestPost("/torrents/createTags", form: {
+  createTags(List<String> tags) => api.requestPost("/torrents/createTags", form: {
         "tags": tags.join(","),
       });
 
   //删除标签
-  deleteTags(List<String> tags) => _api.requestPost("/torrents/deleteTags", form: {
+  deleteTags(List<String> tags) => api.requestPost("/torrents/deleteTags", form: {
         "tags": tags.join(","),
       });
 
   //设置自动管理
   setAutoManagement(List<String> hashes, bool enable) =>
-      _api.requestPost("/torrents/setAutoManagement", form: {
+      api.requestPost("/torrents/setAutoManagement", form: {
         "hashes": hashes.join("|"),
         "enable": enable,
       });
 
   //切换顺序下载
   toggleSequentialDownload(List<String> hashes) =>
-      _api.requestPost("/torrents/toggleSequentialDownload", form: {
+      api.requestPost("/torrents/toggleSequentialDownload", form: {
         "hashes": hashes.join("|"),
       });
 
   //切换头尾随便优先级
   toggleFirstLastPiecePrio(List<String> hashes) =>
-      _api.requestPost("/torrents/toggleFirstLastPiecePrio", form: {
+      api.requestPost("/torrents/toggleFirstLastPiecePrio", form: {
         "hashes": hashes.join("|"),
       });
 
   //设置强制启动
   setForceStart(List<String> hashes, bool enable) =>
-      _api.requestPost("/torrents/setForceStart", form: {
+      api.requestPost("/torrents/setForceStart", form: {
         "hashes": hashes.join("|"),
         "value": enable,
       });
 
   //设置超级做种模式
   setSuperSeeding(List<String> hashes, bool enable) =>
-      _api.requestPost("/torrents/setSuperSeeding", form: {
+      api.requestPost("/torrents/setSuperSeeding", form: {
         "hashes": hashes.join("|"),
         "value": enable,
       });
 
   //文件重命名
   renameFile(String hash, String oldPath, String newPath) =>
-      _api.requestPost("/torrents/renameFile", form: {
+      api.requestPost("/torrents/renameFile", form: {
         "hash": hash,
         "oldPath": oldPath,
         "newPath": newPath,
@@ -281,7 +281,7 @@ class TorrentAPI {
 
   //文件夹重命名
   renameFolder(String hash, String oldPath, String newPath) =>
-      _api.requestPost("/torrents/renameFolder", form: {
+      api.requestPost("/torrents/renameFolder", form: {
         "hash": hash,
         "oldPath": oldPath,
         "newPath": newPath,
@@ -308,7 +308,7 @@ class TorrentAPI {
     int offset = 0,
     List<String> hashes,
   }) =>
-      _api.requestGet("/torrents/info", query: {
+      api.requestGet("/torrents/info", query: {
         "filter": filter,
         "category": category,
         "sort": sort,
@@ -319,52 +319,52 @@ class TorrentAPI {
       });
 
   //获取属性信息
-  getProperties(String hash) => _api.requestGet("/torrents/properties", query: {
+  getProperties(String hash) => api.requestGet("/torrents/properties", query: {
         "hash": hash,
       });
 
   //获取trackers信息
-  getTrackers(String hash) => _api.requestGet("/torrents/trackers", query: {
+  getTrackers(String hash) => api.requestGet("/torrents/trackers", query: {
         "hash": hash,
       });
 
   //获取网络种子信息
-  getWebSeeds(String hash) => _api.requestGet("/torrents/webseeds", query: {
+  getWebSeeds(String hash) => api.requestGet("/torrents/webseeds", query: {
         "hash": hash,
       });
 
   //获取文件信息
-  getFiles(String hash) => _api.requestGet("/torrents/files", query: {
+  getFiles(String hash) => api.requestGet("/torrents/files", query: {
         "hash": hash,
       });
 
   //获取碎片信息
   getPieceStates(String hash) =>
-      _api.requestGet("/torrents/pieceStates", query: {
+      api.requestGet("/torrents/pieceStates", query: {
         "hash": hash,
       });
 
   //获取碎片hashes信息
   getPieceHashes(String hash) =>
-      _api.requestGet("/torrents/pieceHashes", query: {
+      api.requestGet("/torrents/pieceHashes", query: {
         "hash": hash,
       });
 
   //获取下载速度限制
   getDownloadLimit(List<String> hashes) =>
-      _api.requestGet("/torrents/downloadLimit", query: {
+      api.requestGet("/torrents/downloadLimit", query: {
         "hashes": hashes.join("|"),
       });
 
   //获取上载速度限制
   getUploadLimit(List<String> hashes) =>
-      _api.requestGet("/torrents/uploadLimit", query: {
+      api.requestGet("/torrents/uploadLimit", query: {
         "hashes": hashes.join("|"),
       });
 
   //获取全部分类
-  getCategories() => _api.requestGet("/torrents/categories");
+  getCategories() => api.requestGet("/torrents/categories");
 
   //获取全部标签
-  getTags() => _api.requestGet("/torrents/tags");
+  getTags() => api.requestGet("/torrents/tags");
 }

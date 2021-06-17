@@ -6,9 +6,9 @@ import 'package:bt_service_manager/clients/qbittorrent/apis/qb_api.dart';
 * @Time 2021/5/6 3:09 PM
 */
 class LogAPI {
-  final QBAPI _api;
+  final QBAPI api;
 
-  LogAPI(this._api);
+  LogAPI(this.api);
 
   //获取主日志
   getMainLog({
@@ -17,7 +17,7 @@ class LogAPI {
     bool critical = true,
     int lastKnownId = -1,
   }) =>
-      _api.requestGet("/log/main", query: {
+      api.requestGet("/log/main", query: {
         "info": info,
         "warning": warning,
         "critical": critical,
@@ -28,7 +28,7 @@ class LogAPI {
   getPeersLog({
     int lastKnownId = -1,
   }) =>
-      _api.requestGet("/log/peers", query: {
+      api.requestGet("/log/peers", query: {
         "last_known_id": lastKnownId,
       });
 }

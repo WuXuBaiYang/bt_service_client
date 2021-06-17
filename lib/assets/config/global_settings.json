@@ -75,17 +75,17 @@
     "disconnected": {
       "state": "disconnected",
       "color": 4294922834,
-      "width": 2.0
+      "size": 20.0
     },
     "connected": {
-      "state": "connecting",
+      "state": "connected",
       "color": 4285132974,
-      "width": 2.0
+      "size": 20.0
     },
     "connecting": {
-      "state": "connected",
+      "state": "connecting",
       "color": 4294945600,
-      "width": 2.0
+      "size": 20.0
     }
   }
 }

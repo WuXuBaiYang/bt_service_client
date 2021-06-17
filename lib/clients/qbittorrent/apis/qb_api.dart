@@ -7,9 +7,9 @@ import 'package:bt_service_manager/clients/qbittorrent/apis/sync_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/apis/torrent_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/apis/transfer_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/model/response.dart';
-import 'package:bt_service_manager/manage/database/database_manage.dart';
+import 'package:bt_service_manager/model/client_info_model.dart';
 import 'package:bt_service_manager/model/server_config/qb_config_model.dart';
-import 'package:bt_service_manager/net/base_api.dart';
+import 'package:bt_service_manager/net/client_api.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
@@ -20,13 +20,7 @@ import 'package:path_provider/path_provider.dart';
 * @author jtechjh
 * @Time 2021/5/6 11:02 AM
 */
-class QBAPI {
-  //基础请求方法
-  BaseAPI _baseAPI;
-
-  //配置对象
-  QBConfigModel _config;
-
+class QBAPI extends ClientAPI<QBConfigModel> {
   //授权相关接口
   AuthAPI auth;
 
@@ -51,18 +45,11 @@ class QBAPI {
   //搜索相关接口
   SearchAPI search;
 
-  QBAPI(this._config) {
-    //监听配置变化
-    _watchOnConfig();
-    //初始化接口
-    _initAPI();
-  }
+  QBAPI(QBConfigModel config) : super(config);
 
   //初始化接口
-  _initAPI() {
-    //初始化请求方法
-    _baseAPI = BaseAPI(_config.baseUrl);
-    _baseAPI.addInterceptors([_qbInterceptor]);
+  @override
+  initAPI() {
     //实例化接口分类
     auth = AuthAPI(this);
     app = APPAPI(this);
@@ -74,13 +61,11 @@ class QBAPI {
     search = SearchAPI(this);
   }
 
-  //监听配置变化
-  _watchOnConfig() async {
-    (await dbManage.server.watchOn(_config.id)).listen((event) {
-      //重新初始化接口
-      _initAPI();
-    });
-  }
+  @override
+  Future<ClientInfoModel> loadClientInfo() {}
+
+  @override
+  List<Interceptor> get interceptors => [_qbInterceptor];
 
   //qb接口请求拦截
   get _qbInterceptor => InterceptorsWrapper(
@@ -96,16 +81,16 @@ class QBAPI {
       );
 
   //维护cookie管理
-  CookieManager _cookieManager;
+  CookieManager cookieManager;
 
   //初始化cookie管理
   Future initCookieManager() async {
-    if (null == _cookieManager) {
+    if (null == cookieManager) {
       var docDir = await getApplicationDocumentsDirectory();
       var cookieJar = PersistCookieJar(
-          storage: FileStorage("${docDir.path}/.cookies/${_config.id}/"));
-      _cookieManager = CookieManager(cookieJar);
-      _baseAPI.addInterceptors([_cookieManager]);
+          storage: FileStorage("${docDir.path}/.cookies/${config.id}/"));
+      cookieManager = CookieManager(cookieJar);
+      baseAPI.addInterceptors([cookieManager]);
     }
   }
 
@@ -114,7 +99,7 @@ class QBAPI {
       {Map<String, dynamic> form = const {}}) async {
     await initCookieManager();
     return _handleResponse(() async {
-      var response = await _baseAPI.httpPost(
+      var response = await baseAPI.httpPost(
         path,
         data: FormData.fromMap(form),
       );
@@ -127,7 +112,7 @@ class QBAPI {
       {Map<String, dynamic> query = const {}}) async {
     await initCookieManager();
     return _handleResponse(() async {
-      var response = await _baseAPI.httpGet(
+      var response = await baseAPI.httpGet(
         path,
         query: query,
       );
