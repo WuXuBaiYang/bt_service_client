@@ -9,7 +9,6 @@ abstract class BaseAPI {
   //dio对象
   final _dio = Dio();
 
-  //主构造初始化
   BaseAPI(String baseUrl) {
     init(baseUrl);
   }
@@ -30,10 +29,16 @@ abstract class BaseAPI {
       ));
   }
 
-  //添加拦截起
+  //添加拦截器
   void addInterceptors(List<Interceptor> interceptors) {
     if (null == interceptors || interceptors.isEmpty) return;
     _dio.interceptors.addAll(interceptors);
+  }
+
+  //移除拦截器
+  void removeInterceptors(Interceptor interceptor) {
+    if (null == interceptor) return;
+    _dio.interceptors.remove(interceptor);
   }
 
   //基础请求，需设定响应值类型

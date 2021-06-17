@@ -7,6 +7,7 @@ import 'package:bt_service_manager/clients/qbittorrent/apis/sync_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/apis/torrent_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/apis/transfer_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/model/response.dart';
+import 'package:bt_service_manager/manage/routes/page_manage.dart';
 import 'package:bt_service_manager/model/client_info_model.dart';
 import 'package:bt_service_manager/model/server_config/qb_config_model.dart';
 import 'package:bt_service_manager/net/client_api.dart';
@@ -72,16 +73,24 @@ class QBAPI extends BaseClientAPI<QBConfigModel> {
         onError: (e, handle) {
           //cookie失效则跳转到服务器信息录入页/自动登录
           if (e.response.statusCode == 403) {
-            ///待实现
-            handle.reject(e);
-          } else {
-            handle.next(e);
+            //拒绝请求并跳转qb登录页面
+            cookieManager.cookieJar.deleteAll();
+            pageManage.qb.goLogin(config);
+            return handle.reject(e);
           }
+          return handle.next(e);
         },
       );
 
   //维护cookie管理
   CookieManager cookieManager;
+
+  //判断是否存在cookie
+  bool get hasCookie {
+    PersistCookieJar cookieJar = cookieManager.cookieJar;
+    return cookieJar.hostCookies.isNotEmpty ||
+        cookieJar.domainCookies.isNotEmpty;
+  }
 
   //初始化cookie管理
   Future initCookieManager() async {

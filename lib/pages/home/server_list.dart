@@ -1,6 +1,8 @@
-import 'package:bt_service_manager/manage/page_manage.dart';
+import 'package:bt_service_manager/clients/qbittorrent/apis/qb_api.dart';
+import 'package:bt_service_manager/manage/routes/page_manage.dart';
 import 'package:bt_service_manager/model/global_settings_model.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
+import 'package:bt_service_manager/net/api.dart';
 import 'package:bt_service_manager/pages/home/server_controller.dart';
 import 'package:bt_service_manager/tools/alert.dart';
 import 'package:bt_service_manager/tools/jimage.dart';
@@ -38,10 +40,10 @@ class ServerListView extends StatefulWidget {
 */
 class _ServerListViewState extends State<ServerListView> {
   //服务器列表子项高度
-  final double serverItemHeight = 110;
+  final serverItemHeight = 110.0;
 
   //服务器列表子项logo尺寸
-  final double serverItemLogoSize = 60;
+  final serverItemLogoSize = 60.0;
 
   //刷新控制器
   final refreshController = RefreshController(initialRefresh: true);
@@ -171,7 +173,7 @@ class _ServerListViewState extends State<ServerListView> {
               title: Row(
                 children: [
                   Icon(
-                    getServerStateIcon(stateModel.state),
+                    _getServerStateIcon(stateModel.state),
                     color: stateModel.color,
                     size: stateModel.size,
                   ),
@@ -195,7 +197,6 @@ class _ServerListViewState extends State<ServerListView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(config.baseUrl),
-                  SizedBox(height: 8),
                   Row(
                     children: [
                       Icon(
@@ -211,6 +212,21 @@ class _ServerListViewState extends State<ServerListView> {
                         color: widget.serverController.getUpSpeedColor(upSpeed),
                       ),
                       Text(" $upSpeed", style: textStyle),
+                      Expanded(child: SizedBox()),
+                      Visibility(
+                        visible: _needLogin(config),
+                        maintainSize: true,
+                        maintainAnimation: true,
+                        maintainState: true,
+                        child: IconButton(
+                          iconSize: 15,
+                          splashRadius: 20,
+                          color: Colors.grey,
+                          icon: Icon(Icons.login),
+                          visualDensity: VisualDensity.comfortable,
+                          onPressed: () => _goLoginPage(config),
+                        ),
+                      )
                     ],
                   ),
                 ],
@@ -222,9 +238,25 @@ class _ServerListViewState extends State<ServerListView> {
     );
   }
 
+  //判断是否需要登录
+  bool _needLogin(ServerConfigModel config) {
+    if (config.type == ServerType.QBitTorrent) {
+      return !api.getClientApi<QBAPI>(config).hasCookie;
+    }
+    return false;
+  }
+
+  //需要登录的服务页面跳转
+  _goLoginPage(ServerConfigModel config) async {
+    if (config.type == ServerType.QBitTorrent) {
+      await pageManage.qb.goLogin(config);
+    }
+    widget.serverController.loadServerList();
+  }
+
   //根据连接状态获取图标
-  IconData getServerStateIcon(ServerState state){
-    switch(state){
+  IconData _getServerStateIcon(ServerState state) {
+    switch (state) {
       case ServerState.Disconnected:
         return Icons.link_off;
       case ServerState.Connected:
@@ -239,11 +271,11 @@ class _ServerListViewState extends State<ServerListView> {
   _goModifyPage(ServerConfigModel config) {
     switch (config.type) {
       case ServerType.Aria2:
-        return pageManage.goModifyAria2Service(config: config);
+        return pageManage.app.goModifyAria2Service(config: config);
       case ServerType.Transmission:
-        return pageManage.goModifyTMService(config: config);
+        return pageManage.app.goModifyTMService(config: config);
       case ServerType.QBitTorrent:
-        return pageManage.goModifyQBService(config: config);
+        return pageManage.app.goModifyQBService(config: config);
       default:
         return;
     }

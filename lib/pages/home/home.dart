@@ -1,4 +1,4 @@
-import 'package:bt_service_manager/manage/page_manage.dart';
+import 'package:bt_service_manager/manage/routes/page_manage.dart';
 import 'package:bt_service_manager/model/option_model.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:bt_service_manager/pages/home/server_controller.dart';
@@ -36,6 +36,14 @@ class HomePage extends StatelessWidget {
         serverController: controller,
       ),
       drawer: _buildDrawerMenu(),
+
+      ///测试代码入口
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.api),
+        onPressed: () {},
+      ),
+
+      ///测试代码入口
     );
   }
 
@@ -173,7 +181,7 @@ final List<OptionItem> _addServerList = [
       ServerConfigModel.aria2AssetsIcon,
       size: 25,
     ),
-    tapFun: () => pageManage.goModifyAria2Service(),
+    tapFun: () => pageManage.app.goModifyAria2Service(),
   ),
   OptionItem(
     name: "QBitTorrent",
@@ -181,7 +189,7 @@ final List<OptionItem> _addServerList = [
       ServerConfigModel.qBittorrentAssetsIcon,
       size: 25,
     ),
-    tapFun: () => pageManage.goModifyQBService(),
+    tapFun: () => pageManage.app.goModifyQBService(),
   ),
   OptionItem(
     name: "Transmission",
@@ -189,7 +197,7 @@ final List<OptionItem> _addServerList = [
       ServerConfigModel.transmissionAssetsIcon,
       size: 25,
     ),
-    tapFun: () => pageManage.goModifyTMService(),
+    tapFun: () => pageManage.app.goModifyTMService(),
   ),
 ];
 
@@ -198,6 +206,6 @@ final List<OptionItem> _drawerMenuList = [
   OptionItem(
     name: "应用设置",
     iconData: Icons.settings,
-    tapFun: () => pageManage.goAppSetting(),
+    tapFun: () => pageManage.app.goAppSetting(),
   ),
 ];

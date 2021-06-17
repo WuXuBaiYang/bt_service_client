@@ -21,7 +21,7 @@ abstract class BaseClientAPI<T extends ServerConfigModel> extends BaseAPI {
   }
 
   @override
-  init(String baseUrl) {
+  Future<void> init(String baseUrl) async {
     super.init(baseUrl);
     //添加拦截器
     addInterceptors(interceptors ?? []);

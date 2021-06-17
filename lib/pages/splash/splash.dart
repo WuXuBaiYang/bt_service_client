@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:bt_service_manager/manage/caches/cache_manager.dart';
 import 'package:bt_service_manager/manage/database/database_manage.dart';
-import 'package:bt_service_manager/manage/page_manage.dart';
+import 'package:bt_service_manager/manage/routes/page_manage.dart';
 import 'package:bt_service_manager/manage/permission_manage.dart';
 import 'package:bt_service_manager/net/api.dart';
 import 'package:bt_service_manager/tools/alert.dart';
@@ -52,7 +52,7 @@ class SplashPage extends StatelessWidget {
     //跳转到初次配置页
     ///待完成
     //跳转到首页
-    pageManage.goHomePage();
+    pageManage.app.goHomePage();
   }
 
   //构建启动页内容样式
@@ -62,7 +62,7 @@ class SplashPage extends StatelessWidget {
       child: Center(
         child: TextButton(
           child: Text("跳转首页"),
-          onPressed: () => pageManage.goHomePage(),
+          onPressed: () => pageManage.app.goHomePage(),
         ),
       ),
     );

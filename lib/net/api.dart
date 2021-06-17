@@ -1,6 +1,7 @@
 import 'package:bt_service_manager/clients/aria2/apis/aria2_api.dart';
 import 'package:bt_service_manager/clients/qbittorrent/apis/qb_api.dart';
 import 'package:bt_service_manager/clients/transmission/apis/tm_api.dart';
+import 'package:bt_service_manager/manage/database/database_manage.dart';
 import 'package:bt_service_manager/model/client_info_model.dart';
 import 'package:bt_service_manager/model/server_config/server_config_model.dart';
 import 'package:bt_service_manager/net/client_api.dart';
@@ -29,7 +30,14 @@ class API {
       getClientApi(config)?.loadClientInfo();
 
   //初始化接口
-  Future init() async {}
+  Future init() async {
+    //加载所有服务器配置并初始化
+    for (var item in (await dbManage.server.loadAllServerConfig())) {
+      var api = clientApiCaches.getApi(item);
+      if (api is QBAPI) api.initCookieManager();
+    }
+    //初始化应用内接口
+  }
 }
 
 //单利调用
