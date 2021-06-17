@@ -20,7 +20,7 @@ import 'package:path_provider/path_provider.dart';
 * @author jtechjh
 * @Time 2021/5/6 11:02 AM
 */
-class QBAPI extends ClientAPI<QBConfigModel> {
+class QBAPI extends BaseClientAPI<QBConfigModel> {
   //授权相关接口
   AuthAPI auth;
 
@@ -90,7 +90,7 @@ class QBAPI extends ClientAPI<QBConfigModel> {
       var cookieJar = PersistCookieJar(
           storage: FileStorage("${docDir.path}/.cookies/${config.id}/"));
       cookieManager = CookieManager(cookieJar);
-      baseAPI.addInterceptors([cookieManager]);
+      addInterceptors([cookieManager]);
     }
   }
 
@@ -99,7 +99,7 @@ class QBAPI extends ClientAPI<QBConfigModel> {
       {Map<String, dynamic> form = const {}}) async {
     await initCookieManager();
     return _handleResponse(() async {
-      var response = await baseAPI.httpPost(
+      var response = await httpPost(
         path,
         data: FormData.fromMap(form),
       );
@@ -112,7 +112,7 @@ class QBAPI extends ClientAPI<QBConfigModel> {
       {Map<String, dynamic> query = const {}}) async {
     await initCookieManager();
     return _handleResponse(() async {
-      var response = await baseAPI.httpGet(
+      var response = await httpGet(
         path,
         query: query,
       );

@@ -5,21 +5,24 @@ import 'package:dio/dio.dart';
 * @author jtech
 * @Time 2020/6/8 10:17 AM
 */
-class BaseAPI {
+abstract class BaseAPI {
   //dio对象
   final _dio = Dio();
 
-  //记录基础地址
-  final String baseUrl;
-
   //主构造初始化
-  BaseAPI(this.baseUrl) {
+  BaseAPI(String baseUrl) {
+    init(baseUrl);
+  }
+
+  //初始化网络请求
+  init(String baseUrl) {
     //设置参数
     _dio.options = BaseOptions(
       baseUrl: baseUrl,
     );
     //添加拦截器
     _dio.interceptors
+      ..clear()
       ..add(InterceptorsWrapper(
         onRequest: (op, handle) => handle.next(op),
         onResponse: (re, handle) => handle.next(re),

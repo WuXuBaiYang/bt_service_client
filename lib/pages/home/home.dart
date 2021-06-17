@@ -173,7 +173,7 @@ final List<OptionItem> _addServerList = [
       ServerConfigModel.aria2AssetsIcon,
       size: 25,
     ),
-    tapFun: () => PageManage.goModifyAria2Service(),
+    tapFun: () => pageManage.goModifyAria2Service(),
   ),
   OptionItem(
     name: "QBitTorrent",
@@ -181,7 +181,7 @@ final List<OptionItem> _addServerList = [
       ServerConfigModel.qBittorrentAssetsIcon,
       size: 25,
     ),
-    tapFun: () => PageManage.goModifyQBService(),
+    tapFun: () => pageManage.goModifyQBService(),
   ),
   OptionItem(
     name: "Transmission",
@@ -189,7 +189,7 @@ final List<OptionItem> _addServerList = [
       ServerConfigModel.transmissionAssetsIcon,
       size: 25,
     ),
-    tapFun: () => PageManage.goModifyTMService(),
+    tapFun: () => pageManage.goModifyTMService(),
   ),
 ];
 
@@ -198,6 +198,6 @@ final List<OptionItem> _drawerMenuList = [
   OptionItem(
     name: "应用设置",
     iconData: Icons.settings,
-    tapFun: () => PageManage.goAppSetting(),
+    tapFun: () => pageManage.goAppSetting(),
   ),
 ];

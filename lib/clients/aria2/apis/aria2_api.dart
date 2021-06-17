@@ -17,7 +17,7 @@ import 'download_api.dart';
 * @author jtechjh
 * @Time 2021/5/6 11:02 AM
 */
-class Aria2API extends ClientAPI<Aria2ConfigModel> {
+class Aria2API extends BaseClientAPI<Aria2ConfigModel> {
   //下载相关接口
   DownloadAPI download;
 
@@ -55,12 +55,12 @@ class Aria2API extends ClientAPI<Aria2ConfigModel> {
       ).toJson();
       var response;
       if (config.method == HTTPMethod.POST) {
-        response = await baseAPI.httpPost(
+        response = await httpPost(
           "/${config.path}",
           data: requestData,
         );
       } else if (config.method == HTTPMethod.GET) {
-        response = await baseAPI.httpGet(
+        response = await httpGet(
           config.path,
           query: requestData,
         );

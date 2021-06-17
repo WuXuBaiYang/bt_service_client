@@ -239,11 +239,11 @@ class _ServerListViewState extends State<ServerListView> {
   _goModifyPage(ServerConfigModel config) {
     switch (config.type) {
       case ServerType.Aria2:
-        return PageManage.goModifyAria2Service(config: config);
+        return pageManage.goModifyAria2Service(config: config);
       case ServerType.Transmission:
-        return PageManage.goModifyTMService(config: config);
+        return pageManage.goModifyTMService(config: config);
       case ServerType.QBitTorrent:
-        return PageManage.goModifyQBService(config: config);
+        return pageManage.goModifyQBService(config: config);
       default:
         return;
     }

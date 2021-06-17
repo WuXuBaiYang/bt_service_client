@@ -30,7 +30,7 @@ class SplashPage extends StatelessWidget {
   //初始化app
   _initAPP() async {
     //申请必备权限
-    if (!await PermissionManage.required()) {
+    if (!await permissionManage.required()) {
       return await AlertTools.alertDialog(
         content: "必备权限获取失败",
         confirm: "关闭应用",
@@ -52,7 +52,7 @@ class SplashPage extends StatelessWidget {
     //跳转到初次配置页
     ///待完成
     //跳转到首页
-    PageManage.goHomePage();
+    pageManage.goHomePage();
   }
 
   //构建启动页内容样式
@@ -62,7 +62,7 @@ class SplashPage extends StatelessWidget {
       child: Center(
         child: TextButton(
           child: Text("跳转首页"),
-          onPressed: () => PageManage.goHomePage(),
+          onPressed: () => pageManage.goHomePage(),
         ),
       ),
     );

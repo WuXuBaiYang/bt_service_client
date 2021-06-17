@@ -13,21 +13,38 @@ import 'package:bt_service_manager/tools/route.dart';
 * @Time 2021/5/11 4:33 下午
 */
 class PageManage {
+  static final _instance = PageManage._internal();
+
+  factory PageManage() => _instance;
+
+  PageManage._internal();
+
   //跳转到首页
-  static goHomePage() => RouteTools.pushOff(HomePage());
+  goHomePage() => RouteTools.pushOff(HomePage());
 
   //添加/编辑aria2服务器
-  static goModifyAria2Service({Aria2ConfigModel config}) =>
+  goModifyAria2Service({Aria2ConfigModel config}) =>
       RouteTools.push(ModifyAria2ConfigPage(config));
 
   //添加/编辑qBittorrent服务器
-  static goModifyQBService({QBConfigModel config}) =>
+  goModifyQBService({QBConfigModel config}) =>
       RouteTools.push(ModifyQBConfigPage(config));
 
   //添加/编辑transmission服务器
-  static goModifyTMService({TMConfigModel config}) =>
+  goModifyTMService({TMConfigModel config}) =>
       RouteTools.push(ModifyTMConfigPage(config));
 
   //跳转到应用设置页面
-  static goAppSetting() {}
+  goAppSetting() {}
+}
+
+final pageManage = PageManage();
+
+/*
+* 页面路由基类
+* @author wuxubaiyang
+* @Time 2021/6/17 下午1:54
+*/
+abstract class BasePageRoute {
+
 }

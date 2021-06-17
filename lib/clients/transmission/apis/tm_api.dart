@@ -14,7 +14,7 @@ import 'package:dio/dio.dart';
 * @author jtechjh
 * @Time 2021/5/14 2:54 下午
 */
-class TMAPI extends ClientAPI<TMConfigModel> {
+class TMAPI extends BaseClientAPI<TMConfigModel> {
   TMAPI(TMConfigModel config) : super(config);
 
   @override
@@ -38,12 +38,12 @@ class TMAPI extends ClientAPI<TMConfigModel> {
       ).toJson();
       var response;
       if (config.method == HTTPMethod.POST) {
-        response = await baseAPI.httpPost(
+        response = await httpPost(
           config.path,
           data: requestData,
         );
       } else if (config.method == HTTPMethod.GET) {
-        response = await baseAPI.httpGet(
+        response = await httpGet(
           config.path,
           query: requestData,
         );

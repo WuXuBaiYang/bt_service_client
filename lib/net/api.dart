@@ -21,7 +21,7 @@ class API {
   final clientApiCaches = _ClientApiCache();
 
   //获取平台接口对象
-  T getClientApi<T extends ClientAPI>(ServerConfigModel config) =>
+  T getClientApi<T extends BaseClientAPI>(ServerConfigModel config) =>
       clientApiCaches.getApi<T>(config);
 
   //请求平台接口对象的总体信息
@@ -42,10 +42,10 @@ final API api = API();
 */
 class _ClientApiCache {
   //接口缓存
-  Map<String, ClientAPI> apiCaches = {};
+  Map<String, BaseClientAPI> apiCaches = {};
 
   //根据配置类型初始化或提取api接口对象
-  T getApi<T extends ClientAPI>(ServerConfigModel config) {
+  T getApi<T extends BaseClientAPI>(ServerConfigModel config) {
     String cacheKey = config.id;
     if (apiCaches.containsKey(cacheKey)) {
       return apiCaches[cacheKey];
@@ -56,7 +56,7 @@ class _ClientApiCache {
   }
 
   //平台客户端接口对象对照表
-  final Map<ServerType, ClientAPI Function(ServerConfigModel config)>
+  final Map<ServerType, BaseClientAPI Function(ServerConfigModel config)>
       clientMap = {
     ServerType.Aria2: (config) => Aria2API(config),
     ServerType.Transmission: (config) => TMAPI(config),
